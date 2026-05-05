@@ -1,6 +1,4 @@
-importScripts("https://cdn.onesignal.com/sdks/web/v30/OneSignalSDK.sw.js");
-
-const CACHE_NAME = 'maddatul-istighatsah-v12';
+const CACHE_NAME = 'maddatul-istighatsah-v13'; // Versi dinaikkan agar HP otomatis update
 const urlsToCache = [
   './',
   './index.html',
@@ -10,6 +8,7 @@ const urlsToCache = [
 ];
 
 self.addEventListener('install', event => {
+  self.skipWaiting(); // Memaksa HP untuk langsung menggunakan Service Worker baru ini
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
@@ -19,7 +18,8 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET' || event.request.url.includes('script.google.com') || event.request.url.includes('onesignal.com')) {
+  // Biarkan request POST dan API Google Sheets lewat tanpa di-cache
+  if (event.request.method !== 'GET' || event.request.url.includes('script.google.com')) {
       return;
   }
   
@@ -41,10 +41,10 @@ self.addEventListener('activate', event => {
       return Promise.all(
         cacheNames.map(cacheName => {
           if (cacheWhitelist.indexOf(cacheName) === -1) {
-            return caches.delete(cacheName);
+            return caches.delete(cacheName); // Hapus memori v12 dan versi lama lainnya
           }
         })
       );
-    })
+    }).then(() => self.clients.claim()) // Ambil alih sistem aplikasi seketika
   );
 });
