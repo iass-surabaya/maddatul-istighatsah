@@ -9,18 +9,6 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    <script>
-      window.OneSignalDeferred = window.OneSignalDeferred || [];
-      OneSignalDeferred.push(async function(OneSignal) {
-        await OneSignal.init({
-          appId: "6501ee2c-6c80-4ad9-a734-5bc83a81871b",
-          serviceWorkerPath: "OneSignalSDKWorker.js",
-          serviceWorkerParam: { scope: "/maddatul-istighatsah/" }
-        });
-      });
-    </script>
-    
     <style>
         :root { --bg-putih: #FFFFFF; --aksen-oranye: #F26522; --teks-hitam: #1A1A1A; --font-arab: 'Amiri', serif; }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -107,7 +95,7 @@
                 <button onclick="bukaModalNav('modal-shalat')"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>Shalat</button>
                 <button onclick="bukaModalNav('modal-tasbih')"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM7 12c0-2.76 2.24-5 5-5s5 2.24 5 5-2.24 5-5 5-5-2.24-5-5z"/></svg>Tasbih</button>
                 <button onclick="bukaModalNav('modal-kiblat')"><svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>Kiblat</button>
-                <button onclick="mintaIzinNotif()"><svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>Notif</button>
+                <button onclick="bukaModalNav('modal-daftar-wa')"><svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91 0-5.46-4.45-9.91-9.91-9.91zH12.04zm.01 1.62c4.56 0 8.28 3.72 8.28 8.28 0 4.56-3.72 8.28-8.28 8.28-1.52 0-3-.41-4.29-1.19l-.31-.18-3.14.82.83-3.06-.2-.32c-.85-1.36-1.3-2.93-1.3-4.55 0-4.56 3.72-8.28 8.28-8.28zm-4.32 5.09c-.19 0-.46.07-.7.34-.23.27-.89.87-.89 2.12 0 1.25.91 2.47 1.04 2.64.13.17 1.79 2.74 4.34 3.84 1.71.74 2.42.8 3.3.68.88-.12 1.95-.8 2.22-1.57.27-.77.27-1.43.19-1.57-.08-.14-.3-.22-.61-.38-.3-.15-1.79-.89-2.07-1-.28-.1-.49-.15-.7.15-.21.3-.8 1-.98 1.2-.18.2-.36.23-.67.08-1.63-.8-2.6-1.5-3.56-3.15-.15-.26-.01-.4.14-.54.14-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.7-1.69-.96-2.32-.25-.6-.5-.52-.7-.52-.18-.01-.39-.01-.6-.01z"/></svg>Info WA</button>
             </div>
         </div>
     </div>
@@ -133,6 +121,24 @@
     <div id="modal-tasbih" class="modal"><div class="modal-konten" style="text-align: center; direction: ltr;"><div class="modal-header" style="direction: rtl;"><h3>التسبيح</h3><button class="btn-close" onclick="tutupModal('modal-tasbih')">✕</button></div><div class="modal-body"><div id="angka-tasbih" style="font-size: 90px; font-weight: bold; color: var(--aksen-oranye); font-family: var(--font-arab);">٠</div><button class="btn-tasbih-ketuk" onclick="tambahTasbih()">Ketuk</button><button onclick="resetTasbih()" style="background: none; border: 2px solid var(--aksen-oranye); color: var(--aksen-oranye); padding: 12px 35px; border-radius: 10px; font-weight: bold; margin-top: 15px; cursor: pointer;">Mulai Ulang</button></div></div></div>
     <div id="modal-kiblat" class="modal"><div class="modal-konten" style="text-align: center; direction: ltr;"><div class="modal-header" style="direction: rtl;"><h3>اتجاه القبلة</h3><button class="btn-close" onclick="tutupKiblat()">✕</button></div><div class="modal-body"><p id="info-kiblat" style="font-size: 14px; color: #666; margin-bottom: 10px;">Izinkan GPS & Gerakkan HP</p><div id="kompas-container"><div id="jarum-kiblat"><div class="panah-kiblat"></div></div></div><button onclick="mulaiKiblat()" style="margin-top: 25px; background-color: var(--aksen-oranye); color: white; border: none; padding: 15px; border-radius: 10px; font-weight:bold; cursor: pointer; width: 100%;">Deteksi Kiblat</button></div></div></div>
     <div id="modal-shalat" class="modal"><div class="modal-konten"><div class="modal-header" style="direction: ltr;"><h3>Jadwal Shalat Surabaya</h3><button class="btn-close" onclick="tutupModal('modal-shalat')">✕</button></div><div class="modal-body"><div id="loading-shalat" style="text-align:center; padding: 20px; color: var(--aksen-oranye); font-weight: bold;">Menghubungi Server...</div><div id="list-shalat" class="list-container" style="direction: ltr; display: none;"></div></div></div></div>
+    
+    <!-- MODAL BARU: DAFTAR WA -->
+    <div id="modal-daftar-wa" class="modal">
+        <div class="modal-konten" style="direction: ltr;">
+            <div class="modal-header" style="background-color: #25D366;">
+                <h3>Daftar Info Kegiatan</h3>
+                <button class="btn-close" onclick="tutupModal('modal-daftar-wa')">✕</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:14px; margin-bottom:15px; color:#555;">Dapatkan jadwal Istighatsah dan informasi terbaru IASS Wilayah Surabaya langsung ke WhatsApp Anda.</p>
+                <input type="text" id="input-nama-wa" placeholder="Nama Lengkap / Panggilan" style="width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px;" required>
+                <input type="number" id="input-nomor-wa" placeholder="Nomor WA (Cth: 0812...)" style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px;" required>
+                
+                <button id="btn-kirim-wa" onclick="kirimDataWA()" style="width: 100%; background-color: #25D366; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer;">Daftar Sekarang</button>
+                <div id="pesan-status-wa" style="margin-top: 15px; font-size: 14px; text-align: center; font-weight: bold; line-height: 1.4;"></div>
+            </div>
+        </div>
+    </div>
 
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycby-C6xM5EeLlmGoQoOTlDnhEe8dk9S_c4L8AXTzsg25uHI6ZyaPxcXVR7z1dvcABkVW/exec";
@@ -149,7 +155,6 @@
         function pushState() { history.pushState({page: 1}, ""); }
         function bukaModalNav(id) { pushState(); document.getElementById(id).style.display = 'block'; if(id === 'modal-shalat') muatJadwalShalat(); }
 
-        function mintaIzinNotif() { window.OneSignalDeferred.push(function(OneSignal) { OneSignal.Slidedown.promptPush(); }); }
         function ubahKeAngkaArab(t) { if (!t) return ''; const a = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩']; return t.toString().replace(/[0-9]/g, w => a[w]); }
         function formatWaktu(w, t) { if (!w) return '-'; let s = w.toString(); if (s.includes('T') && s.includes('Z')) { let d = new Date(s); return t === 'tanggal' ? d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }); } return s; }
 
@@ -172,12 +177,11 @@
             tampilkanHalaman(0); 
             buatDaftarIsi(); 
             buatListAgenda(); 
-            updateAgendaTerdekat(); // Panggil fungsi memuat kartu depan
+            updateAgendaTerdekat(); 
         }
 
         function buatDaftarIsi() { document.getElementById('list-daftar-isi').innerHTML = dataWirid.map((item, i) => `<button class="item-list" onclick="pilihHalaman(${i})">${ubahKeAngkaArab(item.Judul)}</button>`).join(''); }
         
-        // --- LOGIKA AGENDA SELESAI DI POPUP ---
         function buatListAgenda() { 
             const container = document.getElementById('list-agenda');
             if (dataAgenda.length === 0) { 
@@ -214,7 +218,6 @@
             }).join(''); 
         }
 
-        // --- MENCARI 1 AGENDA TERDEKAT UNTUK SAMPUL DEPAN ---
         function updateAgendaTerdekat() {
             const container = document.getElementById('agenda-terdekat-sampul');
             if (dataAgenda.length === 0) { container.style.display = 'none'; return; }
@@ -296,7 +299,6 @@
             setInterval(() => {
                 const sekarang = new Date();
                 
-                // UPDATE TANGGAL HARI INI
                 displayTanggal.innerText = `${hariIndo[sekarang.getDay()]}, ${sekarang.getDate()} ${bulanIndo[sekarang.getMonth()]} ${sekarang.getFullYear()}`;
 
                 const daftar = ['subuh','dzuhur','ashar','maghrib','isya'];
@@ -331,6 +333,54 @@
         function tutupKiblat() { tutupModal('modal-kiblat'); if (kL) { window.removeEventListener('deviceorientationabsolute', kL, true); window.removeEventListener('deviceorientation', kL, true); } }
 
         window.onclick = e => { if (e.target.className === 'modal') { e.target.style.display = 'none'; } }
+        
+        // FUNGSI BARU: PENDAFTARAN WA
+        async function kirimDataWA() {
+            const nama = document.getElementById('input-nama-wa').value.trim();
+            const noWa = document.getElementById('input-nomor-wa').value.trim();
+            const btn = document.getElementById('btn-kirim-wa');
+            const pesanStatus = document.getElementById('pesan-status-wa');
+
+            if(!nama || !noWa) {
+                pesanStatus.style.color = "red";
+                pesanStatus.innerText = "Mohon isi Nama dan Nomor WA terlebih dahulu.";
+                return;
+            }
+
+            btn.innerText = "Memproses...";
+            btn.disabled = true;
+            pesanStatus.innerText = "";
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ nama: nama, noWa: noWa })
+                });
+                
+                const result = await response.json();
+                
+                if(result.status === "duplikat") {
+                    pesanStatus.style.color = "#F26522"; // Warna Oranye
+                    pesanStatus.innerText = result.pesan;
+                } else if(result.status === "sukses") {
+                    pesanStatus.style.color = "green";
+                    pesanStatus.innerText = result.pesan;
+                    document.getElementById('input-nama-wa').value = "";
+                    document.getElementById('input-nomor-wa').value = "";
+                } else {
+                    pesanStatus.style.color = "red";
+                    pesanStatus.innerText = result.pesan;
+                }
+            } catch (error) {
+                pesanStatus.style.color = "red";
+                pesanStatus.innerText = "Gagal terhubung ke server. Coba lagi.";
+            } finally {
+                btn.innerText = "Daftar Sekarang";
+                btn.disabled = false;
+            }
+        }
+
         muatData();
     </script>
 </body>
