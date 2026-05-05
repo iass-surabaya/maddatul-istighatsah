@@ -205,7 +205,7 @@
                 let bgCard = sudahSelesai ? '#fafafa' : '#fffaf7';
                 
                 let labelSelesai = sudahSelesai ? `<span style="background:#eeeeee; color:#999; font-size:11px; padding:2px 6px; border-radius:4px; margin-left:8px; vertical-align:middle;">Selesai</span>` : '';
-                let linkMaps = (!sudahSelesai && item.Link_Map) ? `<a href="${item.Link_Map}" target="_blank" style="color:var(--aksen-oranye);font-weight:bold;display:block;margin-top:5px;text-decoration:none;">Petunjuk Lokasi Maps ➔</a>` : '';
+                let linkMaps = (!sudahSelesai && item.Link_Map) ? `<a href="${item.Link_Map}" target="_blank" style="color:var(--aksen-oranye);font-weight:bold;display:block;margin-top:5px;text-decoration:none;">🗺️ Maps ➔</a>` : '';
                 
                 return `
                 <div class="agenda-card" style="border-left-color:${warnaGaris}; background:${bgCard};">
@@ -239,7 +239,7 @@
             }
 
             if (agendaBerikutnya) {
-                let linkMaps = agendaBerikutnya.Link_Map ? `<a href="${agendaBerikutnya.Link_Map}" target="_blank" style="color:var(--aksen-oranye);font-weight:bold;display:block;margin-top:8px;text-decoration:none;">Petunjuk Lokasi Maps ➔</a>` : '';
+                let linkMaps = agendaBerikutnya.Link_Map ? `<a href="${agendaBerikutnya.Link_Map}" target="_blank" style="color:var(--aksen-oranye);font-weight:bold;display:block;margin-top:8px;text-decoration:none;">🗺️ Maps ➔</a>` : '';
                 container.innerHTML = `
                     <div style="font-weight:bold; color:var(--aksen-oranye); font-size:17px; margin-bottom:8px;">
                         ${agendaBerikutnya.Kegiatan}
