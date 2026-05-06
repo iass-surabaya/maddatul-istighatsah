@@ -76,17 +76,13 @@
             <div id="loading">Memuat Data...</div>
             <img src="sampul.jpg" alt="Sampul Kitab" id="gambar-sampul">
             
-            <!-- WIDGET SHALAT & TANGGAL -->
             <div id="widget-shalat-sampul">
                 <span id="tanggal-hari-ini">Memuat Tanggal...</span>
                 <span id="shalat-target-nama">Subuh - 04:04</span>
                 <span id="shalat-target-waktu">00:00:00 lagi</span>
             </div>
 
-            <!-- WIDGET AGENDA TERDEKAT -->
-            <div id="agenda-terdekat-sampul">
-                <!-- Data akan diisi oleh JavaScript -->
-            </div>
+            <div id="agenda-terdekat-sampul"></div>
         </div>
         
         <div class="cover-footer">
@@ -123,7 +119,7 @@
     <div id="modal-kiblat" class="modal"><div class="modal-konten" style="text-align: center; direction: ltr;"><div class="modal-header" style="direction: rtl;"><h3>اتجاه القبلة</h3><button class="btn-close" onclick="tutupKiblat()">✕</button></div><div class="modal-body"><p id="info-kiblat" style="font-size: 14px; color: #666; margin-bottom: 10px;">Izinkan GPS & Gerakkan HP</p><div id="kompas-container"><div id="jarum-kiblat"><div class="panah-kiblat"></div></div></div><button onclick="mulaiKiblat()" style="margin-top: 25px; background-color: var(--aksen-oranye); color: white; border: none; padding: 15px; border-radius: 10px; font-weight:bold; cursor: pointer; width: 100%;">Deteksi Kiblat</button></div></div></div>
     <div id="modal-shalat" class="modal"><div class="modal-konten"><div class="modal-header" style="direction: ltr;"><h3>Jadwal Shalat Surabaya</h3><button class="btn-close" onclick="tutupModal('modal-shalat')">✕</button></div><div class="modal-body"><div id="loading-shalat" style="text-align:center; padding: 20px; color: var(--aksen-oranye); font-weight: bold;">Menghubungi Server...</div><div id="list-shalat" class="list-container" style="direction: ltr; display: none;"></div></div></div></div>
     
-    <!-- MODAL BARU: DAFTAR WA -->
+    <!-- MODAL BARU: DAFTAR WA (DENGAN NIA) -->
     <div id="modal-daftar-wa" class="modal">
         <div class="modal-konten" style="direction: ltr;">
             <div class="modal-header" style="background-color: #F26522;">
@@ -131,9 +127,11 @@
                 <button class="btn-close" onclick="tutupModal('modal-daftar-wa')">✕</button>
             </div>
             <div class="modal-body">
-                <p style="font-size:14px; margin-bottom:15px; color:#555;">Dapatkan Informasi Jadwal Kegiatan IASS Wilayah Surabaya langsung ke WhatsApp Anda.</p>
+                <p style="font-size:14px; margin-bottom:15px; color:#555;">Dapatkan Informasi Jadwal Kegiatan & QR Code Kehadiran IASS Wilayah Surabaya langsung ke WhatsApp Anda.</p>
                 <input type="text" id="input-nama-wa" placeholder="Nama Lengkap" style="width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px;" required>
-                <input type="number" id="input-nomor-wa" placeholder="No. WA (Cth: 62812... Wajib diawali 62)" style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px;" required>
+                <input type="number" id="input-nomor-wa" placeholder="No. WA (Cth: 62812... Wajib diawali 62)" style="width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px;" required>
+                <!-- Tambahan Kolom NIA -->
+                <input type="text" id="input-nia" placeholder="Nomor Induk Alumni (NIA)" style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px;" required>
                 
                 <button id="btn-kirim-wa" onclick="kirimDataWA()" style="width: 100%; background-color: #F26522; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer;">Daftar Sekarang</button>
                 <div id="pesan-status-wa" style="margin-top: 15px; font-size: 14px; text-align: center; font-weight: bold; line-height: 1.4;"></div>
@@ -142,6 +140,7 @@
     </div>
 
     <script>
+        // URL API TETAP SAMA
         const API_URL = "https://script.google.com/macros/s/AKfycbwU0RH7UM6BkXM5K1eKIfZELhLySbhG8WOeRiNRKQNwzDkl1aSz7FG0fl5HvN1N9j4T/exec";
         let dataWirid = []; let dataAgenda = []; let dataJadwalGlobal = null; let halamanSaatIni = 0; let ukuranFont = 32;
 
@@ -335,16 +334,17 @@
 
         window.onclick = e => { if (e.target.className === 'modal') { e.target.style.display = 'none'; } }
         
-        // FUNGSI BARU: PENDAFTARAN WA
+        // FUNGSI BARU: PENDAFTARAN WA (SUDAH MENANGKAP NIA)
         async function kirimDataWA() {
             const nama = document.getElementById('input-nama-wa').value.trim();
             const noWa = document.getElementById('input-nomor-wa').value.trim();
+            const nia = document.getElementById('input-nia').value.trim();
             const btn = document.getElementById('btn-kirim-wa');
             const pesanStatus = document.getElementById('pesan-status-wa');
 
-            if(!nama || !noWa) {
+            if(!nama || !noWa || !nia) {
                 pesanStatus.style.color = "red";
-                pesanStatus.innerText = "Mohon isi Nama dan Nomor WA terlebih dahulu.";
+                pesanStatus.innerText = "Mohon lengkapi Nama, Nomor WA, dan NIA terlebih dahulu.";
                 return;
             }
 
@@ -356,19 +356,20 @@
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ nama: nama, noWa: noWa })
+                    body: JSON.stringify({ nama: nama, noWa: noWa, nia: nia })
                 });
                 
                 const result = await response.json();
                 
                 if(result.status === "duplikat") {
-                    pesanStatus.style.color = "#F26522"; // Warna Oranye
+                    pesanStatus.style.color = "#F26522"; 
                     pesanStatus.innerText = result.pesan;
                 } else if(result.status === "sukses") {
                     pesanStatus.style.color = "green";
                     pesanStatus.innerText = result.pesan;
                     document.getElementById('input-nama-wa').value = "";
                     document.getElementById('input-nomor-wa').value = "";
+                    document.getElementById('input-nia').value = "";
                 } else {
                     pesanStatus.style.color = "red";
                     pesanStatus.innerText = result.pesan;
