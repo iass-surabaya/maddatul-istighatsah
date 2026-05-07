@@ -183,7 +183,7 @@
                 let banners = res.banners || [];
                 if (banners.length === 0) banners = [{ Link_Gambar: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Masjid_Istiqla_Jakarta.jpg/800px-Masjid_Istiqla_Jakarta.jpg" }];
                 document.getElementById('banner-list').innerHTML = banners.map(b => `<div class="swiper-slide"><img src="${b.Link_Gambar}"></div>`).join('');
-                setTimeout(() => { new Swiper(".mySwiper", { slidesPerView: 1.1, centeredSlides: true, spaceBetween: 15, loop: banners.length > 1, autoplay: { delay: 3000 }, pagination: { el: ".swiper-pagination", clickable: true } }); }, 100);
+                setTimeout(() => { new Swiper(".mySwiper", { slidesPerView: 1.1, centeredSlides: true, spaceBetween: 15, loop: banners.length > 1, autoplay: { delay: 4000 }, pagination: { el: ".swiper-pagination", clickable: true } }); }, 100);
 
                 renderUI();
             } catch (e) { console.error(e); }
