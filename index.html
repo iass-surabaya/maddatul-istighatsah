@@ -9,15 +9,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
-        :root { --bg-abu: #f4f6f9; --aksen-oranye: #F26522; --teks-hitam: #1A1A1A; --font-arab: 'Amiri', serif; }
+        :root { --bg-abu: #f4f6f9; --aksen-oranye: #F26522; --aksen-selesai: #95a5a6; --teks-hitam: #1A1A1A; --font-arab: 'Amiri', serif; }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg-abu); color: var(--teks-hitam); font-family: system-ui, sans-serif; display: flex; flex-direction: column; height: 100vh; max-width: 480px; margin: 0 auto; box-shadow: 0 0 20px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
         
         header { background-color: #ffffff; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; z-index: 10; height: 65px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .logo-header { height: 35px; width: auto; object-fit: contain; }
-        #judul-materi-header { font-family: var(--font-arab); font-size: 20px; font-weight: bold; color: var(--aksen-oranye); display: none; flex: 1; text-align: center; }
-        #kontrol-baca { display: none; gap: 8px; }
-        #kontrol-baca button { background: var(--aksen-oranye); border: none; color: white; padding: 5px 12px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; }
+        #judul-materi-header { font-family: var(--font-arab); font-size: 18px; font-weight: bold; color: var(--aksen-oranye); display: none; flex: 1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 10px; }
+        
+        .btn-back { display: none; background: #f0f0f0; border: none; padding: 8px; border-radius: 50%; cursor: pointer; align-items: center; justify-content: center; }
+        .btn-back svg { width: 20px; height: 20px; fill: #555; }
+
+        #kontrol-baca { display: none; gap: 5px; }
+        #kontrol-baca button { background: var(--aksen-oranye); border: none; color: white; padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
 
         #main-container { flex: 1; overflow-y: auto; padding-bottom: 90px; }
         .swiper { width: 100%; padding: 15px 0 30px 0; background: #ffffff; margin-bottom: 15px; }
@@ -30,6 +34,8 @@
 
         .section-title { margin: 10px 20px; font-size: 16px; font-weight: bold; color: #333; }
         .agenda-item { background: #ffffff; margin: 0 15px 12px 15px; padding: 15px; border-left: 5px solid var(--aksen-oranye); border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .agenda-item.selesai { border-left-color: var(--aksen-selesai); color: #7f8c8d; }
+        .btn-maps { color: var(--aksen-oranye); font-weight: bold; text-decoration: none; display: inline-block; margin-top: 8px; font-size: 14px; }
 
         #area-baca { display: none; padding: 20px 20px 100px 20px; background: #fff; min-height: 100%; direction: rtl; }
         #teks-arab { font-family: var(--font-arab); font-size: 32px; line-height: 2.2; text-align: justify; white-space: pre-wrap; color: var(--teks-hitam); }
@@ -52,15 +58,14 @@
         .modal-body { padding: 20px; max-height: 65vh; overflow-y: auto; }
         .list-btn { display: block; width: 100%; text-align: right; padding: 14px; margin-bottom: 10px; background-color: #f9f9f9; border: 1px solid #eee; border-radius: 10px; font-size: 18px; font-family: var(--font-arab); cursor: pointer; }
         #loading { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.8); color: white; padding: 15px 25px; border-radius: 10px; z-index: 999; display: none; }
-        .grid-menu { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .grid-item { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 15px 5px; border-radius: 10px; background: #f8f9fa; cursor: pointer; }
-        .grid-item svg { width: 28px; height: 28px; fill: var(--aksen-oranye); }
-        .grid-item span { font-size: 11px; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <header>
+        <button class="btn-back" id="btn-back-home" onclick="navigasiUtama('home')">
+            <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+        </button>
         <img src="logo-header.png" alt="Logo IASS" class="logo-header" id="logo-utama">
         <div id="judul-materi-header">Materi Bacaan</div>
         <div id="kontrol-baca">
@@ -118,10 +123,8 @@
     <div id="modal-agenda" class="modal"><div class="modal-konten"><div class="modal-header"><h3>Agenda IASS</h3><button class="btn-close" onclick="tutupModal('modal-agenda')">✕</button></div><div class="modal-body" id="list-agenda-full"></div></div></div>
     <div id="modal-shalat" class="modal"><div class="modal-konten"><div class="modal-header"><h3>Jadwal Shalat</h3><button class="btn-close" onclick="tutupModal('modal-shalat')">✕</button></div><div class="modal-body" id="list-shalat-full"></div></div></div>
     <div id="modal-lainnya" class="modal"><div class="modal-konten"><div class="modal-header"><h3>Menu Lainnya</h3><button class="btn-close" onclick="tutupModal('modal-lainnya')">✕</button></div><div class="modal-body">
-        <div class="grid-menu">
-            <div class="grid-item" onclick="tutupModal('modal-lainnya'); bukaModal('modal-tasbih')"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg><span>Tasbih</span></div>
-            <div class="grid-item" onclick="tutupModal('modal-lainnya'); bukaModal('modal-kiblat')"><svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg><span>Kiblat</span></div>
-            <div class="grid-item" onclick="tutupModal('modal-lainnya'); bukaModal('modal-daftar-wa')"><svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38z"/></svg><span>Info WA</span></div>
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px;">
+            <div onclick="tutupModal('modal-lainnya'); bukaModal('modal-tasbih')" style="text-align:center; padding:10px; background:#f8f9fa; border-radius:10px;"><svg style="width:28px; height:28px; fill:var(--aksen-oranye);" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg><div style="font-size:11px; font-weight:bold;">Tasbih</div></div>
         </div>
     </div></div></div>
     <div id="modal-tasbih" class="modal"><div class="modal-konten"><div class="modal-header"><h3>Tasbih</h3><button class="btn-close" onclick="tutupModal('modal-tasbih')">✕</button></div><div class="modal-body" style="text-align:center;"><div id="angka-tasbih" style="font-size:80px; color:var(--aksen-oranye); margin-bottom:20px;">٠</div><button onclick="tambahTasbih()" style="width:150px; height:150px; border-radius:50%; background:var(--aksen-oranye); color:white; border:none; font-size:24px;">Ketuk</button><br><button onclick="resetTasbih()" style="margin-top:15px; border:1px solid #ddd; padding:5px 20px; border-radius:5px;">Reset</button></div></div></div>
@@ -142,7 +145,6 @@
                 dataAgenda = res.agenda || [];
                 document.getElementById('loading').style.display = 'none';
                 
-                // Render Banners
                 let banners = res.banners || [];
                 if (banners.length === 0) banners = [{ Link_Gambar: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Masjid_Istiqla_Jakarta.jpg/800px-Masjid_Istiqla_Jakarta.jpg" }];
                 document.getElementById('banner-list').innerHTML = banners.map(b => `<div class="swiper-slide"><img src="${b.Link_Gambar}"></div>`).join('');
@@ -154,24 +156,26 @@
         }
 
         function renderUI() {
-            // Daftar Isi
             document.getElementById('list-isi').innerHTML = dataWirid.map((item, i) => `<button class="list-btn" onclick="pilihHalaman(${i})">${ubahKeAngkaArab(item.Judul)}</button>`).join('');
             
-            // Logic Agenda Terdekat (Saring yang belum lewat)
             const skrg = new Date(); skrg.setHours(0,0,0,0);
             const agendaAktif = dataAgenda.filter(a => new Date(a.Tanggal) >= skrg).sort((a,b) => new Date(a.Tanggal) - new Date(b.Tanggal));
             
-            // Tampilan di Home (Kartu Agenda)
+            // Home Agenda
             const aBeranda = document.getElementById('agenda-list-beranda');
             if(agendaAktif.length > 0) {
                 const itm = agendaAktif[0];
-                aBeranda.innerHTML = `<div class="agenda-item"><strong>${itm.Kegiatan}</strong><br><small>📅 ${formatWaktu(itm.Tanggal, 'tanggal')} | 📍 ${itm.Lokasi}</small></div>`;
+                let mapBtn = itm.Link_Map ? `<a href="${itm.Link_Map}" target="_blank" class="btn-maps">🗺️ Buka di Maps →</a>` : "";
+                aBeranda.innerHTML = `<div class="agenda-item"><strong>${itm.Kegiatan}</strong><br><small>📅 ${formatWaktu(itm.Tanggal, 'tanggal')} | 📍 ${itm.Lokasi}</small><br>${mapBtn}</div>`;
             } else { aBeranda.innerHTML = "<p style='text-align:center; color:#888; font-size:13px;'>Belum ada agenda mendatang.</p>"; }
 
-            // Tampilan di Modal (Semua Agenda)
+            // Modal Agenda
             document.getElementById('list-agenda-full').innerHTML = dataAgenda.map(itm => {
-                let status = new Date(itm.Tanggal) < skrg ? "<span style='color:red;'>(Selesai)</span>" : "";
-                return `<div class="agenda-item"><strong>${itm.Kegiatan} ${status}</strong><br><small>📅 ${formatWaktu(itm.Tanggal, 'tanggal')} | 📍 ${itm.Lokasi}</small></div>`;
+                let isSelesai = new Date(itm.Tanggal) < skrg;
+                let status = isSelesai ? "<span style='color:red;'>(Selesai)</span>" : "";
+                let classSelesai = isSelesai ? "selesai" : "";
+                let mapBtn = (!isSelesai && itm.Link_Map) ? `<a href="${itm.Link_Map}" target="_blank" class="btn-maps">🗺️ Petunjuk Lokasi Maps →</a>` : "";
+                return `<div class="agenda-item ${classSelesai}"><strong>${itm.Kegiatan} ${status}</strong><br><small>📅 ${formatWaktu(itm.Tanggal, 'tanggal')} | 📍 ${itm.Lokasi}</small><br>${mapBtn}</div>`;
             }).join('');
         }
 
@@ -180,6 +184,7 @@
                 document.getElementById('view-beranda').style.display = 'block';
                 document.getElementById('area-baca').style.display = 'none';
                 document.getElementById('logo-utama').style.display = 'block';
+                document.getElementById('btn-back-home').style.display = 'none';
                 document.getElementById('judul-materi-header').style.display = 'none';
                 document.getElementById('kontrol-baca').style.display = 'none';
                 document.getElementById('nav-menu-utama').style.display = 'flex';
@@ -194,6 +199,7 @@
             document.getElementById('view-beranda').style.display = 'none';
             document.getElementById('area-baca').style.display = 'block';
             document.getElementById('logo-utama').style.display = 'none';
+            document.getElementById('btn-back-home').style.display = 'flex';
             document.getElementById('judul-materi-header').style.display = 'block';
             document.getElementById('kontrol-baca').style.display = 'flex';
             document.getElementById('nav-menu-utama').style.display = 'none';
