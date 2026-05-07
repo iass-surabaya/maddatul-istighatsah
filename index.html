@@ -1,360 +1,360 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Maddatul Istighatsah</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#F26522">
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    
-    <style>
-        :root { --bg-abu: #f4f6f9; --aksen-oranye: #F26522; --teks-hitam: #1A1A1A; --font-arab: 'Amiri', serif; }
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-abu); color: var(--teks-hitam); font-family: system-ui, sans-serif; display: flex; flex-direction: column; height: 100vh; max-width: 480px; margin: 0 auto; box-shadow: 0 0 20px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
-        
-        /* HEADER: Logo Pojok Kiri Atas */
-        header { background-color: #ffffff; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; z-index: 10; height: 65px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .logo-header { height: 35px; width: auto; object-fit: contain; }
-        #kontrol-baca { display: none; gap: 8px; }
-        #kontrol-baca button { background: var(--aksen-oranye); border: none; color: white; padding: 5px 12px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Maddatul Istighatsah</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#F26522">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <style>
+        :root { --bg-abu: #f4f6f9; --aksen-oranye: #F26522; --teks-hitam: #1A1A1A; --font-arab: 'Amiri', serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-abu); color: var(--teks-hitam); font-family: system-ui, sans-serif; display: flex; flex-direction: column; height: 100vh; max-width: 480px; margin: 0 auto; box-shadow: 0 0 20px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
+        
+        /* HEADER: Logo Pojok Kiri Atas */
+        header { background-color: #ffffff; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; z-index: 10; height: 65px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo-header { height: 35px; width: auto; object-fit: contain; }
+        #kontrol-baca { display: none; gap: 8px; }
+        #kontrol-baca button { background: var(--aksen-oranye); border: none; color: white; padding: 5px 12px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; }
 
-        /* AREA SCROLL KONTEN */
-        #main-container { flex: 1; overflow-y: auto; padding-bottom: 90px; }
+        /* AREA SCROLL KONTEN */
+        #main-container { flex: 1; overflow-y: auto; padding-bottom: 90px; }
 
-        /* SWIPER / HIGHLIGHT */
-        .swiper { width: 100%; padding: 15px 0 30px 0; background: #ffffff; margin-bottom: 15px; }
-        .swiper-slide { padding: 0 15px; box-sizing: border-box; }
-        .swiper-slide img { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: block; }
-        .swiper-pagination-bullet-active { background: var(--aksen-oranye) !important; }
+        /* SWIPER / HIGHLIGHT */
+        .swiper { width: 100%; padding: 15px 0 30px 0; background: #ffffff; margin-bottom: 15px; }
+        .swiper-slide { padding: 0 15px; box-sizing: border-box; }
+        .swiper-slide img { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: block; }
+        .swiper-pagination-bullet-active { background: var(--aksen-oranye) !important; }
 
-        /* WIDGET SHALAT */
-        .card-panel { background: #ffffff; margin: 0 15px 15px 15px; padding: 18px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); text-align: center; border-left: 5px solid var(--aksen-oranye); }
-        #tanggal-sekarang { font-size: 14px; color: #666; margin-bottom: 5px; display: block; font-weight: 600; }
-        #shalat-nama { color: var(--aksen-oranye); font-size: 26px; font-weight: 800; display: block; margin-bottom: 5px; }
-        #shalat-waktu { color: #333; font-size: 15px; font-weight: bold; background: #fff0e6; padding: 4px 15px; border-radius: 20px; display: inline-block; }
+        /* WIDGET SHALAT */
+        .card-panel { background: #ffffff; margin: 0 15px 15px 15px; padding: 18px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); text-align: center; border-left: 5px solid var(--aksen-oranye); }
+        #tanggal-sekarang { font-size: 14px; color: #666; margin-bottom: 5px; display: block; font-weight: 600; }
+        #shalat-nama { color: var(--aksen-oranye); font-size: 26px; font-weight: 800; display: block; margin-bottom: 5px; }
+        #shalat-waktu { color: #333; font-size: 15px; font-weight: bold; background: #fff0e6; padding: 4px 15px; border-radius: 20px; display: inline-block; }
 
-        /* AGENDA SECTION */
-        .section-title { margin: 10px 20px; font-size: 16px; font-weight: bold; color: #333; }
-        .agenda-item { background: #ffffff; margin: 0 15px 12px 15px; padding: 15px; border-left: 5px solid var(--aksen-oranye); border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        /* AGENDA SECTION */
+        .section-title { margin: 10px 20px; font-size: 16px; font-weight: bold; color: #333; }
+        .agenda-item { background: #ffffff; margin: 0 15px 12px 15px; padding: 15px; border-left: 5px solid var(--aksen-oranye); border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
 
-        /* AREA BACA KITAB */
-        #area-baca { display: none; padding: 20px 20px 100px 20px; background: #fff; min-height: 100%; direction: rtl; }
-        #judul-kitab { font-family: var(--font-arab); font-size: 24px; font-weight: bold; color: var(--aksen-oranye); text-align: center; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        #teks-arab { font-family: var(--font-arab); font-size: 32px; line-height: 2.2; text-align: justify; white-space: pre-wrap; color: var(--teks-hitam); }
+        /* AREA BACA KITAB */
+        #area-baca { display: none; padding: 20px 20px 100px 20px; background: #fff; min-height: 100%; direction: rtl; }
+        #judul-kitab { font-family: var(--font-arab); font-size: 24px; font-weight: bold; color: var(--aksen-oranye); text-align: center; margin-bottom: 20px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        #teks-arab { font-family: var(--font-arab); font-size: 32px; line-height: 2.2; text-align: justify; white-space: pre-wrap; color: var(--teks-hitam); }
 
-        /* NAVIGASI BAWAH */
-        .bottom-nav { background-color: var(--aksen-oranye); display: flex; justify-content: space-around; padding: 10px 5px 15px 5px; position: fixed; bottom: 0; width: 100%; max-width: 480px; z-index: 100; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -5px 15px rgba(242, 101, 34, 0.2); }
-        .nav-btn { background: none; border: none; color: rgba(255, 255, 255, 0.6); display: flex; flex-direction: column; align-items: center; font-size: 11px; font-weight: bold; gap: 4px; flex: 1; cursor: pointer; transition: all 0.3s ease; }
-        .nav-btn svg { width: 24px; height: 24px; fill: rgba(255, 255, 255, 0.6); transition: all 0.3s ease; }
-        /* Active State: Putih Terang */
-        .nav-btn.active { color: #FFFFFF; }
-        .nav-btn.active svg { fill: #FFFFFF; transform: translateY(-3px); }
+        /* NAVIGASI BAWAH */
+        .bottom-nav { background-color: var(--aksen-oranye); display: flex; justify-content: space-around; padding: 10px 5px 15px 5px; position: fixed; bottom: 0; width: 100%; max-width: 480px; z-index: 100; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -5px 15px rgba(242, 101, 34, 0.2); }
+        .nav-btn { background: none; border: none; color: rgba(255, 255, 255, 0.6); display: flex; flex-direction: column; align-items: center; font-size: 11px; font-weight: bold; gap: 4px; flex: 1; cursor: pointer; transition: all 0.3s ease; }
+        .nav-btn svg { width: 24px; height: 24px; fill: rgba(255, 255, 255, 0.6); transition: all 0.3s ease; }
+        /* Active State: Putih Terang */
+        .nav-btn.active { color: #FFFFFF; }
+        .nav-btn.active svg { fill: #FFFFFF; transform: translateY(-3px); }
 
-        /* MODALS (Disesuaikan dari kode asli Bapak) */
-        .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); }
-        .modal-konten { background: #fff; margin: 15% auto; border-radius: 15px; width: 88%; max-width: 420px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
-        .modal-header { background: var(--aksen-oranye); color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .modal-header h3 { font-size: 18px; margin: 0; }
-        .btn-close { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; line-height: 1; }
-        .modal-body { padding: 20px; max-height: 65vh; overflow-y: auto; }
-        
-        .list-btn { display: block; width: 100%; text-align: right; padding: 14px; margin-bottom: 10px; background-color: #f9f9f9; border: 1px solid #eee; border-radius: 10px; font-size: 18px; font-family: var(--font-arab); cursor: pointer; color: var(--teks-hitam); }
-        
-        /* Loading Overlay */
-        #loading { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.8); color: white; padding: 15px 25px; border-radius: 10px; z-index: 999; display: none; font-weight: bold; }
-        
-        /* Grid Menu Lainnya */
-        .grid-menu { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center; }
-        .grid-item { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; padding: 15px 10px; border-radius: 10px; background: #f8f9fa; border: 1px solid #eee; }
-        .grid-item svg { width: 32px; height: 32px; fill: var(--aksen-oranye); }
-        .grid-item span { font-size: 12px; font-weight: bold; color: #333; }
-    </style>
+        /* MODALS (Disesuaikan dari kode asli Bapak) */
+        .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); }
+        .modal-konten { background: #fff; margin: 15% auto; border-radius: 15px; width: 88%; max-width: 420px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+        .modal-header { background: var(--aksen-oranye); color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; margin: 0; }
+        .btn-close { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; line-height: 1; }
+        .modal-body { padding: 20px; max-height: 65vh; overflow-y: auto; }
+        
+        .list-btn { display: block; width: 100%; text-align: right; padding: 14px; margin-bottom: 10px; background-color: #f9f9f9; border: 1px solid #eee; border-radius: 10px; font-size: 18px; font-family: var(--font-arab); cursor: pointer; color: var(--teks-hitam); }
+        
+        /* Loading Overlay */
+        #loading { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.8); color: white; padding: 15px 25px; border-radius: 10px; z-index: 999; display: none; font-weight: bold; }
+        
+        /* Grid Menu Lainnya */
+        .grid-menu { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center; }
+        .grid-item { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; padding: 15px 10px; border-radius: 10px; background: #f8f9fa; border: 1px solid #eee; }
+        .grid-item svg { width: 32px; height: 32px; fill: var(--aksen-oranye); }
+        .grid-item span { font-size: 12px; font-weight: bold; color: #333; }
+    </style>
 </head>
 <body>
 
-    <header>
-    <img src="logo-header.png" alt="Logo IASS" class="logo-header">
-    <div id="kontrol-baca">
-            <button onclick="ubahUkuran(1)">A+</button>
-            <button onclick="ubahUkuran(-1)">A-</button>
-        </div>
-    </header>
+    <header>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Logo_of_the_Nahdlatul_Ulama.svg/120px-Logo_of_the_Nahdlatul_Ulama.svg.png" alt="Logo" class="logo-header">
+        <div id="kontrol-baca">
+            <button onclick="ubahUkuran(1)">A+</button>
+            <button onclick="ubahUkuran(-1)">A-</button>
+        </div>
+    </header>
 
-    <div id="loading">Memuat Data...</div>
+    <div id="loading">Memuat Data...</div>
 
-    <div id="main-container">
-        <div id="view-beranda">
-            
-            <div class="swiper mySwiper">
-                <div class="swiper-wrapper" id="banner-list">
-                    </div>
-                <div class="swiper-pagination"></div>
-            </div>
+    <div id="main-container">
+        <div id="view-beranda">
+            
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper" id="banner-list">
+                    </div>
+                <div class="swiper-pagination"></div>
+            </div>
 
-            <div class="card-panel">
-                <span id="tanggal-sekarang">Memuat Tanggal...</span>
-                <span id="shalat-nama">Memuat...</span>
-                <span id="shalat-waktu">--:--:-- lagi</span>
-            </div>
+            <div class="card-panel">
+                <span id="tanggal-sekarang">Memuat Tanggal...</span>
+                <span id="shalat-nama">Memuat...</span>
+                <span id="shalat-waktu">--:--:-- lagi</span>
+            </div>
 
-            <div class="section-title">Agenda Terdekat</div>
-            <div id="agenda-list-beranda"></div>
-        </div>
+            <div class="section-title">Agenda Terdekat</div>
+            <div id="agenda-list-beranda"></div>
+        </div>
 
-        <div id="area-baca">
-            <div id="judul-kitab"></div>
-            <div id="teks-arab"></div>
-        </div>
-    </div>
+        <div id="area-baca">
+            <div id="judul-kitab"></div>
+            <div id="teks-arab"></div>
+        </div>
+    </div>
 
-    <nav class="bottom-nav">
-        <button class="nav-btn active" id="btn-home" onclick="navigasiUtama('home')">
-            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            <span>Beranda</span>
-        </button>
-        <button class="nav-btn" id="btn-isi" onclick="navigasiUtama('isi')">
-            <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
-            <span>Daftar Isi</span>
-        </button>
-        <button class="nav-btn" id="btn-agenda" onclick="bukaModal('modal-agenda')">
-            <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
-            <span>Agenda</span>
-        </button>
-        <button class="nav-btn" id="btn-shalat" onclick="bukaModal('modal-shalat')">
-            <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10 9.99-4.47 9.99-10S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-            <span>Shalat</span>
-        </button>
-        <button class="nav-btn" id="btn-lain" onclick="bukaModal('modal-lainnya')">
-            <svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
-            <span>Lainnya</span>
-        </button>
-    </nav>
+    <nav class="bottom-nav">
+        <button class="nav-btn active" id="btn-home" onclick="navigasiUtama('home')">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>Beranda</span>
+        </button>
+        <button class="nav-btn" id="btn-isi" onclick="navigasiUtama('isi')">
+            <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
+            <span>Daftar Isi</span>
+        </button>
+        <button class="nav-btn" id="btn-agenda" onclick="bukaModal('modal-agenda')">
+            <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
+            <span>Agenda</span>
+        </button>
+        <button class="nav-btn" id="btn-shalat" onclick="bukaModal('modal-shalat')">
+            <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10 9.99-4.47 9.99-10S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+            <span>Shalat</span>
+        </button>
+        <button class="nav-btn" id="btn-lain" onclick="bukaModal('modal-lainnya')">
+            <svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>
+            <span>Lainnya</span>
+        </button>
+    </nav>
 
-    <div id="modal-isi" class="modal"><div class="modal-konten"><div class="modal-header"><h3>Pilih Bacaan</h3><button class="btn-close" onclick="tutupModal('modal-isi')">✕</button></div><div class="modal-body" id="list-isi"></div></div></div>
+    <div id="modal-isi" class="modal"><div class="modal-konten"><div class="modal-header"><h3>Pilih Bacaan</h3><button class="btn-close" onclick="tutupModal('modal-isi')">✕</button></div><div class="modal-body" id="list-isi"></div></div></div>
 
-    <div id="modal-agenda" class="modal"><div class="modal-konten"><div class="modal-header"><h3>Agenda IASS</h3><button class="btn-close" onclick="tutupModal('modal-agenda')">✕</button></div><div class="modal-body" id="list-agenda-full"></div></div></div>
+    <div id="modal-agenda" class="modal"><div class="modal-konten"><div class="modal-header"><h3>Agenda IASS</h3><button class="btn-close" onclick="tutupModal('modal-agenda')">✕</button></div><div class="modal-body" id="list-agenda-full"></div></div></div>
 
-    <div id="modal-shalat" class="modal"><div class="modal-konten"><div class="modal-header"><h3>Jadwal Shalat Sby</h3><button class="btn-close" onclick="tutupModal('modal-shalat')">✕</button></div><div class="modal-body"><div id="list-shalat-full"></div></div></div></div>
+    <div id="modal-shalat" class="modal"><div class="modal-konten"><div class="modal-header"><h3>Jadwal Shalat Sby</h3><button class="btn-close" onclick="tutupModal('modal-shalat')">✕</button></div><div class="modal-body"><div id="list-shalat-full"></div></div></div></div>
 
-    <div id="modal-lainnya" class="modal">
-        <div class="modal-konten">
-            <div class="modal-header"><h3>Menu Lainnya</h3><button class="btn-close" onclick="tutupModal('modal-lainnya')">✕</button></div>
-            <div class="modal-body">
-                <div class="grid-menu">
-                    <div class="grid-item" onclick="tutupModal('modal-lainnya'); bukaModal('modal-tasbih')">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM7 12c0-2.76 2.24-5 5-5s5 2.24 5 5-2.24 5-5 5-5-2.24-5-5z"/></svg><span>Tasbih</span>
-                    </div>
-                    <div class="grid-item" onclick="tutupModal('modal-lainnya'); bukaModal('modal-kiblat')">
-                        <svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg><span>Kiblat</span>
-                    </div>
-                    <div class="grid-item" onclick="tutupModal('modal-lainnya'); bukaModal('modal-daftar-wa')">
-                        <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91 0-5.46-4.45-9.91-9.91-9.91z"/></svg><span>Info WA</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div id="modal-lainnya" class="modal">
+        <div class="modal-konten">
+            <div class="modal-header"><h3>Menu Lainnya</h3><button class="btn-close" onclick="tutupModal('modal-lainnya')">✕</button></div>
+            <div class="modal-body">
+                <div class="grid-menu">
+                    <div class="grid-item" onclick="tutupModal('modal-lainnya'); bukaModal('modal-tasbih')">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM7 12c0-2.76 2.24-5 5-5s5 2.24 5 5-2.24 5-5 5-5-2.24-5-5z"/></svg><span>Tasbih</span>
+                    </div>
+                    <div class="grid-item" onclick="tutupModal('modal-lainnya'); bukaModal('modal-kiblat')">
+                        <svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg><span>Kiblat</span>
+                    </div>
+                    <div class="grid-item" onclick="tutupModal('modal-lainnya'); bukaModal('modal-daftar-wa')">
+                        <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91 0-5.46-4.45-9.91-9.91-9.91z"/></svg><span>Info WA</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div id="modal-daftar-wa" class="modal"><div class="modal-konten"><div class="modal-header"><h3>Daftar Info Kegiatan</h3><button class="btn-close" onclick="tutupModal('modal-daftar-wa')">✕</button></div><div class="modal-body"><p style="font-size:14px; margin-bottom:15px; color:#555;">Dapatkan Informasi Jadwal Kegiatan & QR Code Kehadiran IASS Wilayah Surabaya langsung ke WhatsApp Anda.</p><input type="text" id="input-nama-wa" placeholder="Nama Lengkap" style="width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px;" required><input type="number" id="input-nomor-wa" placeholder="No. WA (Cth: 62812... Wajib diawali 62)" style="width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px;" required><input type="text" id="input-nia" placeholder="Nomor Induk Alumni (NIA)" style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px;" required><button id="btn-kirim-wa" onclick="kirimDataWA()" style="width: 100%; background-color: var(--aksen-oranye); color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer;">Daftar / Update Nomor</button><div id="pesan-status-wa" style="margin-top: 15px; font-size: 14px; text-align: center; font-weight: bold; line-height: 1.4;"></div></div></div></div>
+    <div id="modal-daftar-wa" class="modal"><div class="modal-konten"><div class="modal-header"><h3>Daftar Info Kegiatan</h3><button class="btn-close" onclick="tutupModal('modal-daftar-wa')">✕</button></div><div class="modal-body"><p style="font-size:14px; margin-bottom:15px; color:#555;">Dapatkan Informasi Jadwal Kegiatan & QR Code Kehadiran IASS Wilayah Surabaya langsung ke WhatsApp Anda.</p><input type="text" id="input-nama-wa" placeholder="Nama Lengkap" style="width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px;" required><input type="number" id="input-nomor-wa" placeholder="No. WA (Cth: 62812... Wajib diawali 62)" style="width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px;" required><input type="text" id="input-nia" placeholder="Nomor Induk Alumni (NIA)" style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px;" required><button id="btn-kirim-wa" onclick="kirimDataWA()" style="width: 100%; background-color: var(--aksen-oranye); color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer;">Daftar / Update Nomor</button><div id="pesan-status-wa" style="margin-top: 15px; font-size: 14px; text-align: center; font-weight: bold; line-height: 1.4;"></div></div></div></div>
 
-    <div id="modal-tasbih" class="modal"><div class="modal-konten"><div class="modal-header" style="direction: rtl;"><h3>التسبيح</h3><button class="btn-close" onclick="tutupModal('modal-tasbih')">✕</button></div><div class="modal-body" style="text-align: center;"><div id="angka-tasbih" style="font-size: 90px; font-weight: bold; color: var(--aksen-oranye); font-family: var(--font-arab);">٠</div><button onclick="tambahTasbih()" style="width: 170px; height: 170px; border-radius: 50%; background-color: var(--aksen-oranye); color: white; font-size: 32px; border: none; box-shadow: 0 10px 25px rgba(242,101,34,0.4); cursor: pointer; margin: 25px auto; display: block; transition: transform 0.1s;">Ketuk</button><button onclick="resetTasbih()" style="background: none; border: 2px solid var(--aksen-oranye); color: var(--aksen-oranye); padding: 12px 35px; border-radius: 10px; font-weight: bold; margin-top: 15px; cursor: pointer;">Mulai Ulang</button></div></div></div>
+    <div id="modal-tasbih" class="modal"><div class="modal-konten"><div class="modal-header" style="direction: rtl;"><h3>التسبيح</h3><button class="btn-close" onclick="tutupModal('modal-tasbih')">✕</button></div><div class="modal-body" style="text-align: center;"><div id="angka-tasbih" style="font-size: 90px; font-weight: bold; color: var(--aksen-oranye); font-family: var(--font-arab);">٠</div><button onclick="tambahTasbih()" style="width: 170px; height: 170px; border-radius: 50%; background-color: var(--aksen-oranye); color: white; font-size: 32px; border: none; box-shadow: 0 10px 25px rgba(242,101,34,0.4); cursor: pointer; margin: 25px auto; display: block; transition: transform 0.1s;">Ketuk</button><button onclick="resetTasbih()" style="background: none; border: 2px solid var(--aksen-oranye); color: var(--aksen-oranye); padding: 12px 35px; border-radius: 10px; font-weight: bold; margin-top: 15px; cursor: pointer;">Mulai Ulang</button></div></div></div>
 
-    <div id="modal-kiblat" class="modal"><div class="modal-konten"><div class="modal-header" style="direction: rtl;"><h3>اتجاه القبلة</h3><button class="btn-close" onclick="tutupKiblat()">✕</button></div><div class="modal-body" style="text-align: center;"><p id="info-kiblat" style="font-size: 14px; color: #666; margin-bottom: 10px;">Izinkan GPS & Gerakkan HP</p><div style="position: relative; width: 240px; height: 240px; border-radius: 50%; border: 8px solid var(--aksen-oranye); margin: 20px auto; display: flex; justify-content: center; align-items: center; background: url('https://upload.wikimedia.org/wikipedia/commons/1/18/Compass_rose_brown.svg') no-repeat center center; background-size: cover;"><div id="jarum-kiblat" style="position: absolute; width: 8px; height: 210px; transition: transform 0.2s ease-out;"><div style="width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-bottom: 45px solid #28a745; position: absolute; top: 0; left: -16px;"></div></div></div><button onclick="mulaiKiblat()" style="margin-top: 25px; background-color: var(--aksen-oranye); color: white; border: none; padding: 15px; border-radius: 10px; font-weight:bold; cursor: pointer; width: 100%;">Deteksi Kiblat</button></div></div></div>
+    <div id="modal-kiblat" class="modal"><div class="modal-konten"><div class="modal-header" style="direction: rtl;"><h3>اتجاه القبلة</h3><button class="btn-close" onclick="tutupKiblat()">✕</button></div><div class="modal-body" style="text-align: center;"><p id="info-kiblat" style="font-size: 14px; color: #666; margin-bottom: 10px;">Izinkan GPS & Gerakkan HP</p><div style="position: relative; width: 240px; height: 240px; border-radius: 50%; border: 8px solid var(--aksen-oranye); margin: 20px auto; display: flex; justify-content: center; align-items: center; background: url('https://upload.wikimedia.org/wikipedia/commons/1/18/Compass_rose_brown.svg') no-repeat center center; background-size: cover;"><div id="jarum-kiblat" style="position: absolute; width: 8px; height: 210px; transition: transform 0.2s ease-out;"><div style="width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-bottom: 45px solid #28a745; position: absolute; top: 0; left: -16px;"></div></div></div><button onclick="mulaiKiblat()" style="margin-top: 25px; background-color: var(--aksen-oranye); color: white; border: none; padding: 15px; border-radius: 10px; font-weight:bold; cursor: pointer; width: 100%;">Deteksi Kiblat</button></div></div></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script>
-        // PASTIKAN INI ADALAH URL DEPLOYMENT APPS SCRIPT BAPAK YANG ASLI
-        const API_URL = "https://script.google.com/macros/s/AKfycbwU0RH7UM6BkXM5K1eKIfZELhLySbhG8WOeRiNRKQNwzDkl1aSz7FG0fl5HvN1N9j4T/exec";
-        
-        let dataWirid = []; let dataAgenda = []; let dataJadwalGlobal = null; let ukuranFont = 32;
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // PASTIKAN INI ADALAH URL DEPLOYMENT APPS SCRIPT BAPAK YANG ASLI
+        const API_URL = "https://script.google.com/macros/s/AKfycbwU0RH7UM6BkXM5K1eKIfZELhLySbhG8WOeRiNRKQNwzDkl1aSz7FG0fl5HvN1N9j4T/exec";
+        
+        let dataWirid = []; let dataAgenda = []; let dataJadwalGlobal = null; let ukuranFont = 32;
 
-        function ubahKeAngkaArab(t) { if (!t) return ''; const a = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩']; return t.toString().replace(/[0-9]/g, w => a[w]); }
-        function formatWaktu(w, t) { if (!w) return '-'; let s = w.toString(); if (s.includes('T') && s.includes('Z')) { let d = new Date(s); return t === 'tanggal' ? d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }); } return s; }
+        function ubahKeAngkaArab(t) { if (!t) return ''; const a = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩']; return t.toString().replace(/[0-9]/g, w => a[w]); }
+        function formatWaktu(w, t) { if (!w) return '-'; let s = w.toString(); if (s.includes('T') && s.includes('Z')) { let d = new Date(s); return t === 'tanggal' ? d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }); } return s; }
 
-        async function muatData() {
-            document.getElementById('loading').style.display = 'block';
-            try {
-                const res = await (await fetch(API_URL)).json();
-                localStorage.setItem('dataOffline', JSON.stringify(res));
-                prosesData(res);
-            } catch (e) { const off = localStorage.getItem('dataOffline'); if (off) prosesData(JSON.parse(off)); }
-            muatJadwalShalat();
-        }
+        async function muatData() {
+            document.getElementById('loading').style.display = 'block';
+            try {
+                const res = await (await fetch(API_URL)).json();
+                localStorage.setItem('dataOffline', JSON.stringify(res));
+                prosesData(res);
+            } catch (e) { const off = localStorage.getItem('dataOffline'); if (off) prosesData(JSON.parse(off)); }
+            muatJadwalShalat();
+        }
 
-        function prosesData(res) {
-            dataWirid = res.wirid || []; 
-            dataWirid.sort((a, b) => parseInt(a.ID) - parseInt(b.ID));
-            dataAgenda = res.agenda || [];
-            document.getElementById('loading').style.display = 'none';
-            
-            // Render Swiper Banner (Pelindung jika sheet Banner_Promo belum ada)
-            let banners = res.banners || [];
-            if (banners.length === 0) {
-                banners = [{ Link_Gambar: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Masjid_Istiqla_Jakarta.jpg/800px-Masjid_Istiqla_Jakarta.jpg" }];
-            }
-            document.getElementById('banner-list').innerHTML = banners.map(b => `<div class="swiper-slide"><img src="${b.Link_Gambar}"></div>`).join('');
-            new Swiper(".mySwiper", { slidesPerView: 1.1, centeredSlides: true, spaceBetween: 15, loop: true, autoplay: { delay: 3000 }, pagination: { el: ".swiper-pagination", clickable: true } });
+        function prosesData(res) {
+            dataWirid = res.wirid || []; 
+            dataWirid.sort((a, b) => parseInt(a.ID) - parseInt(b.ID));
+            dataAgenda = res.agenda || [];
+            document.getElementById('loading').style.display = 'none';
+            
+            // Render Swiper Banner (Pelindung jika sheet Banner_Promo belum ada)
+            let banners = res.banners || [];
+            if (banners.length === 0) {
+                banners = [{ Link_Gambar: "https://via.placeholder.com/600x300/F26522/FFFFFF?text=Maddatul+Istighatsah" }];
+            }
+            document.getElementById('banner-list').innerHTML = banners.map(b => `<div class="swiper-slide"><img src="${b.Link_Gambar}"></div>`).join('');
+            new Swiper(".mySwiper", { slidesPerView: 1.1, centeredSlides: true, spaceBetween: 15, loop: true, autoplay: { delay: 3000 }, pagination: { el: ".swiper-pagination", clickable: true } });
 
-            buatDaftarIsi(); 
-            buatListAgenda(); 
-            updateAgendaTerdekat(); 
-        }
+            buatDaftarIsi(); 
+            buatListAgenda(); 
+            updateAgendaTerdekat(); 
+        }
 
-        // --- NAVIGASI ---
-        function navigasiUtama(tujuan) {
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            if(tujuan === 'home') {
-                document.getElementById('btn-home').classList.add('active');
-                document.getElementById('view-beranda').style.display = 'block';
-                document.getElementById('area-baca').style.display = 'none';
-                document.getElementById('kontrol-baca').style.display = 'none';
-            } else if (tujuan === 'isi') {
-                document.getElementById('btn-isi').classList.add('active');
-                bukaModal('modal-isi');
-            }
-        }
+        // --- NAVIGASI ---
+        function navigasiUtama(tujuan) {
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            if(tujuan === 'home') {
+                document.getElementById('btn-home').classList.add('active');
+                document.getElementById('view-beranda').style.display = 'block';
+                document.getElementById('area-baca').style.display = 'none';
+                document.getElementById('kontrol-baca').style.display = 'none';
+            } else if (tujuan === 'isi') {
+                document.getElementById('btn-isi').classList.add('active');
+                bukaModal('modal-isi');
+            }
+        }
 
-        function bukaModal(id) { document.getElementById(id).style.display = 'block'; }
-        function tutupModal(id) { 
-            document.getElementById(id).style.display = 'none';
-            if(document.getElementById('area-baca').style.display === 'none') {
-                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-                document.getElementById('btn-home').classList.add('active');
-            }
-        }
+        function bukaModal(id) { document.getElementById(id).style.display = 'block'; }
+        function tutupModal(id) { 
+            document.getElementById(id).style.display = 'none';
+            if(document.getElementById('area-baca').style.display === 'none') {
+                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+                document.getElementById('btn-home').classList.add('active');
+            }
+        }
 
-        // --- BACA KITAB ---
-        function buatDaftarIsi() { document.getElementById('list-isi').innerHTML = dataWirid.map((item, i) => `<button class="list-btn" onclick="pilihHalaman(${i})">${ubahKeAngkaArab(item.Judul)}</button>`).join(''); }
-        
-        function pilihHalaman(i) { 
-            document.getElementById('modal-isi').style.display = 'none';
-            document.getElementById('view-beranda').style.display = 'none';
-            document.getElementById('area-baca').style.display = 'block';
-            document.getElementById('kontrol-baca').style.display = 'flex';
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('btn-isi').classList.add('active');
-            
-            const item = dataWirid[i];
-            document.getElementById('judul-kitab').innerText = ubahKeAngkaArab(item.Judul);
-            document.getElementById('teks-arab').innerHTML = ubahKeAngkaArab(item.Isi_Arab.replace(/\\r\\n/g, '<br>').replace(/\\n/g, '<br>'));
-            document.getElementById('main-container').scrollTop = 0;
-        }
+        // --- BACA KITAB ---
+        function buatDaftarIsi() { document.getElementById('list-isi').innerHTML = dataWirid.map((item, i) => `<button class="list-btn" onclick="pilihHalaman(${i})">${ubahKeAngkaArab(item.Judul)}</button>`).join(''); }
+        
+        function pilihHalaman(i) { 
+            document.getElementById('modal-isi').style.display = 'none';
+            document.getElementById('view-beranda').style.display = 'none';
+            document.getElementById('area-baca').style.display = 'block';
+            document.getElementById('kontrol-baca').style.display = 'flex';
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-isi').classList.add('active');
+            
+            const item = dataWirid[i];
+            document.getElementById('judul-kitab').innerText = ubahKeAngkaArab(item.Judul);
+            document.getElementById('teks-arab').innerHTML = ubahKeAngkaArab(item.Isi_Arab.replace(/\\r\\n/g, '<br>').replace(/\\n/g, '<br>'));
+            document.getElementById('main-container').scrollTop = 0;
+        }
 
-        function ubahUkuran(arah) { ukuranFont += (arah * 4); if(ukuranFont < 20) ukuranFont = 20; document.getElementById('teks-arab').style.fontSize = ukuranFont + 'px'; }
+        function ubahUkuran(arah) { ukuranFont += (arah * 4); if(ukuranFont < 20) ukuranFont = 20; document.getElementById('teks-arab').style.fontSize = ukuranFont + 'px'; }
 
-        // --- AGENDA & SHALAT ---
-        function buatListAgenda() { 
-            const container = document.getElementById('list-agenda-full');
-            if (dataAgenda.length === 0) { container.innerHTML = "<p style='text-align:center;'>Belum ada agenda.</p>"; return; }
-            const sekarang = new Date();
-            container.innerHTML = dataAgenda.map(item => { 
-                let waktuAcara = new Date(item.Tanggal);
-                let sudahSelesai = waktuAcara < sekarang;
-                let warnaGaris = sudahSelesai ? '#cccccc' : 'var(--aksen-oranye)';
-                let linkMaps = (!sudahSelesai && item.Link_Map) ? `<a href="${item.Link_Map}" target="_blank" style="color:var(--aksen-oranye);font-weight:bold;display:block;margin-top:5px;text-decoration:none;">🗺️ Petunjuk Lokasi Maps ➔</a>` : '';
-                return `<div class="agenda-item" style="border-left-color:${warnaGaris};"><strong>${item.Kegiatan}</strong><br><div style="font-size:14px; color:#555; margin-top:5px;">📅 ${formatWaktu(item.Tanggal, 'tanggal')} | ⏰ ${formatWaktu(item.Jam, 'jam')}<br>📍 ${item.Lokasi}</div>${linkMaps}</div>`;
-            }).join(''); 
-        }
+        // --- AGENDA & SHALAT ---
+        function buatListAgenda() { 
+            const container = document.getElementById('list-agenda-full');
+            if (dataAgenda.length === 0) { container.innerHTML = "<p style='text-align:center;'>Belum ada agenda.</p>"; return; }
+            const sekarang = new Date();
+            container.innerHTML = dataAgenda.map(item => { 
+                let waktuAcara = new Date(item.Tanggal);
+                let sudahSelesai = waktuAcara < sekarang;
+                let warnaGaris = sudahSelesai ? '#cccccc' : 'var(--aksen-oranye)';
+                let linkMaps = (!sudahSelesai && item.Link_Map) ? `<a href="${item.Link_Map}" target="_blank" style="color:var(--aksen-oranye);font-weight:bold;display:block;margin-top:5px;text-decoration:none;">🗺️ Petunjuk Lokasi Maps ➔</a>` : '';
+                return `<div class="agenda-item" style="border-left-color:${warnaGaris};"><strong>${item.Kegiatan}</strong><br><div style="font-size:14px; color:#555; margin-top:5px;">📅 ${formatWaktu(item.Tanggal, 'tanggal')} | ⏰ ${formatWaktu(item.Jam, 'jam')}<br>📍 ${item.Lokasi}</div>${linkMaps}</div>`;
+            }).join(''); 
+        }
 
-        function updateAgendaTerdekat() {
-            const container = document.getElementById('agenda-list-beranda');
-            const sekarang = new Date();
-            let agendaBerikutnya = null;
-            for (let item of dataAgenda) {
-                let waktuAcara = new Date(item.Tanggal);
-                if (waktuAcara >= sekarang) { agendaBerikutnya = item; break; }
-            }
-            if (agendaBerikutnya) {
-                let linkMaps = agendaBerikutnya.Link_Map ? `<a href="${agendaBerikutnya.Link_Map}" target="_blank" style="color:var(--aksen-oranye);font-weight:bold;display:block;margin-top:8px;text-decoration:none;">🗺️ Buka di Maps ➔</a>` : '';
-                container.innerHTML = `<div class="agenda-item"><strong style="color:var(--aksen-oranye); font-size:16px;">${agendaBerikutnya.Kegiatan}</strong><div style="font-size:14px; color:#555; margin-top:5px;">📅 ${formatWaktu(agendaBerikutnya.Tanggal, 'tanggal')} | ⏰ ${formatWaktu(agendaBerikutnya.Jam, 'jam')}<br>📍 ${agendaBerikutnya.Lokasi}</div>${linkMaps}</div>`;
-            } else {
-                container.innerHTML = `<div class="agenda-item" style="text-align:center; color:#888;">Tidak ada agenda terdekat.</div>`;
-            }
-        }
+        function updateAgendaTerdekat() {
+            const container = document.getElementById('agenda-list-beranda');
+            const sekarang = new Date();
+            let agendaBerikutnya = null;
+            for (let item of dataAgenda) {
+                let waktuAcara = new Date(item.Tanggal);
+                if (waktuAcara >= sekarang) { agendaBerikutnya = item; break; }
+            }
+            if (agendaBerikutnya) {
+                let linkMaps = agendaBerikutnya.Link_Map ? `<a href="${agendaBerikutnya.Link_Map}" target="_blank" style="color:var(--aksen-oranye);font-weight:bold;display:block;margin-top:8px;text-decoration:none;">🗺️ Buka di Maps ➔</a>` : '';
+                container.innerHTML = `<div class="agenda-item"><strong style="color:var(--aksen-oranye); font-size:16px;">${agendaBerikutnya.Kegiatan}</strong><div style="font-size:14px; color:#555; margin-top:5px;">📅 ${formatWaktu(agendaBerikutnya.Tanggal, 'tanggal')} | ⏰ ${formatWaktu(agendaBerikutnya.Jam, 'jam')}<br>📍 ${agendaBerikutnya.Lokasi}</div>${linkMaps}</div>`;
+            } else {
+                container.innerHTML = `<div class="agenda-item" style="text-align:center; color:#888;">Tidak ada agenda terdekat.</div>`;
+            }
+        }
 
-        async function muatJadwalShalat() {
-            try {
-                const d = new Date(); const res = await (await fetch(`https://api.myquran.com/v2/sholat/jadwal/1638/${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`)).json();
-                if(res.status) {
-                    dataJadwalGlobal = res.data.jadwal;
-                    document.getElementById('list-shalat-full').innerHTML = `<div style="text-align:center; background:var(--aksen-oranye); color:white; padding:10px; border-radius:8px; margin-bottom:10px; font-weight:bold;">${dataJadwalGlobal.tanggal}</div>` + ['imsak','subuh','dzuhur','ashar','maghrib','isya'].map(s => `<div style="display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid #eee;"><span>${s.toUpperCase()}</span><strong>${dataJadwalGlobal[s]}</strong></div>`).join('');
-                    mulaiCountdown();
-                }
-            } catch (e) { }
-        }
+        async function muatJadwalShalat() {
+            try {
+                const d = new Date(); const res = await (await fetch(`https://api.myquran.com/v2/sholat/jadwal/1638/${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`)).json();
+                if(res.status) {
+                    dataJadwalGlobal = res.data.jadwal;
+                    document.getElementById('list-shalat-full').innerHTML = `<div style="text-align:center; background:var(--aksen-oranye); color:white; padding:10px; border-radius:8px; margin-bottom:10px; font-weight:bold;">${dataJadwalGlobal.tanggal}</div>` + ['imsak','subuh','dzuhur','ashar','maghrib','isya'].map(s => `<div style="display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid #eee;"><span>${s.toUpperCase()}</span><strong>${dataJadwalGlobal[s]}</strong></div>`).join('');
+                    mulaiCountdown();
+                }
+            } catch (e) { }
+        }
 
-        function mulaiCountdown() {
-            const hariIndo = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-            const bulanIndo = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-            setInterval(() => {
-                const sekarang = new Date();
-                document.getElementById('tanggal-sekarang').innerText = `${hariIndo[sekarang.getDay()]}, ${sekarang.getDate()} ${bulanIndo[sekarang.getMonth()]} ${sekarang.getFullYear()}`;
-                if(!dataJadwalGlobal) return;
-                const daftar = ['subuh','dzuhur','ashar','maghrib','isya'];
-                let tNama = ""; let tJam = "";
-                for (let s of daftar) {
-                    let [j, m] = dataJadwalGlobal[s].split(':');
-                    let t = new Date(); t.setHours(j, m, 0);
-                    if (t > sekarang) { tNama = s; tJam = t; break; }
-                }
-                if (!tNama) {
-                    let [j, m] = dataJadwalGlobal['subuh'].split(':');
-                    tJam = new Date(); tJam.setDate(tJam.getDate() + 1); tJam.setHours(j, m, 0);
-                    tNama = "subuh";
-                }
-                let sel = Math.floor((tJam - sekarang) / 1000);
-                let h = Math.floor(sel / 3600); let m = Math.floor((sel % 3600) / 60); let s = sel % 60;
-                document.getElementById('shalat-nama').innerText = tNama.charAt(0).toUpperCase() + tNama.slice(1) + " - " + dataJadwalGlobal[tNama];
-                document.getElementById('shalat-waktu').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} lagi`;
-            }, 1000);
-        }
+        function mulaiCountdown() {
+            const hariIndo = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const bulanIndo = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            setInterval(() => {
+                const sekarang = new Date();
+                document.getElementById('tanggal-sekarang').innerText = `${hariIndo[sekarang.getDay()]}, ${sekarang.getDate()} ${bulanIndo[sekarang.getMonth()]} ${sekarang.getFullYear()}`;
+                if(!dataJadwalGlobal) return;
+                const daftar = ['subuh','dzuhur','ashar','maghrib','isya'];
+                let tNama = ""; let tJam = "";
+                for (let s of daftar) {
+                    let [j, m] = dataJadwalGlobal[s].split(':');
+                    let t = new Date(); t.setHours(j, m, 0);
+                    if (t > sekarang) { tNama = s; tJam = t; break; }
+                }
+                if (!tNama) {
+                    let [j, m] = dataJadwalGlobal['subuh'].split(':');
+                    tJam = new Date(); tJam.setDate(tJam.getDate() + 1); tJam.setHours(j, m, 0);
+                    tNama = "subuh";
+                }
+                let sel = Math.floor((tJam - sekarang) / 1000);
+                let h = Math.floor(sel / 3600); let m = Math.floor((sel % 3600) / 60); let s = sel % 60;
+                document.getElementById('shalat-nama').innerText = tNama.charAt(0).toUpperCase() + tNama.slice(1) + " - " + dataJadwalGlobal[tNama];
+                document.getElementById('shalat-waktu').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} lagi`;
+            }, 1000);
+        }
 
-        // --- TASBIH & KIBLAT (Kode Original Bapak) ---
-        let hT = 0; function tambahTasbih() { hT++; document.getElementById('angka-tasbih').innerText = ubahKeAngkaArab(hT); }
-        function resetTasbih() { hT = 0; document.getElementById('angka-tasbih').innerText = ubahKeAngkaArab(0); }
+        // --- TASBIH & KIBLAT (Kode Original Bapak) ---
+        let hT = 0; function tambahTasbih() { hT++; document.getElementById('angka-tasbih').innerText = ubahKeAngkaArab(hT); }
+        function resetTasbih() { hT = 0; document.getElementById('angka-tasbih').innerText = ubahKeAngkaArab(0); }
 
-        let kL = null; function mulaiKiblat() { if (navigator.geolocation) { navigator.geolocation.getCurrentPosition(p => { 
-            const q = (Math.atan2(Math.sin((39.826206 - p.coords.longitude) * Math.PI / 180), Math.cos(p.coords.latitude * Math.PI / 180) * Math.tan(21.422487 * Math.PI / 180) - Math.sin(p.coords.latitude * Math.PI / 180) * Math.cos((39.826206 - p.coords.longitude) * Math.PI / 180)) * 180 / Math.PI + 360) % 360;
-            document.getElementById('info-kiblat').innerHTML = "Kiblat: " + Math.round(q) + "°";
-            if (typeof DeviceOrientationEvent.requestPermission === 'function') { DeviceOrientationEvent.requestPermission().then(s => { if (s === 'granted') jalankanKompas(q); }); } else { jalankanKompas(q); }
-        }); } }
-        function jalankanKompas(q) { kL = e => { let a = e.webkitCompassHeading || Math.abs(e.alpha - 360); if (a) document.getElementById('jarum-kiblat').style.transform = `rotate(${q - a}deg)`; }; window.addEventListener('deviceorientationabsolute', kL, true); window.addEventListener('deviceorientation', kL, true); }
-        function tutupKiblat() { tutupModal('modal-kiblat'); if (kL) { window.removeEventListener('deviceorientationabsolute', kL, true); window.removeEventListener('deviceorientation', kL, true); } }
+        let kL = null; function mulaiKiblat() { if (navigator.geolocation) { navigator.geolocation.getCurrentPosition(p => { 
+            const q = (Math.atan2(Math.sin((39.826206 - p.coords.longitude) * Math.PI / 180), Math.cos(p.coords.latitude * Math.PI / 180) * Math.tan(21.422487 * Math.PI / 180) - Math.sin(p.coords.latitude * Math.PI / 180) * Math.cos((39.826206 - p.coords.longitude) * Math.PI / 180)) * 180 / Math.PI + 360) % 360;
+            document.getElementById('info-kiblat').innerHTML = "Kiblat: " + Math.round(q) + "°";
+            if (typeof DeviceOrientationEvent.requestPermission === 'function') { DeviceOrientationEvent.requestPermission().then(s => { if (s === 'granted') jalankanKompas(q); }); } else { jalankanKompas(q); }
+        }); } }
+        function jalankanKompas(q) { kL = e => { let a = e.webkitCompassHeading || Math.abs(e.alpha - 360); if (a) document.getElementById('jarum-kiblat').style.transform = `rotate(${q - a}deg)`; }; window.addEventListener('deviceorientationabsolute', kL, true); window.addEventListener('deviceorientation', kL, true); }
+        function tutupKiblat() { tutupModal('modal-kiblat'); if (kL) { window.removeEventListener('deviceorientationabsolute', kL, true); window.removeEventListener('deviceorientation', kL, true); } }
 
-        window.onclick = e => { if (e.target.className === 'modal') { tutupModal(e.target.id); } }
-        
-        // --- FORM PENDAFTARAN WA ---
-        async function kirimDataWA() {
-            const nama = document.getElementById('input-nama-wa').value.trim();
-            const noWa = document.getElementById('input-nomor-wa').value.trim();
-            const nia = document.getElementById('input-nia').value.trim();
-            const btn = document.getElementById('btn-kirim-wa');
-            const pesanStatus = document.getElementById('pesan-status-wa');
+        window.onclick = e => { if (e.target.className === 'modal') { tutupModal(e.target.id); } }
+        
+        // --- FORM PENDAFTARAN WA ---
+        async function kirimDataWA() {
+            const nama = document.getElementById('input-nama-wa').value.trim();
+            const noWa = document.getElementById('input-nomor-wa').value.trim();
+            const nia = document.getElementById('input-nia').value.trim();
+            const btn = document.getElementById('btn-kirim-wa');
+            const pesanStatus = document.getElementById('pesan-status-wa');
 
-            if(!nama || !noWa || !nia) {
-                pesanStatus.style.color = "red"; pesanStatus.innerText = "Mohon lengkapi Nama, Nomor WA, dan NIA terlebih dahulu."; return;
-            }
-            btn.innerText = "Memproses..."; btn.disabled = true; pesanStatus.innerText = "";
+            if(!nama || !noWa || !nia) {
+                pesanStatus.style.color = "red"; pesanStatus.innerText = "Mohon lengkapi Nama, Nomor WA, dan NIA terlebih dahulu."; return;
+            }
+            btn.innerText = "Memproses..."; btn.disabled = true; pesanStatus.innerText = "";
 
-            try {
-                const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ nama: nama, noWa: noWa, nia: nia }) });
-                const result = await response.json();
-                
-                if(result.status === "duplikat") { pesanStatus.style.color = "#F26522"; pesanStatus.innerText = result.pesan; } 
-                else if(result.status === "sukses") {
-                    pesanStatus.style.color = "green"; pesanStatus.innerText = result.pesan;
-                    document.getElementById('input-nama-wa').value = ""; document.getElementById('input-nomor-wa').value = ""; document.getElementById('input-nia').value = "";
-                } else { pesanStatus.style.color = "red"; pesanStatus.innerText = result.pesan; }
-            } catch (error) {
-                pesanStatus.style.color = "red"; pesanStatus.innerText = "Gagal terhubung ke server. Coba lagi.";
-            } finally { btn.innerText = "Daftar / Update Nomor"; btn.disabled = false; }
-        }
+            try {
+                const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ nama: nama, noWa: noWa, nia: nia }) });
+                const result = await response.json();
+                
+                if(result.status === "duplikat") { pesanStatus.style.color = "#F26522"; pesanStatus.innerText = result.pesan; } 
+                else if(result.status === "sukses") {
+                    pesanStatus.style.color = "green"; pesanStatus.innerText = result.pesan;
+                    document.getElementById('input-nama-wa').value = ""; document.getElementById('input-nomor-wa').value = ""; document.getElementById('input-nia').value = "";
+                } else { pesanStatus.style.color = "red"; pesanStatus.innerText = result.pesan; }
+            } catch (error) {
+                pesanStatus.style.color = "red"; pesanStatus.innerText = "Gagal terhubung ke server. Coba lagi.";
+            } finally { btn.innerText = "Daftar / Update Nomor"; btn.disabled = false; }
+        }
 
-        // Mulai aplikasi
-        muatData();
-    </script>
+        // Mulai aplikasi
+        muatData();
+    </script>
 </body>
 </html>
