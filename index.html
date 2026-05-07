@@ -34,7 +34,7 @@
         .swiper-slide img { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: block; }
         .swiper-pagination-bullet-active { background: var(--aksen-oranye) !important; }
 
-        /* --- WIDGET SHALAT KARTU PUTIH + WATERMARK ORNAMEN --- */
+        /* --- WIDGET SHALAT KARTU PUTIH + WATERMARK ORNAMEN PAS --- */
         .card-panel { 
             background-color: #ffffff; 
             margin: 0 15px 15px 15px; 
@@ -46,24 +46,25 @@
             overflow: hidden; 
             z-index: 1; 
         }
+        
         .card-panel::after {
             content: "";
             position: absolute;
-            top: 0; right: 0; bottom: 0; left: 0;
-            background-image: url('ornamen.png'); /* Memanggil ornamen.png milik Bapak */
-            background-size: cover; 
-            background-position: right center;
+            top: 0; 
+            right: -10px; /* Digeser sedikit ke kanan agar terpotong estetik */
+            bottom: 0; 
+            left: 0;
+            background-image: url('ornamen.png'); /* Memanggil kaligrafi Bapak */
+            background-size: auto 120%; /* Tingginya diset sedikit lebih besar dari kotak agar proporsional */
+            background-position: right center; /* Diposisikan pas di tengah kanan */
             background-repeat: no-repeat;
-            opacity: 0.15; /* Transparansi watermark */
+            opacity: 0.08; /* Transparansi tipis agar tidak menabrak teks (bisa Bapak naikkan jadi 0.1 atau 0.15 jika kurang tebal) */
             z-index: -1;
         }
 
         #tanggal-sekarang { font-size: 14px; color: #666; margin-bottom: 5px; display: block; font-weight: 600; }
         #shalat-nama { color: var(--aksen-oranye); font-size: 26px; font-weight: 900; display: block; margin-bottom: 5px; text-transform: uppercase; }
         #shalat-waktu { color: #333; font-size: 15px; font-weight: bold; background: #fff0e6; padding: 4px 15px; border-radius: 20px; display: inline-block; }
-
-        .section-title { margin: 10px 20px; font-size: 16px; font-weight: bold; color: #333; }
-        .agenda-item { background: #ffffff; margin: 0 15px 12px 15px; padding: 15px; border-left: 5px solid var(--aksen-oranye); border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); text-align: left;}
 
         /* --- AREA BACA KITAB (FULL PUTIH) --- */
         #area-baca { display: none; padding: 20px 20px 100px 20px; background: #fff; min-height: 100%; direction: rtl; }
