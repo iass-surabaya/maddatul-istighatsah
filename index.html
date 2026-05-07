@@ -30,18 +30,18 @@
 
         /* --- SWIPER GALERI (DIPERBAIKI AGAR MENGINTIP) --- */
         .swiper { width: 100%; padding: 15px 0 25px 0; background: #ffffff; margin-bottom: 15px; }
-        .swiper-slide { width: 90%; box-sizing: border-box; } /* Lebar dipatok 82% agar gambar sebelahnya muat mengintip */
+        .swiper-slide { width: 82%; box-sizing: border-box; } 
         .swiper-slide img { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: block; }
         .swiper-pagination-bullet-active { background: var(--aksen-oranye) !important; }
 
-        /* --- WIDGET SHALAT DENGAN WATERMARK PAS --- */
+        /* --- WIDGET SHALAT (WATERMARK LEBIH TRANSPARAN 0.05) --- */
         .card-panel { background-color: #ffffff; margin: 0 15px 15px 15px; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); text-align: center; position: relative; overflow: hidden; z-index: 1; }
-        .card-panel::after { content: ""; position: absolute; top: 0; right: -10px; bottom: 0; left: 0; background-image: url('ornamen.png'); background-size: auto 120%; background-position: right center; background-repeat: no-repeat; opacity: 0.12; z-index: -1; }
+        .card-panel::after { content: ""; position: absolute; top: 0; right: -10px; bottom: 0; left: 0; background-image: url('ornamen.png'); background-size: auto 120%; background-position: right center; background-repeat: no-repeat; opacity: 0.05; z-index: -1; }
         #tanggal-sekarang { font-size: 14px; color: #666; margin-bottom: 5px; display: block; font-weight: 600; }
         #shalat-nama { color: var(--aksen-oranye); font-size: 26px; font-weight: 900; display: block; margin-bottom: 5px; text-transform: uppercase; }
         #shalat-waktu { color: #333; font-size: 15px; font-weight: bold; background: #fff0e6; padding: 4px 15px; border-radius: 20px; display: inline-block; }
 
-        /* --- KARTU AGENDA (BORDER & GAYA AKTIF/NONAKTIF) --- */
+        /* --- KARTU AGENDA --- */
         .section-title { margin: 10px 20px; font-size: 16px; font-weight: bold; color: #333; }
         .agenda-item { background: #ffffff; margin: 0 15px 12px 15px; padding: 15px; border-left: 5px solid var(--aksen-oranye); border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: left; }
         .agenda-selesai { border-left: 5px solid #cccccc; opacity: 0.8; }
@@ -51,7 +51,7 @@
         #area-baca { display: none; padding: 20px 20px 100px 20px; background: #fff; min-height: 100%; direction: rtl; }
         #teks-arab { font-family: var(--font-arab); font-size: 32px; line-height: 2.2; text-align: justify; white-space: pre-wrap; color: var(--teks-hitam); }
 
-        /* NAVIGASI BAWAH */
+        /* NAVIGASI BAWAH (HANYA 4 TOMBOL SEKARANG) */
         .bottom-nav { background-color: var(--aksen-oranye); display: flex; justify-content: space-around; padding: 10px 5px 15px 5px; position: fixed; bottom: 0; width: 100%; max-width: 480px; z-index: 100; border-top-left-radius: 20px; border-top-right-radius: 20px; }
         .nav-btn { background: none; border: none; color: rgba(255, 255, 255, 0.6); display: flex; flex-direction: column; align-items: center; font-size: 11px; font-weight: bold; gap: 4px; flex: 1; cursor: pointer; }
         .nav-btn svg { width: 24px; height: 24px; fill: rgba(255, 255, 255, 0.6); }
@@ -120,8 +120,7 @@
     </div>
 
     <nav class="bottom-nav">
-        <button class="nav-btn active" id="btn-home" onclick="kembaliKeBeranda()"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Beranda</span></button>
-        <button class="nav-btn" id="btn-isi" onclick="bukaModal('modal-isi')"><svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg><span>Isi</span></button>
+        <button class="nav-btn" id="btn-isi" onclick="bukaModal('modal-isi')"><svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg><span>Daftar Isi</span></button>
         <button class="nav-btn" id="btn-agenda" onclick="bukaModal('modal-agenda')"><svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg><span>Agenda</span></button>
         <button class="nav-btn" id="btn-shalat" onclick="bukaModal('modal-shalat')"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10 9.99-4.47 9.99-10S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg><span>Shalat</span></button>
         <button class="nav-btn" id="btn-lain" onclick="bukaModal('modal-lainnya')"><svg viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg><span>Lainnya</span></button>
@@ -145,12 +144,12 @@
         const API_URL = "https://script.google.com/macros/s/AKfycbwU0RH7UM6BkXM5K1eKIfZELhLySbhG8WOeRiNRKQNwzDkl1aSz7FG0fl5HvN1N9j4T/exec";
         let dW = []; let dA = []; let dJ = null; let hal = 0; let font = 32;
 
-        /* LOGIKA SWIPE BACK (ANTI KELUAR) */
+        /* LOGIKA SWIPE BACK */
         window.onpopstate = function() {
             const mods = document.querySelectorAll('.modal');
             let modOpen = false;
             mods.forEach(m => { if(m.style.display === 'block') { m.style.display = 'none'; modOpen = true; } });
-            if(modOpen) return;
+            if(modOpen) { kembalikanStateNav(); return; }
             if(document.getElementById('area-baca').style.display === 'block') { kembaliKeBeranda(); }
         };
         function pState() { history.pushState({p: 1}, ""); }
@@ -168,7 +167,6 @@
                 
                 let bn = r.banners || [];
                 document.getElementById('banner-list').innerHTML = bn.map(b => `<div class="swiper-slide"><img src="${b.Link_Gambar}"></div>`).join('');
-                // Swiper diatur pakai mode 'auto' dan padding sudah dihapus agar gambar intip bisa terlihat pas
                 new Swiper(".mySwiper", { slidesPerView: 'auto', centeredSlides: true, spaceBetween: 12, loop: true, autoplay: { delay: 3000 }, pagination: { el: ".swiper-pagination", clickable: true } });
 
                 rIsi(); rAgenda(); rBeranda();
@@ -185,12 +183,25 @@
             document.getElementById('footer-baca').style.display = 'none';
             document.getElementById('view-beranda').style.display = 'block';
             document.querySelector('.bottom-nav').style.display = 'flex';
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('btn-home').classList.add('active');
+            kembalikanStateNav();
         }
 
-        function bukaModal(id) { pState(); document.getElementById(id).style.display = 'block'; }
-        function tutupModal(id) { document.getElementById(id).style.display = 'none'; }
+        function kembalikanStateNav() {
+            // Hilangkan semua highlight tombol saat di Beranda
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        }
+
+        function bukaModal(id) { 
+            pState(); document.getElementById(id).style.display = 'block'; 
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            // Highlight tombol yang ditekan (opsional)
+            if(id === 'modal-isi') document.getElementById('btn-isi').classList.add('active');
+            if(id === 'modal-agenda') document.getElementById('btn-agenda').classList.add('active');
+            if(id === 'modal-shalat') document.getElementById('btn-shalat').classList.add('active');
+            if(id === 'modal-lainnya') document.getElementById('btn-lain').classList.add('active');
+        }
+        
+        function tutupModal(id) { document.getElementById(id).style.display = 'none'; kembalikanStateNav(); }
 
         function rIsi() { document.getElementById('list-isi').innerHTML = dW.map((item, i) => `<button class="list-btn" onclick="pilihHal(${i})">${ubahKeAngkaArab(item.Judul)}</button>`).join(''); }
         
@@ -250,12 +261,19 @@
             }
         }
 
-        /* --- FUNGSI JADWAL SHALAT --- */
+        /* --- FUNGSI JADWAL SHALAT (DHUHA & ISYRAQ DITAMBAHKAN) --- */
         async function muatShalat() {
             try {
                 const d = new Date(); const r = await (await fetch(`https://api.myquran.com/v2/sholat/jadwal/1638/${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`)).json();
                 if(r.status) {
                     dJ = r.data.jadwal;
+                    
+                    // --- Kalkulasi Waktu Isyraq (Terbit + 15 Menit) ---
+                    let [tH, tM] = dJ['terbit'].split(':');
+                    let isyraqDate = new Date();
+                    isyraqDate.setHours(parseInt(tH), parseInt(tM) + 15, 0);
+                    dJ['isyraq'] = String(isyraqDate.getHours()).padStart(2, '0') + ':' + String(isyraqDate.getMinutes()).padStart(2, '0');
+
                     setInterval(() => {
                         const sk = new Date();
                         const namaHari = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
@@ -264,15 +282,16 @@
                         
                         document.getElementById('tanggal-sekarang').innerText = `${namaHari[sk.getDay()]}, ${tglString}`;
                         
-                        const df = ['subuh','dzuhur','ashar','maghrib','isya'];
+                        // Array Countdown (Memasukkan Isyraq dan Dhuha)
+                        const df = ['subuh', 'isyraq', 'dhuha', 'dzuhur', 'ashar', 'maghrib', 'isya'];
                         let n = ""; let j = ""; let currentP = "";
                         
-                        // Waktu Shalat Selanjutnya
+                        // Deteksi Shalat Selanjutnya
                         for (let s of df) { let [h, m] = dJ[s].split(':'); let t = new Date(); t.setHours(h, m, 0); if (t > sk) { n = s; j = t; break; } }
                         if (!n) { let [h, m] = dJ['subuh'].split(':'); j = new Date(); j.setDate(j.getDate() + 1); j.setHours(h, m, 0); n = "subuh"; }
                         
-                        // Menyorot Shalat yang Masuk Sekarang
-                        const dfFull = ['imsak', 'subuh','dzuhur','ashar','maghrib','isya'];
+                        // Deteksi Waktu Sekarang (Untuk List di Modal)
+                        const dfFull = ['imsak', 'subuh', 'isyraq', 'dhuha', 'dzuhur', 'ashar', 'maghrib', 'isya'];
                         for (let i = 0; i < dfFull.length; i++) {
                             let [h, m] = dJ[dfFull[i]].split(':'); let t = new Date(); t.setHours(h, m, 0);
                             if (t > sk) { currentP = i > 0 ? dfFull[i-1] : 'isya'; break; }
@@ -285,13 +304,15 @@
 
                         let listHtml = `<div style="text-align:center; background:#f4f6f9; color:#555; padding:10px; border-radius:8px; margin-bottom:15px; font-weight:bold;">${namaHari[sk.getDay()]}, ${tglString}</div>`;
                         dfFull.forEach(waktu => {
-                            if(waktu === 'imsak') return;
+                            if(waktu === 'imsak') return; // Sembunyikan Imsak agar tabel tidak terlalu panjang
                             let isSekarang = (waktu === currentP);
                             let bg = isSekarang ? 'var(--aksen-oranye)' : 'transparent';
                             let warna = isSekarang ? '#fff' : 'inherit';
                             let bulat = isSekarang ? '8px' : '0px';
+                            let namaWaktu = waktu === 'isyraq' ? 'SYURUQ/ISYRAQ' : waktu.toUpperCase(); // Ubah penamaan label Isyraq
+                            
                             listHtml += `<div style="display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid #eee; background:${bg}; color:${warna}; border-radius:${bulat};">
-                                            <span style="text-transform:uppercase; font-weight:${isSekarang?'bold':'normal'}">${waktu}</span>
+                                            <span style="font-weight:${isSekarang?'bold':'normal'}">${namaWaktu}</span>
                                             <strong>${dJ[waktu]}</strong>
                                          </div>`;
                         });
