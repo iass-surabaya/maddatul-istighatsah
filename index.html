@@ -187,32 +187,16 @@
         function prosesData(res) {
             dataWirid = res.wirid || []; 
             dataWirid.sort((a, b) => parseInt(a.ID) - parseInt(b.ID));
-            dataAgenda = res.agenda || []; 
+            dataAgenda = res.agenda || [];
             document.getElementById('loading').style.display = 'none';
             
-            // 1. Ambil data banner dari database
+            // Render Swiper Banner (Pelindung jika sheet Banner_Promo belum ada)
             let banners = res.banners || [];
-            
-            // 2. Jika database kosong, berikan gambar cadangan agar tidak blank
-            if (banners.length === 0) { 
-                banners = [{ Link_Gambar: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Masjid_Istiqla_Jakarta.jpg/800px-Masjid_Istiqla_Jakarta.jpg" }]; 
+            if (banners.length === 0) {
+                banners = [{ Link_Gambar: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Masjid_Istiqla_Jakarta.jpg/800px-Masjid_Istiqla_Jakarta.jpg" }];
             }
-            
-            // 3. Render HTML Slide
-            const bannerContainer = document.getElementById('banner-list');
-            bannerContainer.innerHTML = banners.map(b => `<div class="swiper-slide"><img src="${b.Link_Gambar}" alt="Banner"></div>`).join('');
-            
-            // 4. INI PERBAIKANNYA: Jalankan Swiper dengan sedikit jeda agar slide terbaca sistem
-            setTimeout(() => {
-                new Swiper(".mySwiper", { 
-                    slidesPerView: 1.1, 
-                    centeredSlides: true, 
-                    spaceBetween: 15, 
-                    loop: banners.length > 1, // Loop hanya jika gambar lebih dari 1
-                    autoplay: { delay: 3000, disableOnInteraction: false }, 
-                    pagination: { el: ".swiper-pagination", clickable: true } 
-                });
-            }, 100);
+            document.getElementById('banner-list').innerHTML = banners.map(b => `<div class="swiper-slide"><img src="${b.Link_Gambar}"></div>`).join('');
+            new Swiper(".mySwiper", { slidesPerView: 1.1, centeredSlides: true, spaceBetween: 15, loop: true, autoplay: { delay: 3000 }, pagination: { el: ".swiper-pagination", clickable: true } });
 
             buatDaftarIsi(); 
             buatListAgenda(); 
