@@ -58,6 +58,13 @@
         .modal-body { padding: 20px; max-height: 65vh; overflow-y: auto; }
         .list-btn { display: block; width: 100%; text-align: right; padding: 14px; margin-bottom: 10px; background-color: #f9f9f9; border: 1px solid #eee; border-radius: 10px; font-size: 18px; font-family: var(--font-arab); cursor: pointer; }
         #loading { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.8); color: white; padding: 15px 25px; border-radius: 10px; z-index: 999; display: none; }
+        
+        .grid-menu { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .grid-item { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 15px 5px; border-radius: 10px; background: #f8f9fa; cursor: pointer; }
+        .grid-item svg { width: 28px; height: 28px; fill: var(--aksen-oranye); }
+        .grid-item span { font-size: 11px; font-weight: bold; }
+        
+        input { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; }
     </style>
 </head>
 <body>
@@ -123,10 +130,30 @@
     <div id="modal-agenda" class="modal"><div class="modal-konten"><div class="modal-header"><h3>Agenda IASS</h3><button class="btn-close" onclick="tutupModal('modal-agenda')">✕</button></div><div class="modal-body" id="list-agenda-full"></div></div></div>
     <div id="modal-shalat" class="modal"><div class="modal-konten"><div class="modal-header"><h3>Jadwal Shalat</h3><button class="btn-close" onclick="tutupModal('modal-shalat')">✕</button></div><div class="modal-body" id="list-shalat-full"></div></div></div>
     <div id="modal-lainnya" class="modal"><div class="modal-konten"><div class="modal-header"><h3>Menu Lainnya</h3><button class="btn-close" onclick="tutupModal('modal-lainnya')">✕</button></div><div class="modal-body">
-        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px;">
-            <div onclick="tutupModal('modal-lainnya'); bukaModal('modal-tasbih')" style="text-align:center; padding:10px; background:#f8f9fa; border-radius:10px;"><svg style="width:28px; height:28px; fill:var(--aksen-oranye);" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg><div style="font-size:11px; font-weight:bold;">Tasbih</div></div>
+        <div class="grid-menu">
+            <div class="grid-item" onclick="tutupModal('modal-lainnya'); bukaModal('modal-tasbih')">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                <span>Tasbih</span>
+            </div>
+            <div class="grid-item" onclick="tutupModal('modal-lainnya'); bukaModal('modal-kiblat')">
+                <svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
+                <span>Kiblat</span>
+            </div>
+            <div class="grid-item" onclick="tutupModal('modal-lainnya'); bukaModal('modal-daftar-wa')">
+                <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91 0-5.46-4.45-9.91-9.91-9.91z"/></svg>
+                <span>Info WA</span>
+            </div>
         </div>
     </div></div></div>
+    
+    <div id="modal-daftar-wa" class="modal"><div class="modal-konten"><div class="modal-header"><h3>Info Kegiatan WA</h3><button class="btn-close" onclick="tutupModal('modal-daftar-wa')">✕</button></div><div class="modal-body">
+        <input type="text" id="input-nama-wa" placeholder="Nama Lengkap">
+        <input type="number" id="input-nomor-wa" placeholder="No. WA (Cth: 628...)">
+        <input type="text" id="input-nia" placeholder="NIA">
+        <button id="btn-kirim-wa" onclick="kirimDataWA()" style="width:100%; background:var(--aksen-oranye); color:white; border:none; padding:14px; border-radius:8px; font-weight:bold;">Daftar / Update Nomor</button>
+        <div id="pesan-status-wa" style="margin-top:10px; text-align:center; font-size:13px; font-weight:bold;"></div>
+    </div></div></div>
+    
     <div id="modal-tasbih" class="modal"><div class="modal-konten"><div class="modal-header"><h3>Tasbih</h3><button class="btn-close" onclick="tutupModal('modal-tasbih')">✕</button></div><div class="modal-body" style="text-align:center;"><div id="angka-tasbih" style="font-size:80px; color:var(--aksen-oranye); margin-bottom:20px;">٠</div><button onclick="tambahTasbih()" style="width:150px; height:150px; border-radius:50%; background:var(--aksen-oranye); color:white; border:none; font-size:24px;">Ketuk</button><br><button onclick="resetTasbih()" style="margin-top:15px; border:1px solid #ddd; padding:5px 20px; border-radius:5px;">Reset</button></div></div></div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -136,6 +163,14 @@
 
         function ubahKeAngkaArab(t) { if (!t) return ''; const a = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩']; return t.toString().replace(/[0-9]/g, w => a[w]); }
         function formatWaktu(w, t) { if (!w) return '-'; let s = w.toString(); if (s.includes('T')) { let d = new Date(s); return t === 'tanggal' ? d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }); } return s; }
+
+        // --- HANDLER BACK HP (AGAR TIDAK KELUAR APLIKASI) ---
+        window.addEventListener('popstate', function() {
+            // Tutup semua modal jika ada yang terbuka
+            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+            // Kembali ke Home
+            navigasiUtama('home');
+        });
 
         async function muatData() {
             document.getElementById('loading').style.display = 'block';
@@ -161,7 +196,6 @@
             const skrg = new Date(); skrg.setHours(0,0,0,0);
             const agendaAktif = dataAgenda.filter(a => new Date(a.Tanggal) >= skrg).sort((a,b) => new Date(a.Tanggal) - new Date(b.Tanggal));
             
-            // Home Agenda
             const aBeranda = document.getElementById('agenda-list-beranda');
             if(agendaAktif.length > 0) {
                 const itm = agendaAktif[0];
@@ -169,7 +203,6 @@
                 aBeranda.innerHTML = `<div class="agenda-item"><strong>${itm.Kegiatan}</strong><br><small>📅 ${formatWaktu(itm.Tanggal, 'tanggal')} | 📍 ${itm.Lokasi}</small><br>${mapBtn}</div>`;
             } else { aBeranda.innerHTML = "<p style='text-align:center; color:#888; font-size:13px;'>Belum ada agenda mendatang.</p>"; }
 
-            // Modal Agenda
             document.getElementById('list-agenda-full').innerHTML = dataAgenda.map(itm => {
                 let isSelesai = new Date(itm.Tanggal) < skrg;
                 let status = isSelesai ? "<span style='color:red;'>(Selesai)</span>" : "";
@@ -196,6 +229,9 @@
 
         function pilihHalaman(i) {
             indexBaca = i; tutupModal('modal-isi'); tampilkanKonten();
+            // Push state agar tombol back HP tidak langsung keluar
+            history.pushState({page: 'baca'}, '');
+            
             document.getElementById('view-beranda').style.display = 'none';
             document.getElementById('area-baca').style.display = 'block';
             document.getElementById('logo-utama').style.display = 'none';
@@ -217,14 +253,19 @@
 
         function gantiHalaman(arah) { indexBaca += arah; if(indexBaca >= 0 && indexBaca < dataWirid.length) tampilkanKonten(); }
         function ubahUkuran(a) { ukuranFont += (a*4); if(ukuranFont < 20) ukuranFont = 20; document.getElementById('teks-arab').style.fontSize = ukuranFont+'px'; }
-        function bukaModal(id) { document.getElementById(id).style.display = 'block'; }
+        
+        function bukaModal(id) { 
+            document.getElementById(id).style.display = 'block'; 
+            history.pushState({page: 'modal'}, ''); // Agar back HP menutup modal
+        }
         function tutupModal(id) { document.getElementById(id).style.display = 'none'; }
+        
         let hT = 0; function tambahTasbih() { hT++; document.getElementById('angka-tasbih').innerText = ubahKeAngkaArab(hT); }
         function resetTasbih() { hT = 0; document.getElementById('angka-tasbih').innerText = ubahKeAngkaArab(0); }
 
         async function muatJadwalShalat() {
             try {
-                const d = new Date(); const res = await (await fetch(`https://api.myquran.com/v2/sholat/jadwal/1638/${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`)).json();
+                const d = new Date(); const res = await (await fetch(`https://api.myquran.com/v2/sholat/jadwal/1638/${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`)).json();
                 if(res.status) {
                     dataJadwalGlobal = res.data.jadwal;
                     document.getElementById('list-shalat-full').innerHTML = ['subuh','dzuhur','ashar','maghrib','isya'].map(s => `<div style="display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid #eee;"><span>${s.toUpperCase()}</span><strong>${dataJadwalGlobal[s]}</strong></div>`).join('');
@@ -247,6 +288,39 @@
                 }
             } catch (e) {}
         }
+
+        // --- FUNGSI KIRIM DATA WA ---
+        async function kirimDataWA() {
+            const nama = document.getElementById('input-nama-wa').value.trim();
+            const noWa = document.getElementById('input-nomor-wa').value.trim();
+            const nia = document.getElementById('input-nia').value.trim();
+            const btn = document.getElementById('btn-kirim-wa');
+            const status = document.getElementById('pesan-status-wa');
+
+            if(!nama || !noWa || !nia) {
+                status.style.color = "red"; status.innerText = "Lengkapi semua data!"; return;
+            }
+            btn.innerText = "Memproses..."; btn.disabled = true;
+
+            try {
+                const response = await fetch(API_URL, { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
+                    body: JSON.stringify({ nama: nama, noWa: noWa, nia: nia }) 
+                });
+                const result = await response.json();
+                status.style.color = result.status === "sukses" ? "green" : "orange";
+                status.innerText = result.pesan;
+                if(result.status === "sukses") {
+                    document.getElementById('input-nama-wa').value = "";
+                    document.getElementById('input-nomor-wa').value = "";
+                    document.getElementById('input-nia').value = "";
+                }
+            } catch (e) {
+                status.style.color = "red"; status.innerText = "Gagal terhubung ke server.";
+            } finally { btn.innerText = "Daftar / Update Nomor"; btn.disabled = false; }
+        }
+
         muatData();
     </script>
 </body>
