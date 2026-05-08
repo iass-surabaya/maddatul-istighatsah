@@ -26,10 +26,8 @@
         #kontrol-baca button { background: var(--aksen-oranye); border: none; color: white; padding: 5px 12px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; }
 
         /* AREA KONTEN UTAMA */
-        #main-container { flex: 1; overflow-y: auto; background: var(--bg-abu); }
-        
-        /* PADDING BAWAH 120px AGAR AYAT TIDAK TERTUTUP NAV BAWAH */
-        .view-section { display: none; padding-bottom: 120px; min-height: 100%; }
+        #main-container { flex: 1; overflow-y: auto; background: var(--bg-abu); overflow-x: hidden; }
+        .view-section { display: none; padding-bottom: 120px; min-height: 100%; transition: transform 0.3s ease; }
         #view-beranda { display: block; padding-bottom: 100px; }
         
         /* SKELETON */
@@ -54,21 +52,24 @@
         #shalat-nama-beranda { color: var(--aksen-oranye); font-size: 26px; font-weight: 900; display: block; margin-bottom: 5px; text-transform: uppercase; }
         #shalat-waktu-beranda { color: #333; font-size: 15px; font-weight: bold; background: #fff0e6; padding: 4px 15px; border-radius: 20px; display: inline-block; }
 
-        /* AGENDA */
         .section-title { margin: 15px 20px 10px 20px; font-size: 16px; font-weight: bold; color: #333; }
         .agenda-item { background: #ffffff; margin: 0 15px 12px 15px; padding: 15px; border-left: 5px solid var(--aksen-oranye); border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: left; }
         .agenda-selesai { border-left: 5px solid #cccccc; opacity: 0.8; }
         .agenda-selesai strong { color: #888888; }
 
-        /* AREA BACA (QURAN & WIRID) */
+        /* AREA BACA QURAN & WIRID */
         #view-baca { background: #fff; padding: 20px 20px 140px 20px; direction: rtl; } 
         #teks-arab { font-family: var(--font-arab); font-size: 32px; line-height: 2.2; text-align: justify; white-space: pre-wrap; color: var(--teks-hitam); }
         .mushaf-container { font-family: 'Amiri Quran', serif; text-align: justify; text-align-last: center; line-height: 2.3; direction: rtl; color: var(--teks-hitam); padding: 5px 0; }
-        .mushaf-ayat { display: inline; }
+        
+        /* EFEK AUDIO TAP-TO-PLAY */
+        .mushaf-ayat { display: inline; cursor: pointer; border-radius: 8px; transition: background-color 0.3s, color 0.3s; padding: 0 2px; }
+        .mushaf-ayat.ayat-aktif { background-color: rgba(242, 101, 34, 0.15); color: var(--aksen-oranye); font-weight: bold; }
+        
         .mushaf-basmalah { text-align: center; font-family: 'Amiri Quran', serif; font-size: 32px; color: var(--aksen-oranye); margin: 10px 0 20px 0; display: block; }
         .mushaf-label-surah { text-align: center; background: #fff0e6; padding: 6px 20px; margin: 30px auto 10px auto; border-radius: 20px; font-family: system-ui, sans-serif; font-size: 14px; font-weight: bold; display: table; color: var(--aksen-oranye); border: 1px solid rgba(242, 101, 34, 0.2); }
 
-        /* DASHBOARD SHALAT & KIBLAT PREMIUM */
+        /* KOMPAS PREMIUM */
         .shalat-box { background: #fff; margin: 15px; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .shalat-row { display:flex; justify-content:space-between; align-items:center; padding:14px 10px; border-bottom:1px solid #f0f0f0; }
         .shalat-row:last-child { border-bottom: none; }
@@ -76,22 +77,19 @@
         .kiblat-container { text-align: center; padding: 25px 0; }
         #teks-status-kiblat { font-size: 15px; color: #777; margin-bottom: 20px; font-weight: 500; height: 22px; transition: color 0.3s; }
         
-        /* Cincin Kompas Premium */
-        #kompas-ring { width: 220px; height: 220px; margin: 0 auto 15px auto; border-radius: 50%; border: 3px dashed #d0d0d0; position: relative; display: flex; align-items: center; justify-content: center; transition: all 0.4s ease; }
-        #kompas-ring::before { content: "N"; position: absolute; top: -10px; font-weight: bold; color: #ccc; font-size: 14px; background: #fff; padding: 0 5px; }
+        #kompas-ring { width: 240px; height: 240px; margin: 0 auto 15px auto; border-radius: 50%; background: radial-gradient(circle, #fff 40%, #f4f6f9 80%, #e0e5ec 100%); box-shadow: inset 0 0 15px rgba(0,0,0,0.1), 0 10px 25px rgba(0,0,0,0.05); border: 5px solid #fff; position: relative; display: flex; align-items: center; justify-content: center; transition: all 0.4s ease; }
+        .kompas-ticks { position: absolute; top: 6px; left: 6px; right: 6px; bottom: 6px; border-radius: 50%; background: repeating-conic-gradient(from 0deg, transparent 0deg, transparent 4deg, #cbd5e1 4deg, #cbd5e1 5deg); -webkit-mask-image: radial-gradient(transparent 62%, black 65%); }
+        #kompas-ring::after { content: "N"; position: absolute; top: -15px; font-weight: 900; color: var(--aksen-oranye); font-size: 18px; background: #fff; padding: 0 8px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         
-        /* Jarum Kompas Elegan */
-        #jarum-kiblat { width: 100%; height: 100%; position: absolute; transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1); }
-        .jarum-svg { width: 36px; height: 110px; position: absolute; left: 50%; top: 5%; transform: translateX(-50%); fill: #b0b0b0; transition: all 0.4s ease; }
+        #jarum-kiblat { width: 100%; height: 100%; position: absolute; transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1); z-index: 5; }
+        .jarum-svg { width: 50px; height: 180px; position: absolute; left: 50%; top: 10%; transform: translateX(-50%); transition: all 0.4s ease; }
         
-        /* STATE AKTIF KIBLAT (LOCK & GLOW) */
-        #kompas-ring.aligned { border-color: var(--aksen-hijau); border-style: solid; background: rgba(39, 174, 96, 0.04); box-shadow: 0 0 20px rgba(39, 174, 96, 0.2); }
-        #kompas-ring.aligned::before { color: var(--aksen-hijau); }
-        #jarum-kiblat.aligned .jarum-svg { fill: var(--aksen-hijau); filter: drop-shadow(0 4px 6px rgba(39,174,96,0.5)); transform: translateX(-50%) scale(1.05); }
+        #kompas-ring.aligned { border-color: var(--aksen-hijau); box-shadow: inset 0 0 15px rgba(39, 174, 96, 0.1), 0 0 30px rgba(39, 174, 96, 0.4); }
+        #jarum-kiblat.aligned .jarum-svg path.panah-utama { fill: var(--aksen-hijau); }
         
         .tasbih-container { text-align: center; padding: 10px 0 30px 0; }
 
-        /* NAVIGASI BAWAH (4 TOMBOL - ALWAYS ON) */
+        /* NAVIGASI BAWAH */
         .bottom-nav { background-color: var(--aksen-oranye); display: flex; justify-content: space-around; padding: 10px 2px 15px 2px; position: fixed; bottom: 0; width: 100%; max-width: 480px; z-index: 999; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.15); }
         .nav-btn { background: none; border: none; color: rgba(255, 255, 255, 0.5); display: flex; flex-direction: column; align-items: center; font-size: 11px; font-weight: bold; gap: 4px; flex: 1; cursor: pointer; padding: 0 2px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .nav-btn svg { width: 24px; height: 24px; fill: rgba(255, 255, 255, 0.5); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -121,11 +119,9 @@
             <button class="btn-header-icon" id="btn-burger" onclick="bukaSidebarManual()">
                 <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
             </button>
-            
             <img src="logo-header.png" alt="Logo" class="logo-header" id="logo-header">
             <div id="teks-judul-header">Judul</div>
         </div>
-        
         <div id="kontrol-baca">
             <button onclick="ubahUkuran(1)">A+</button>
             <button onclick="ubahUkuran(-1)">A-</button>
@@ -151,21 +147,15 @@
             <div class="skeleton skel-card"></div>
             <div class="skeleton skel-title"></div>
             <div class="skeleton skel-agenda"></div>
-            <div class="skeleton skel-agenda"></div>
         </div>
 
         <div id="view-beranda" class="view-section">
-            <div class="swiper mySwiper">
-                <div class="swiper-wrapper" id="banner-list"></div>
-                <div class="swiper-pagination"></div>
-            </div>
-
+            <div class="swiper mySwiper"><div class="swiper-wrapper" id="banner-list"></div><div class="swiper-pagination"></div></div>
             <div class="card-panel">
                 <span id="tanggal-sekarang">-- --- ----</span>
                 <span id="shalat-nama-beranda">Memuat...</span>
                 <span id="shalat-waktu-beranda">--:--:--</span>
             </div>
-
             <div class="section-title">Agenda Terdekat</div>
             <div id="agenda-list-beranda"></div>
         </div>
@@ -176,19 +166,26 @@
         </div>
 
         <div id="view-shalat" class="view-section">
-            <div class="shalat-box" id="list-shalat-full" style="padding: 10px 20px;">
-                </div>
+            <div class="shalat-box" id="list-shalat-full" style="padding: 10px 20px;"></div>
             
             <div class="section-title">Arah Kiblat</div>
             <div class="shalat-box kiblat-container">
                 <div id="teks-status-kiblat">Pastikan GPS aktif & ketuk tombol di bawah.</div>
                 
                 <div id="kompas-ring">
+                    <div class="kompas-ticks"></div>
                     <div id="jarum-kiblat">
                         <svg class="jarum-svg" viewBox="0 0 100 300" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M50 0 L80 60 L60 60 L60 200 L40 200 L40 60 L20 60 Z"/>
-                            <rect x="42" y="15" width="16" height="20" rx="2" fill="#fff"/>
-                            <rect x="42" y="22" width="16" height="3" fill="currentColor"/>
+                            <defs>
+                                <linearGradient id="gradOranye" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#F26522;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#d35400;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path class="panah-utama" d="M50 20 L80 140 L50 260 L20 140 Z" fill="url(#gradOranye)"/>
+                            <path class="panah-utama" d="M50 20 L80 140 L50 140 Z" fill="rgba(0,0,0,0.15)"/>
+                            <rect x="38" y="40" width="24" height="28" rx="2" fill="#111"/>
+                            <rect x="38" y="48" width="24" height="4" fill="#f1c40f"/>
                         </svg>
                     </div>
                 </div>
@@ -213,8 +210,8 @@
 
     <nav class="bottom-nav">
         <button class="nav-btn" id="nav-agenda" onclick="bukaHalaman('agenda')"><svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg><span>Agenda</span></button>
-        <button class="nav-btn" id="nav-isi" onclick="siapkanSidebar('wirid')"><svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg><span>Daftar Isi</span></button>
-        <button class="nav-btn" id="nav-quran" onclick="siapkanSidebar('quran')"><svg viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.09C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.06.1.05.15.09.25.09.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/></svg><span>Al-Qur'an</span></button>
+        <button class="nav-btn" id="nav-isi" onclick="bukaModeBaca('wirid')"><svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg><span>Daftar Isi</span></button>
+        <button class="nav-btn" id="nav-quran" onclick="bukaModeBaca('quran')"><svg viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.09C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.06.1.05.15.09.25.09.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/></svg><span>Al-Qur'an</span></button>
         <button class="nav-btn" id="nav-shalat" onclick="bukaHalaman('shalat')"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10 9.99-4.47 9.99-10S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg><span>Shalat</span></button>
     </nav>
 
@@ -225,16 +222,19 @@
         let modeBaca = ''; 
         let aktifQuranId = null; let aktifWiridId = null;
 
+        // AUDIO ENGINE
+        let audioPlayer = null;
+        let currentAyatDiv = null;
+
         window.onpopstate = function() {
             if(document.getElementById('sidebar-overlay').style.display === 'block') { tutupSidebar(); return; }
             if(document.getElementById('view-beranda').style.display !== 'block') { kembaliKeBeranda(); }
         };
         function pState() { history.pushState({p: 1}, ""); }
 
-        function ubahKeAngkaArab(t) { if (!t) return ''; const a = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩']; return t.toString().replace(/[0-9]/g, w => a[w]); }
+        function ubahKeAngkaArab(t) { if (t === null || t === undefined) return ''; const a = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩']; return t.toString().replace(/[0-9]/g, w => a[w]); }
         function formatW(w, t) { if (!w) return '-'; let s = w.toString(); if (s.includes('T')) { let d = new Date(s); return t === 'tanggal' ? d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }); } return s; }
 
-        /* DATABASE IKON SHALAT EKSLUSIF (FEATHER STYLE) */
         const svgShalat = {
             'imsak': `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`,
             'subuh': `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8a4 4 0 0 1 4 4H8a4 4 0 0 1 4-4z"></path><path d="M4 14h16"></path><path d="M12 2v2"></path><path d="M20 18h-2"></path><path d="M6 18H4"></path></svg>`,
@@ -272,7 +272,61 @@
             } catch(e) {}
         }
 
+        /* --- LOGIKA SWIPE BACA --- */
+        let touchStartX = 0; let touchEndX = 0;
+        const areaBaca = document.getElementById('view-baca');
+        areaBaca.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
+        areaBaca.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+        function handleSwipe() {
+            let swipeDist = touchEndX - touchStartX;
+            if (swipeDist > 80) { // Kanan (Prev)
+                if(modeBaca === 'wirid' && aktifWiridId > 0) bukaWirid(aktifWiridId - 1);
+                else if(modeBaca === 'quran' && aktifQuranId) {
+                    let num = parseInt(aktifQuranId.replace('surah-',''));
+                    if(num > 1) { let nm = sL.find(s=>s.nomor==num-1)?.namaLatin; bukaSurah(num-1, nm); }
+                }
+            } else if (swipeDist < -80) { // Kiri (Next)
+                if(modeBaca === 'wirid' && aktifWiridId < dW.length - 1) bukaWirid(aktifWiridId + 1);
+                else if(modeBaca === 'quran' && aktifQuranId) {
+                    let num = parseInt(aktifQuranId.replace('surah-',''));
+                    if(num < 114) { let nm = sL.find(s=>s.nomor==num+1)?.namaLatin; bukaSurah(num+1, nm); }
+                }
+            }
+        }
+
+        /* --- FUNGSI AUDIO QURAN --- */
+        function matikanAudio() {
+            if(audioPlayer) {
+                audioPlayer.pause();
+                audioPlayer = null;
+            }
+            if(currentAyatDiv) {
+                currentAyatDiv.classList.remove('ayat-aktif');
+                currentAyatDiv = null;
+            }
+        }
+
+        function putarAudio(globalNumber, idDiv) {
+            let divTarget = document.getElementById(idDiv);
+            if(currentAyatDiv && currentAyatDiv.id === idDiv) {
+                // Jika disentuh lagi, pause/stop
+                matikanAudio(); return;
+            }
+            matikanAudio(); // Matikan yang lama
+            
+            currentAyatDiv = divTarget;
+            currentAyatDiv.classList.add('ayat-aktif');
+            
+            audioPlayer = new Audio(`https://cdn.islamic.network/quran/audio/128/ar.alafasy/${globalNumber}.mp3`);
+            audioPlayer.play();
+            audioPlayer.onended = () => { matikanAudio(); };
+        }
+
         function sembunyikanSemuaView() {
+            matikanAudio();
             document.querySelectorAll('.view-section').forEach(el => el.style.display = 'none');
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById('btn-back').style.display = 'none';
@@ -305,39 +359,52 @@
             }
         }
 
+        /* --- DEFAULT OPEN BACAAN --- */
+        function bukaModeBaca(mode) {
+            pState();
+            modeBaca = mode;
+            sembunyikanSemuaView();
+            
+            if(mode === 'quran') {
+                document.getElementById('nav-quran').classList.add('active');
+                if(!aktifQuranId) bukaSurah(1, 'Al-Fatihah');
+                else {
+                    let num = parseInt(aktifQuranId.replace('surah-','').replace('juz-','')); // Fallback logic
+                    let nm = sL.find(s=>s.nomor==num)?.namaLatin || "Al-Qur'an";
+                    if(aktifQuranId.includes('juz')) bukaJuzDariSidebar(num);
+                    else bukaSurah(num, nm);
+                }
+            } else if(mode === 'wirid') {
+                document.getElementById('nav-isi').classList.add('active');
+                if(aktifWiridId === null && dW.length > 0) bukaWirid(0);
+                else bukaWirid(aktifWiridId || 0);
+            }
+        }
+
         function siapkanSidebar(mode) {
-            pState(); modeBaca = mode;
             const slist = document.getElementById('sidebar-list');
             const shQuran = document.getElementById('sidebar-header-quran');
             slist.innerHTML = '';
             
-            sembunyikanSemuaView(); 
-            
             if(mode === 'quran') {
-                document.getElementById('nav-quran').classList.add('active');
                 shQuran.style.display = 'flex';
                 document.getElementById('search-surah').value = ''; 
-                
                 sL.forEach(s => {
                     let aktifClass = (aktifQuranId === `surah-${s.nomor}`) ? 'active' : '';
                     let namaAman = s.namaLatin.replace(/'/g, '`');
-                    slist.innerHTML += `<div class="sb-item surah-item ${aktifClass}" onclick="bukaSurah(${s.nomor}, '${namaAman}')" data-nama="${s.namaLatin.toLowerCase()}">
+                    slist.innerHTML += `<div class="sb-item surah-item ${aktifClass}" onclick="bukaSurah(${s.nomor}, '${namaAman}'); tutupSidebar();" data-nama="${s.namaLatin.toLowerCase()}">
                         <div><strong style="font-size:15px;">${s.nomor}. ${s.namaLatin}</strong><br><span style="font-size:12px; color:#666;">${s.arti} (${s.jumlahAyat} ayat)</span></div>
                         <div class="sb-item-arab">${s.nama}</div>
                     </div>`;
                 });
-                if(!aktifQuranId) bukaSurah(1, 'Al-Fatihah'); 
             } else if(mode === 'wirid') {
-                document.getElementById('nav-isi').classList.add('active');
                 shQuran.style.display = 'none';
-                
                 dW.forEach((w, i) => {
                     let aktifClass = (aktifWiridId === i) ? 'active' : '';
-                    slist.innerHTML += `<div class="sb-item ${aktifClass}" onclick="bukaWirid(${i})">
+                    slist.innerHTML += `<div class="sb-item ${aktifClass}" onclick="bukaWirid(${i}); tutupSidebar();">
                         <span style="font-size:16px; font-weight:bold;">${ubahKeAngkaArab(w.Judul)}</span>
                     </div>`;
                 });
-                if(aktifWiridId === null && dW.length > 0) bukaWirid(0);
             }
 
             document.getElementById('sidebar-overlay').style.display = 'block';
@@ -355,18 +422,6 @@
             document.getElementById('sidebar-menu').style.left = '-280px';
             document.getElementById('sidebar-overlay').style.opacity = '0';
             setTimeout(() => { document.getElementById('sidebar-overlay').style.display = 'none'; }, 300);
-            
-            if(document.getElementById('view-baca').style.display !== 'block' && 
-               document.getElementById('view-shalat').style.display !== 'block' && 
-               document.getElementById('view-agenda').style.display !== 'block') {
-                kembaliKeBeranda();
-            } else {
-                if(document.getElementById('view-baca').style.display === 'block') {
-                   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-                   if(modeBaca === 'quran') document.getElementById('nav-quran').classList.add('active');
-                   if(modeBaca === 'wirid') document.getElementById('nav-isi').classList.add('active');
-                }
-            }
         }
 
         function filterSurah() {
@@ -379,7 +434,7 @@
 
         async function bukaSurah(nomor, nama) {
             aktifQuranId = `surah-${nomor}`;
-            tutupSidebar(); siapkanLayarBaca(nama);
+            siapkanLayarBaca(nama);
             document.getElementById('teks-arab').innerHTML = '<div style="text-align:center; padding-top:60px; font-family:sans-serif; font-size:14px; color:#666;">Membuka Mushaf...</div>';
             
             try {
@@ -393,7 +448,8 @@
                             text = text.replace('بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ', '');
                             html += `<div class="mushaf-basmalah">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>`;
                         }
-                        html += `<span class="mushaf-ayat">${text} ۝${ubahKeAngkaArab(a.numberInSurah)} </span>`;
+                        // Ayat dibungkus span onclick untuk memanggil audio berdasarkan global number (a.number)
+                        html += `<span class="mushaf-ayat" id="ayat-${a.number}" onclick="putarAudio(${a.number}, 'ayat-${a.number}')">${text} ۝${ubahKeAngkaArab(a.numberInSurah)} </span>`;
                     });
                     html += `</div>`;
                     document.getElementById('teks-arab').innerHTML = html;
@@ -420,7 +476,7 @@
                         } else if (a.numberInSurah === 1) {
                             html += `<div class="mushaf-label-surah">Surah ${a.surah.englishName}</div>`;
                         }
-                        html += `<span class="mushaf-ayat">${text} ۝${ubahKeAngkaArab(a.numberInSurah)} </span>`;
+                        html += `<span class="mushaf-ayat" id="ayat-${a.number}" onclick="putarAudio(${a.number}, 'ayat-${a.number}')">${text} ۝${ubahKeAngkaArab(a.numberInSurah)} </span>`;
                     });
                     html += `</div>`;
                     document.getElementById('teks-arab').innerHTML = html;
@@ -430,20 +486,21 @@
 
         function bukaWirid(index) {
             aktifWiridId = index;
-            tutupSidebar();
             const item = dW[index];
             siapkanLayarBaca(ubahKeAngkaArab(item.Judul));
             document.getElementById('teks-arab').innerHTML = `<div style="font-family:var(--font-arab); font-size:${font}px; line-height:2.2; text-align:justify; white-space:pre-wrap; direction:rtl;">${ubahKeAngkaArab(item.Isi_Arab.replace(/\\n/g, '<br>'))}</div>`;
         }
 
         function siapkanLayarBaca(judul) {
-            sembunyikanSemuaView();
+            matikanAudio();
+            document.getElementById('view-beranda').style.display = 'none';
             document.getElementById('view-baca').style.display = 'block';
             document.getElementById('kontrol-baca').style.display = 'flex';
             document.getElementById('btn-back').style.display = 'block';
             document.getElementById('btn-burger').style.display = 'block';
             document.getElementById('teks-judul-header').style.display = 'block';
             document.getElementById('teks-judul-header').innerText = judul;
+            document.getElementById('main-container').scrollTop = 0;
         }
         
         function ubahUkuran(a) { 
@@ -523,7 +580,6 @@
                             let bulat = isSekarang ? '10px' : '0px';
                             let nW = waktu === 'isyraq' ? 'SYURUQ' : waktu.toUpperCase(); 
                             
-                            // Ambil SVG Khusus
                             let ikon = svgShalat[waktu] || "";
                             
                             listHtml += `<div class="shalat-row" style="background:${bg}; color:${warna}; border-radius:${bulat};">
@@ -539,9 +595,10 @@
 
         let tas = 0; 
         function tambahTasbih() { tas++; document.getElementById('angka-tasbih').innerText = ubahKeAngkaArab(tas); }
-        function resetTasbih() { tas = 0; document.getElementById('angka-tasbih').innerText = ubahKeAngkaArab(0); }
+        // PERBAIKAN TASBIH BUG: Secara eksplisit pasang string '٠'
+        function resetTasbih() { tas = 0; document.getElementById('angka-tasbih').innerText = '٠'; }
 
-        /* --- LOGIKA KIBLAT PREMIUM (GETAR & GLOW) --- */
+        /* --- LOGIKA KIBLAT PREMIUM --- */
         let kL = null; 
         let isKiblatLocked = false;
         
@@ -556,7 +613,6 @@
             navigator.geolocation.getCurrentPosition(p => { 
                 document.getElementById('teks-status-kiblat').innerHTML = "Putar HP Anda untuk kalibrasi arah.";
                 
-                // Hitung Arah Kiblat dari Titik Pengguna ke Ka'bah
                 const q = (Math.atan2(Math.sin((39.826206 - p.coords.longitude) * Math.PI / 180), Math.cos(p.coords.latitude * Math.PI / 180) * Math.tan(21.422487 * Math.PI / 180) - Math.sin(p.coords.latitude * Math.PI / 180) * Math.cos((39.826206 - p.coords.longitude) * Math.PI / 180)) * 180 / Math.PI + 360) % 360;
                 
                 kL = e => { 
@@ -565,27 +621,21 @@
                         let diff = q - a;
                         document.getElementById('jarum-kiblat').style.transform = `rotate(${diff}deg)`;
                         
-                        // Normalisasi perbedaan sudut (-180 ke 180)
                         let diffNorm = diff % 360;
                         if(diffNorm > 180) diffNorm -= 360;
                         if(diffNorm < -180) diffNorm += 360;
 
-                        // Toleransi 3 Derajat untuk Lock
                         if(Math.abs(diffNorm) <= 3) {
                             if(!isKiblatLocked) {
                                 isKiblatLocked = true;
                                 document.getElementById('kompas-ring').classList.add('aligned');
-                                document.getElementById('jarum-kiblat').classList.add('aligned');
                                 document.getElementById('teks-status-kiblat').innerHTML = "<strong style='color:var(--aksen-hijau); font-size:18px;'>✓ Arah Kiblat Tepat!</strong>";
-                                
-                                // Haptic Feedback (Getar 2x jika didukung)
                                 if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
                             }
                         } else {
                             if(isKiblatLocked) {
                                 isKiblatLocked = false;
                                 document.getElementById('kompas-ring').classList.remove('aligned');
-                                document.getElementById('jarum-kiblat').classList.remove('aligned');
                                 document.getElementById('teks-status-kiblat').innerHTML = "Putar HP Anda...";
                             }
                         }
