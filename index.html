@@ -6,7 +6,7 @@
     <title>Maddatul Istighatsah</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#F26522">
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Amiri+Quran&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     
     <style>
@@ -22,7 +22,11 @@
         .logo-header { height: 35px; width: auto; object-fit: contain; }
         #teks-judul-header { font-family: var(--font-arab); font-size: 22px; font-weight: bold; color: var(--aksen-oranye); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: none; margin-top: 4px; }
         
-        #kontrol-baca { display: none; gap: 8px; flex-shrink: 0; }
+        /* KONTROL HEADER (SURAH, JUZ, A+, A-) */
+        #kontrol-baca { display: none; gap: 6px; flex-shrink: 0; align-items: center; }
+        #select-surah, #select-juz { display: none; padding: 4px; border-radius: 6px; font-size: 13px; border: 1px solid #ddd; background: #fff; color: var(--aksen-oranye); font-weight: bold; outline: none; }
+        #select-surah { max-width: 95px; }
+        #select-juz { max-width: 75px; }
         #kontrol-baca button { background: var(--aksen-oranye); border: none; color: white; padding: 5px 12px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; }
 
         /* AREA KONTEN */
@@ -57,14 +61,15 @@
         .agenda-selesai { border-left: 5px solid #cccccc; opacity: 0.8; }
         .agenda-selesai strong { color: #888888; }
 
-        /* AREA BACA & QURAN */
+        /* AREA BACA WIRID & QURAN */
         #area-baca { display: none; padding: 20px; background: #fff; min-height: 100%; direction: rtl; }
-        #quran-selector-container { direction: ltr; margin-bottom: 20px; display: none; }
-        #surah-select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; font-size: 15px; background: #f9f9f9; color: var(--teks-hitam); outline: none; }
-        
         #teks-arab { font-family: var(--font-arab); font-size: 32px; line-height: 2.2; text-align: justify; white-space: pre-wrap; color: var(--teks-hitam); }
-        .mushaf-container { text-align: justify; line-height: 2.8; direction: rtl; }
-        .nomor-ayat { display: inline-block; width: 32px; height: 32px; line-height: 32px; text-align: center; background: url('https://upload.wikimedia.org/wikipedia/commons/4/4e/Ayah_number_icon.svg') no-repeat center; background-size: contain; font-size: 11px; color: #000; margin: 0 5px; font-family: sans-serif; }
+        
+        /* GAYA MUSHAF AL-QURAN */
+        .mushaf-container { font-family: 'Amiri Quran', serif; text-align: justify; text-align-last: center; line-height: 2.3; direction: rtl; color: var(--teks-hitam); padding: 5px 0; }
+        .mushaf-ayat { display: inline; }
+        .mushaf-basmalah { text-align: center; font-family: 'Amiri Quran', serif; font-size: 32px; color: var(--aksen-oranye); margin: 10px 0 20px 0; display: block; }
+        .mushaf-label-surah { text-align: center; background: #fff0e6; padding: 6px 20px; margin: 30px auto 10px auto; border-radius: 20px; font-family: system-ui, sans-serif; font-size: 14px; font-weight: bold; display: table; color: var(--aksen-oranye); border: 1px solid rgba(242, 101, 34, 0.2); }
 
         /* NAVIGASI BAWAH */
         .bottom-nav { background-color: var(--aksen-oranye); display: flex; justify-content: space-around; padding: 10px 2px 15px 2px; position: fixed; bottom: 0; width: 100%; max-width: 480px; z-index: 100; border-top-left-radius: 20px; border-top-right-radius: 20px; }
@@ -102,7 +107,14 @@
             <img src="logo-header.png" alt="Logo" class="logo-header" id="logo-header">
             <div id="teks-judul-header">Judul</div>
         </div>
+        
         <div id="kontrol-baca">
+            <select id="select-surah" onchange="bukaSurah(this.value)">
+                <option value="">Surah...</option>
+            </select>
+            <select id="select-juz" onchange="bukaJuz(this.value)">
+                <option value="">Juz...</option>
+            </select>
             <button onclick="ubahUkuran(1)">A+</button>
             <button onclick="ubahUkuran(-1)">A-</button>
         </div>
@@ -134,11 +146,6 @@
         </div>
 
         <div id="area-baca">
-            <div id="quran-selector-container">
-                <select id="surah-select" onchange="bukaSurah(this.value, this.options[this.selectedIndex].text)">
-                    <option value="">Pilih Surah...</option>
-                </select>
-            </div>
             <div id="teks-arab"></div>
         </div>
     </div>
@@ -172,7 +179,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbwU0RH7UM6BkXM5K1eKIfZELhLySbhG8WOeRiNRKQNwzDkl1aSz7FG0fl5HvN1N9j4T/exec";
-        let dW = []; let dA = []; let dJ = null; let hal = 0; let font = 32; let sL = [];
+        let dW = []; let dA = []; let dJ = null; let hal = 0; let font = 28; 
 
         /* LOGIKA SWIPE BACK */
         window.onpopstate = function() {
@@ -192,29 +199,40 @@
                 const r = await (await fetch(API_URL)).json();
                 dW = r.wirid || []; dW.sort((a,b) => parseInt(a.ID) - parseInt(b.ID));
                 dA = r.agenda || [];
+                
                 document.getElementById('skeleton-loading').style.display = 'none';
                 document.getElementById('view-beranda').style.display = 'block';
+                
                 let bn = r.banners || [];
                 document.getElementById('banner-list').innerHTML = bn.map(b => `<div class="swiper-slide"><img src="${b.Link_Gambar}"></div>`).join('');
                 new Swiper(".mySwiper", { slidesPerView: 'auto', centeredSlides: true, spaceBetween: 12, loop: true, autoplay: { delay: 3000 }, pagination: { el: ".swiper-pagination", clickable: true } });
+
                 rIsi(); rAgenda(); rBeranda();
-                muatDaftarSurah(); // Siapkan daftar surah di awal
+                siapkanSelectorQuran();
             } catch (e) { }
             muatShalat();
         }
 
-        async function muatDaftarSurah() {
+        async function siapkanSelectorQuran() {
+            const selSurah = document.getElementById('select-surah');
+            const selJuz = document.getElementById('select-juz');
+            
+            // Populasikan 30 Juz
+            for(let i = 1; i <= 30; i++) {
+                let opt = document.createElement('option');
+                opt.value = i; opt.text = `Juz ${i}`;
+                selJuz.appendChild(opt);
+            }
+
+            // Populasikan 114 Surah (menggunakan equran agar namanya bahasa Indonesia)
             try {
                 const res = await fetch('https://equran.id/api/v2/surat');
                 const json = await res.json();
                 if(json.code === 200) {
-                    sL = json.data;
-                    const sel = document.getElementById('surah-select');
-                    sL.forEach(s => {
+                    json.data.forEach(s => {
                         let opt = document.createElement('option');
-                        opt.value = s.nomor;
-                        opt.text = `${s.nomor}. ${s.namaLatin}`;
-                        sel.appendChild(opt);
+                        opt.value = s.nomor; opt.text = `${s.nomor}. ${s.namaLatin}`;
+                        selSurah.appendChild(opt);
                     });
                 }
             } catch(e) {}
@@ -222,13 +240,20 @@
 
         function kembaliKeBeranda() {
             document.getElementById('btn-back-header').style.display = 'none';
-            document.getElementById('teks-judul-header').style.display = 'none';
             document.getElementById('logo-header').style.display = 'block';
+            document.getElementById('teks-judul-header').style.display = 'none';
+            document.getElementById('select-surah').style.display = 'none';
+            document.getElementById('select-juz').style.display = 'none';
             document.getElementById('kontrol-baca').style.display = 'none';
             document.getElementById('area-baca').style.display = 'none';
             document.getElementById('footer-baca').style.display = 'none';
-            document.getElementById('quran-selector-container').style.display = 'none';
-            document.getElementById('view-beranda').style.display = 'block';
+            
+            if(document.getElementById('skeleton-loading').style.display === 'none') {
+                document.getElementById('view-beranda').style.display = 'block';
+            } else {
+                document.getElementById('skeleton-loading').style.display = 'flex';
+            }
+            
             document.querySelector('.bottom-nav').style.display = 'flex';
             kembalikanStateNav();
         }
@@ -245,45 +270,101 @@
         }
         function tutupModal(id) { document.getElementById(id).style.display = 'none'; kembalikanStateNav(); }
 
-        /* --- FITUR AL-QUR'AN (TAMPILAN MUSHAF) --- */
-        function bukaPintuQuran() {
-            bukaSurah(1, 'Al-Fatihah');
-        }
+        /* --- FITUR AL-QUR'AN MUSHAF (MENGGUNAKAN API UTSMANI) --- */
+        function bukaPintuQuran() { bukaSurah(1); }
 
-        async function bukaSurah(nomor, nama) {
+        async function bukaSurah(nomor) {
             if(!nomor) return;
+            document.getElementById('select-juz').value = ""; // Reset Juz selector
             pState();
+            
             document.getElementById('view-beranda').style.display = 'none';
             document.getElementById('skeleton-loading').style.display = 'none';
             document.querySelector('.bottom-nav').style.display = 'none';
             document.getElementById('footer-baca').style.display = 'none'; 
             
             document.getElementById('area-baca').style.display = 'block';
-            document.getElementById('quran-selector-container').style.display = 'block';
             document.getElementById('kontrol-baca').style.display = 'flex';
-            document.getElementById('logo-header').style.display = 'none';
-            document.getElementById('btn-back-header').style.display = 'block';
-            document.getElementById('teks-judul-header').style.display = 'block';
-            document.getElementById('teks-judul-header').innerText = nama;
-            document.getElementById('surah-select').value = nomor;
             
-            document.getElementById('teks-arab').innerHTML = '<div style="text-align:center; padding-top:50px; font-family:sans-serif; font-size:14px; color:#666;">Membuka Mushaf...</div>';
+            // Konfigurasi Header Khusus Quran
+            document.getElementById('logo-header').style.display = 'none';
+            document.getElementById('teks-judul-header').style.display = 'none';
+            document.getElementById('btn-back-header').style.display = 'block';
+            document.getElementById('select-surah').style.display = 'block';
+            document.getElementById('select-juz').style.display = 'block';
+            
+            document.getElementById('select-surah').value = nomor;
+            document.getElementById('teks-arab').innerHTML = '<div style="text-align:center; padding-top:60px; font-family:sans-serif; font-size:14px; color:#666;">Membuka Mushaf...</div>';
             
             try {
-                const res = await fetch(`https://equran.id/api/v2/surat/${nomor}`);
+                // Mengambil script Utsmani asli untuk font Amiri Quran
+                const res = await fetch(`https://api.alquran.cloud/v1/surah/${nomor}/quran-uthmani`);
                 const json = await res.json();
                 if(json.code === 200) {
-                    let html = '<div class="mushaf-container" style="font-size:'+font+'px;">';
-                    if(nomor != 1 && nomor != 9) { 
-                        html += `<div style="text-align:center; font-family:var(--font-arab); font-size:32px; margin-bottom:20px; color:var(--aksen-oranye); display:block; width:100%;">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>`;
-                    }
-                    json.data.ayat.forEach(a => {
-                        html += `${a.teksArab} <span class="nomor-ayat">${ubahKeAngkaArab(a.nomorAyat)}</span> `;
+                    let html = `<div class="mushaf-container" style="font-size:${font}px;">`;
+                    json.data.ayahs.forEach(a => {
+                        let text = a.text;
+                        // Hapus basmalah dari teks ayat 1 karena kita akan buat basmalah tersendiri agar di tengah
+                        if(a.numberInSurah === 1 && nomor != 1 && nomor != 9) {
+                            text = text.replace('بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ', '');
+                            html += `<div class="mushaf-basmalah">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>`;
+                        }
+                        // ۝ adalah kode U+06DD yang otomatis melingkari angka Arab dengan font Amiri Quran
+                        html += `<span class="mushaf-ayat">${text} ۝${ubahKeAngkaArab(a.numberInSurah)} </span>`;
                     });
-                    html += '</div>';
+                    html += `</div>`;
                     document.getElementById('teks-arab').innerHTML = html;
                 }
-            } catch(e) { document.getElementById('teks-arab').innerHTML = '<div style="text-align:center; padding-top:50px; color:red;">Koneksi terputus.</div>'; }
+            } catch(e) { document.getElementById('teks-arab').innerHTML = '<div style="text-align:center; padding-top:60px; color:red;">Gagal memuat ayat.</div>'; }
+            
+            document.getElementById('main-container').scrollTop = 0;
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-quran').classList.add('active');
+        }
+
+        async function bukaJuz(nomor) {
+            if(!nomor) return;
+            document.getElementById('select-surah').value = ""; // Reset Surah selector
+            pState();
+            
+            document.getElementById('view-beranda').style.display = 'none';
+            document.getElementById('skeleton-loading').style.display = 'none';
+            document.querySelector('.bottom-nav').style.display = 'none';
+            document.getElementById('footer-baca').style.display = 'none'; 
+            
+            document.getElementById('area-baca').style.display = 'block';
+            document.getElementById('kontrol-baca').style.display = 'flex';
+            
+            document.getElementById('logo-header').style.display = 'none';
+            document.getElementById('teks-judul-header').style.display = 'none';
+            document.getElementById('btn-back-header').style.display = 'block';
+            document.getElementById('select-surah').style.display = 'block';
+            document.getElementById('select-juz').style.display = 'block';
+            
+            document.getElementById('teks-arab').innerHTML = `<div style="text-align:center; padding-top:60px; font-family:sans-serif; font-size:14px; color:#666;">Memuat Juz ${nomor}...</div>`;
+            
+            try {
+                const res = await fetch(`https://api.alquran.cloud/v1/juz/${nomor}/quran-uthmani`);
+                const json = await res.json();
+                if(json.code === 200) {
+                    let html = `<div class="mushaf-container" style="font-size:${font}px;">`;
+                    json.data.ayahs.forEach(a => {
+                        let text = a.text;
+                        // Deteksi pergantian Surah di dalam Juz
+                        if(a.numberInSurah === 1 && a.surah.number != 1 && a.surah.number != 9) {
+                            text = text.replace('بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ', '');
+                            html += `<div class="mushaf-label-surah">Surah ${a.surah.englishName}</div>`;
+                            html += `<div class="mushaf-basmalah">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>`;
+                        } else if (a.numberInSurah === 1) {
+                            html += `<div class="mushaf-label-surah">Surah ${a.surah.englishName}</div>`;
+                        }
+                        html += `<span class="mushaf-ayat">${text} ۝${ubahKeAngkaArab(a.numberInSurah)} </span>`;
+                    });
+                    html += `</div>`;
+                    document.getElementById('teks-arab').innerHTML = html;
+                }
+            } catch(e) { document.getElementById('teks-arab').innerHTML = '<div style="text-align:center; padding-top:60px; color:red;">Gagal memuat Juz.</div>'; }
+            
             document.getElementById('main-container').scrollTop = 0;
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('btn-quran').classList.add('active');
@@ -295,18 +376,25 @@
             pState(); tutupModal('modal-isi');
             document.getElementById('view-beranda').style.display = 'none';
             document.querySelector('.bottom-nav').style.display = 'none';
+            
             document.getElementById('area-baca').style.display = 'block';
             document.getElementById('footer-baca').style.display = 'flex';
             document.getElementById('kontrol-baca').style.display = 'flex';
+            
+            // Tampilan Khusus Wirid (Sembunyikan Selector Quran, Tampilkan Judul Header)
             document.getElementById('logo-header').style.display = 'none';
+            document.getElementById('select-surah').style.display = 'none';
+            document.getElementById('select-juz').style.display = 'none';
             document.getElementById('btn-back-header').style.display = 'block';
             document.getElementById('teks-judul-header').style.display = 'block';
+            
             tampilHal(i); document.getElementById('main-container').scrollTop = 0;
         }
         function tampilHal(i) {
             hal = i; const item = dW[i];
             document.getElementById('teks-judul-header').innerText = ubahKeAngkaArab(item.Judul);
-            document.getElementById('teks-arab').innerHTML = ubahKeAngkaArab(item.Isi_Arab.replace(/\\n/g, '<br>'));
+            // Kembalikan ke font amiri biasa untuk wirid
+            document.getElementById('teks-arab').innerHTML = `<div style="font-family:var(--font-arab); font-size:${font}px; line-height:2.2; text-align:justify; white-space:pre-wrap; direction:rtl;">${ubahKeAngkaArab(item.Isi_Arab.replace(/\\n/g, '<br>'))}</div>`;
             document.getElementById('btn-sebelumnya').disabled = (i === 0);
             document.getElementById('btn-selanjutnya').disabled = (i === dW.length - 1);
         }
@@ -314,8 +402,12 @@
         
         function ubahUkuran(a) { 
             font += (a*4); if(font < 20) font = 20; 
-            document.getElementById('teks-arab').style.fontSize = font + 'px'; 
-            if(document.querySelector('.mushaf-container')) document.querySelector('.mushaf-container').style.fontSize = font + 'px';
+            // Jika ada mushaf (Quran), ubah font sizenya. Jika Wirid, ubah child pertama dari teks-arab
+            if(document.querySelector('.mushaf-container')) {
+                document.querySelector('.mushaf-container').style.fontSize = font + 'px';
+            } else if (document.getElementById('teks-arab').firstChild) {
+                document.getElementById('teks-arab').firstChild.style.fontSize = font + 'px';
+            }
         }
 
         /* --- UPDATE AGENDA --- */
@@ -344,7 +436,7 @@
             }
         }
 
-        /* --- JADWAL SHALAT IKON --- */
+        /* --- JADWAL SHALAT --- */
         async function muatShalat() {
             try {
                 const d = new Date(); const r = await (await fetch(`https://api.myquran.com/v2/sholat/jadwal/1638/${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`)).json();
