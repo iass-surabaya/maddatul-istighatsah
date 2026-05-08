@@ -62,8 +62,9 @@
         #teks-arab { font-family: var(--font-arab); font-size: 32px; line-height: 2.2; text-align: justify; white-space: pre-wrap; color: var(--teks-hitam); }
         .mushaf-container { font-family: 'Amiri Quran', serif; text-align: justify; text-align-last: center; line-height: 2.3; direction: rtl; color: var(--teks-hitam); padding: 5px 0; }
         
-        .mushaf-ayat { display: inline; cursor: pointer; border-radius: 6px; transition: background-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease; padding: 2px 4px; }
-        .mushaf-ayat.ayat-aktif { background-color: rgba(242, 101, 34, 0.12); color: var(--aksen-oranye); font-weight: bold; box-shadow: 0 4px 10px rgba(242, 101, 34, 0.1); border-bottom: 2px solid var(--aksen-oranye); }
+        /* EFEK AUDIO TAP-TO-PLAY (MINIMALIS & ELEGAN) */
+        .mushaf-ayat { display: inline; cursor: pointer; transition: color 0.4s ease; padding: 0 2px; }
+        .mushaf-ayat.ayat-aktif { color: #d35400; /* Oranye sedikit lebih tua */ font-weight: bold; }
         
         .mushaf-basmalah { text-align: center; font-family: 'Amiri Quran', serif; font-size: 32px; color: var(--aksen-oranye); margin: 10px 0 20px 0; display: block; }
         .mushaf-label-surah { text-align: center; background: #fff0e6; padding: 6px 20px; margin: 30px auto 10px auto; border-radius: 20px; font-family: system-ui, sans-serif; font-size: 14px; font-weight: bold; display: table; color: var(--aksen-oranye); border: 1px solid rgba(242, 101, 34, 0.2); }
@@ -287,14 +288,11 @@
             'isya': `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`
         };
 
-        // PERBAIKAN 1: MENGUNCI PROSES LOADING SAMPAI SEMUA DATA TERMASUK QURAN SIAP.
         async function muatData() {
-            // Tampilkan skeleton diawal (hanya untuk view-beranda)
             document.getElementById('view-beranda').style.display = 'block';
             document.getElementById('skeleton-loading').style.display = 'flex';
             
             try {
-                // 1. Tarik Data Utama
                 const r = await (await fetch(API_URL)).json();
                 dW = r.wirid || []; dW.sort((a,b) => parseInt(a.ID) - parseInt(b.ID));
                 dA = r.agenda || [];
@@ -304,20 +302,14 @@
                 new Swiper(".mySwiper", { slidesPerView: 'auto', centeredSlides: true, spaceBetween: 12, loop: true, autoplay: { delay: 3000 }, pagination: { el: ".swiper-pagination", clickable: true } });
 
                 rAgenda(); rBeranda(); 
-                
-                // 2. Wajib Tarik Data Quran SEBELUM mengizinkan masuk (Solusi Race Condition)
                 await muatDaftarSurah();
 
-                // 3. Matikan skeleton setelah semuanya 100% siap
                 document.getElementById('skeleton-loading').style.display = 'none';
-
             } catch (e) { 
                 console.error("Gagal muat data:", e);
-                // Matikan skeleton meski error agar layar tidak blank terus
                 document.getElementById('skeleton-loading').style.display = 'none';
             }
             
-            // Shalat bebas dimuat belakangan
             muatShalat();
         }
 
@@ -334,7 +326,6 @@
         const areaMain = document.getElementById('main-container');
         
         areaMain.addEventListener('touchstart', e => { 
-            // PERBAIKAN 3: Kunci Sensor Swipe HANYA pada View Baca
             if (document.getElementById('view-baca').style.display !== 'block') return;
             touchStartX = e.changedTouches[0].screenX; 
             isSwiping = true;
@@ -349,7 +340,6 @@
         
         function handleSwipe() {
             let swipeDist = touchEndX - touchStartX;
-            // Kanan (Prev)
             if (swipeDist > 100) { 
                 if(modeBaca === 'wirid' && aktifWiridId > 0) {
                     bukaWirid(aktifWiridId - 1);
@@ -358,7 +348,6 @@
                     if(num > 1) { let nm = sL.find(s=>s.nomor==num-1)?.namaLatin; bukaSurah(num-1, nm); }
                 }
             } 
-            // Kiri (Next)
             else if (swipeDist < -100) { 
                 if(modeBaca === 'wirid' && aktifWiridId < dW.length - 1) {
                     bukaWirid(aktifWiridId + 1);
@@ -448,7 +437,6 @@
             if(mode === 'quran') {
                 document.getElementById('nav-quran').classList.add('active');
                 
-                // Pastikan sL tidak kosong sebelum mapping (pencegahan Undefined)
                 if (sL.length === 0) {
                     alert("Sedang menyelaraskan data Al-Qur'an, mohon tunggu sebentar lalu coba lagi.");
                     kembaliKeBeranda(); return;
