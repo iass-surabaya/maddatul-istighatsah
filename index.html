@@ -62,9 +62,8 @@
         #teks-arab { font-family: var(--font-arab); font-size: 32px; line-height: 2.2; text-align: justify; white-space: pre-wrap; color: var(--teks-hitam); }
         .mushaf-container { font-family: 'Amiri Quran', serif; text-align: justify; text-align-last: center; line-height: 2.3; direction: rtl; color: var(--teks-hitam); padding: 5px 0; }
         
-        /* EFEK AUDIO TAP-TO-PLAY (MINIMALIS & ELEGAN) */
         .mushaf-ayat { display: inline; cursor: pointer; transition: color 0.4s ease; padding: 0 2px; }
-        .mushaf-ayat.ayat-aktif { color: #d35400; /* Oranye sedikit lebih tua */ font-weight: bold; }
+        .mushaf-ayat.ayat-aktif { color: #d35400; font-weight: bold; }
         
         .mushaf-basmalah { text-align: center; font-family: 'Amiri Quran', serif; font-size: 32px; color: var(--aksen-oranye); margin: 10px 0 20px 0; display: block; }
         .mushaf-label-surah { text-align: center; background: #fff0e6; padding: 6px 20px; margin: 30px auto 10px auto; border-radius: 20px; font-family: system-ui, sans-serif; font-size: 14px; font-weight: bold; display: table; color: var(--aksen-oranye); border: 1px solid rgba(242, 101, 34, 0.2); }
@@ -78,17 +77,13 @@
         .kiblat-container { text-align: center; padding: 25px 0; }
         #teks-status-kiblat { font-size: 15px; color: #777; margin-bottom: 20px; font-weight: 500; height: 22px; transition: color 0.3s; }
         
-        /* Badan Luar (Metal Frame) */
         #kompas-wrapper { 
             width: 260px; height: 260px; margin: 0 auto 20px auto; position: relative; border-radius: 50%; 
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             box-shadow: 10px 10px 20px rgba(0,0,0,0.1), -10px -10px 20px rgba(255,255,255,0.8), inset 0 0 10px rgba(0,0,0,0.05);
-            border: 5px solid #fff;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.4s ease;
+            border: 5px solid #fff; display: flex; align-items: center; justify-content: center; transition: all 0.4s ease;
         }
         
-        /* Piringan Dalam (Inner Dial) */
         .kompas-inner-ring {
             width: 220px; height: 220px; border-radius: 50%;
             background: radial-gradient(circle at 50% 50%, #fff 40%, #eef2f5 100%);
@@ -96,32 +91,22 @@
             position: relative; display: flex; align-items: center; justify-content: center;
         }
 
-        /* Garis Derajat (Ticks) */
         .kompas-ticks {
             position: absolute; top: 8px; left: 8px; right: 8px; bottom: 8px; border-radius: 50%;
             background: repeating-conic-gradient(from 0deg, transparent 0deg, transparent 4deg, #94a3b8 4deg, #94a3b8 5deg);
-            -webkit-mask-image: radial-gradient(transparent 62%, black 65%);
-            opacity: 0.6;
+            -webkit-mask-image: radial-gradient(transparent 62%, black 65%); opacity: 0.6;
         }
 
-        /* Label Utara */
         .kompas-inner-ring::after {
             content: "N"; position: absolute; top: 12px;
             font-weight: 900; color: var(--aksen-oranye); font-size: 22px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
         }
         
-        /* Wadah Jarum (Berputar) */
         #jarum-wrapper { width: 100%; height: 100%; position: absolute; z-index: 5; }
-        
-        /* SVG Jarum Premium */
         .jarum-css { width: 50px; height: 190px; position: absolute; left: 50%; top: 15px; transform: translateX(-50%); filter: drop-shadow(0 8px 6px rgba(0,0,0,0.15)); }
         
-        /* Efek Lock Aktif (Glow & Hijau) */
-        #kompas-wrapper.aligned { 
-            box-shadow: 0 0 30px rgba(39, 174, 96, 0.4), inset 0 0 15px rgba(39, 174, 96, 0.1); 
-            border-color: var(--aksen-hijau); 
-        }
+        #kompas-wrapper.aligned { box-shadow: 0 0 30px rgba(39, 174, 96, 0.4), inset 0 0 15px rgba(39, 174, 96, 0.1); border-color: var(--aksen-hijau); }
         #kompas-wrapper.aligned .panah-utama { fill: var(--aksen-hijau); filter: brightness(1.1); }
         #kompas-wrapper.aligned .kompas-inner-ring::after { color: var(--aksen-hijau); }
 
@@ -145,6 +130,14 @@
         .sb-item.active { background: #fff0e6; color: var(--aksen-oranye); font-weight: bold; border-left: 5px solid var(--aksen-oranye); }
         .sb-item-arab { font-family: var(--font-arab); font-size: 22px; color: var(--aksen-oranye); }
 
+        /* --- TOUR GUIDE ONBOARDING CSS --- */
+        #tour-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10000; display: none; overflow: hidden; pointer-events: auto; }
+        .spotlight { position: absolute; box-shadow: 0 0 0 9999px rgba(242, 101, 34, 0.9); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); background: transparent; pointer-events: none; }
+        .tour-tooltip { position: absolute; width: 300px; left: 50%; transform: translateX(-50%); text-align: center; color: #fff; z-index: 10001; transition: top 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .tour-text { font-size: 15px; font-weight: 600; line-height: 1.5; margin-bottom: 15px; text-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+        .tour-controls { display: flex; justify-content: center; gap: 15px; align-items: center; }
+        .btn-tour { background: none; border: none; color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; transition: opacity 0.2s; }
+        .btn-tour-lanjut { background: #fff; color: var(--aksen-oranye); padding: 8px 20px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
     </style>
 </head>
 <body>
@@ -176,6 +169,10 @@
             </select>
         </div>
         <div id="sidebar-list"></div>
+    </div>
+
+    <div id="tour-center" style="position:fixed; top:40%; left:50%; width:140px; height:120px; transform:translate(-50%,-50%); z-index:-1; pointer-events:none;">
+        <svg style="width:100%; height:100%; opacity:0.15; fill:var(--aksen-oranye);" viewBox="0 0 24 24"><path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.04.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></svg>
     </div>
 
     <div id="main-container">
@@ -256,17 +253,24 @@
         <button class="nav-btn" id="nav-shalat" onclick="bukaHalaman('shalat')"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10 9.99-4.47 9.99-10S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg><span>Shalat</span></button>
     </nav>
 
+    <div id="tour-overlay">
+        <div id="tour-spotlight" class="spotlight"></div>
+        <div id="tour-tooltip" class="tour-tooltip">
+            <div class="tour-text" id="tour-text"></div>
+            <div class="tour-controls">
+                <button class="btn-tour" onclick="akhiriTour()">Lewati ✕</button>
+                <button class="btn-tour btn-tour-lanjut" id="btn-tour-lanjut" onclick="nextTour()">Lanjut ➔</button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbwU0RH7UM6BkXM5K1eKIfZELhLySbhG8WOeRiNRKQNwzDkl1aSz7FG0fl5HvN1N9j4T/exec";
         let dW = []; let dA = []; let dJ = null; let font = 28; let sL = [];
         let modeBaca = ''; 
         let aktifQuranId = null; let aktifWiridId = null;
-
-        // MESIN AUDIO CONTINUOUS
-        let audioPlayer = null;
-        let currentAyatDiv = null;
-        let isAudioPlaying = false;
+        let audioPlayer = null; let currentAyatDiv = null; let isAudioPlaying = false;
 
         window.onpopstate = function() {
             if(document.getElementById('sidebar-overlay').style.display === 'block') { tutupSidebar(); return; }
@@ -305,6 +309,10 @@
                 await muatDaftarSurah();
 
                 document.getElementById('skeleton-loading').style.display = 'none';
+                
+                // Memicu Sistem Onboarding Pintar
+                setTimeout(() => { mulaiTour(); }, 500);
+
             } catch (e) { 
                 console.error("Gagal muat data:", e);
                 document.getElementById('skeleton-loading').style.display = 'none';
@@ -319,6 +327,85 @@
                 const json = await res.json();
                 if(json.code === 200) sL = json.data;
             } catch(e) { console.error("Gagal Quran", e); }
+        }
+
+        /* --- SISTEM COACH MARKS / ONBOARDING --- */
+        let currentTourStep = 0;
+        const tourSteps = [
+            { el: '#nav-agenda', txt: "Pantau seluruh jadwal kegiatan dan lokasi acara secara <i>real-time</i>.", pos: 'top', shape: '16px' },
+            { el: '#nav-isi', txt: "Akses cepat kumpulan wirid dan doa yang rutin dibaca saat kegiatan.", pos: 'top', shape: '16px' },
+            { el: '#nav-quran', txt: "Baca Mushaf dengan nyaman. Ketuk ayat mana saja untuk memutar lantunan audio otomatis.", pos: 'top', shape: '16px' },
+            { 
+              el: '#btn-burger', 
+              txt: "Gunakan laci ini untuk mencari Surah spesifik atau melompat langsung ke Juz tertentu.", 
+              pos: 'bottom', shape: '50%',
+              before: () => { 
+                  document.getElementById('btn-burger').style.display = 'block'; 
+                  document.getElementById('teks-judul-header').style.display = 'block';
+                  document.getElementById('teks-judul-header').innerText = 'Al-Qur\'an';
+              },
+              after: () => { 
+                  document.getElementById('btn-burger').style.display = 'none'; 
+                  document.getElementById('teks-judul-header').style.display = 'none';
+              }
+            },
+            { el: '#tour-center', txt: "Navigasi pintar. Saat membaca, cukup usap (<i>swipe</i>) layar ke kiri atau kanan untuk berpindah halaman.", pos: 'bottom', shape: '20px' },
+            { el: '#nav-shalat', txt: "Pusat ibadah harian. Dilengkapi jadwal akurat, Kompas Kiblat presisi, dan Tasbih digital.", pos: 'top', shape: '16px' }
+        ];
+
+        function mulaiTour() {
+            // Cek Ingatan Pintar
+            if(localStorage.getItem('tourMaddatul') === 'selesai') return;
+            
+            document.getElementById('tour-overlay').style.display = 'block';
+            currentTourStep = 0;
+            renderTour();
+        }
+
+        function renderTour() {
+            if(currentTourStep >= tourSteps.length) { akhiriTour(); return; }
+            let s = tourSteps[currentTourStep];
+            
+            // Bersihkan step sebelumnya
+            if(currentTourStep > 0 && tourSteps[currentTourStep-1].after) tourSteps[currentTourStep-1].after();
+            
+            // Setup step saat ini (contoh: memunculkan tombol burger)
+            if(s.before) s.before();
+
+            let target = document.querySelector(s.el);
+            if(!target) { nextTour(); return; }
+
+            let rect = target.getBoundingClientRect();
+            let spot = document.getElementById('tour-spotlight');
+            let tooltip = document.getElementById('tour-tooltip');
+            
+            let pad = 8;
+            spot.style.top = (rect.top - pad) + 'px';
+            spot.style.left = (rect.left - pad) + 'px';
+            spot.style.width = (rect.width + pad*2) + 'px';
+            spot.style.height = (rect.height + pad*2) + 'px';
+            spot.style.borderRadius = s.shape;
+
+            document.getElementById('tour-text').innerHTML = s.txt;
+            document.getElementById('btn-tour-lanjut').innerHTML = (currentTourStep === tourSteps.length - 1) ? 'Selesai ✓' : 'Lanjut ➔';
+
+            // Mengatur Posisi Tooltip agar tidak tertabrak sorotan
+            requestAnimationFrame(() => {
+                let th = tooltip.offsetHeight;
+                if(s.pos === 'top') {
+                    tooltip.style.top = (rect.top - pad - th - 15) + 'px';
+                } else {
+                    tooltip.style.top = (rect.bottom + pad + 15) + 'px';
+                }
+            });
+        }
+
+        function nextTour() { currentTourStep++; renderTour(); }
+        function akhiriTour() {
+            if(tourSteps[currentTourStep] && tourSteps[currentTourStep].after) tourSteps[currentTourStep].after();
+            document.getElementById('tour-overlay').style.display = 'none';
+            // Kunci Ingatan Selamanya
+            localStorage.setItem('tourMaddatul', 'selesai');
         }
 
         /* --- SENSOR SWIPE KIRI/KANAN UNTUK NEXT/PREV --- */
@@ -358,7 +445,7 @@
             }
         }
 
-        /* --- LOGIKA AUDIO CONTINUOUS & AUTO SCROLL --- */
+        /* --- LOGIKA AUDIO CONTINUOUS --- */
         function matikanAudio() {
             isAudioPlaying = false;
             if(audioPlayer) { audioPlayer.pause(); audioPlayer = null; }
@@ -430,7 +517,6 @@
             }
         }
 
-        /* --- DEFAULT BUKA HALAMAN PERTAMA --- */
         function bukaModeBaca(mode) {
             pState(); modeBaca = mode; sembunyikanSemuaView();
             
