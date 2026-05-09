@@ -14,16 +14,18 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg-abu); color: var(--teks-hitam); font-family: system-ui, sans-serif; display: flex; flex-direction: column; height: 100vh; max-width: 480px; margin: 0 auto; box-shadow: 0 0 20px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
         
-        /* HEADER */
+        /* HEADER (Tanpa Tombol Back) */
         header { background-color: #ffffff; padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; z-index: 200; height: 65px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: relative; }
-        .header-kiri { display: flex; align-items: center; gap: 8px; overflow: hidden; flex: 1; }
+        .header-kiri { display: flex; align-items: center; gap: 12px; overflow: hidden; flex: 1; }
         .btn-header-icon { display: none; background: none; border: none; cursor: pointer; padding: 5px; flex-shrink: 0; }
-        .btn-header-icon svg { width: 26px; height: 26px; fill: var(--aksen-oranye); }
+        .btn-header-icon svg { width: 28px; height: 28px; fill: var(--aksen-oranye); }
         .logo-header { height: 35px; width: auto; object-fit: contain; }
         #teks-judul-header { font-family: var(--font-arab); font-size: 20px; font-weight: bold; color: var(--aksen-oranye); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: none; margin-top: 4px; }
         
-        #kontrol-baca { display: none; gap: 6px; flex-shrink: 0; align-items: center; }
-        #kontrol-baca button { background: var(--aksen-oranye); border: none; color: white; padding: 5px 12px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; }
+        /* KONTROL BACA (Ada tombol Qari & Ukuran Huruf) */
+        #kontrol-baca { display: none; gap: 8px; flex-shrink: 0; align-items: center; }
+        .btn-kontrol { background: var(--aksen-oranye); border: none; color: white; padding: 6px 12px; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .btn-kontrol svg { width: 18px; height: 18px; fill: white; }
 
         /* AREA KONTEN UTAMA */
         #main-container { flex: 1; overflow-y: auto; background: var(--bg-abu); overflow-x: hidden; scroll-behavior: smooth; }
@@ -71,13 +73,13 @@
         .mushaf-basmalah { text-align: center; font-family: 'Amiri Quran', serif; font-size: 32px; color: var(--aksen-oranye); margin: 10px 0 20px 0; display: block; }
         .mushaf-label-surah { text-align: center; background: #fff0e6; padding: 6px 20px; margin: 30px auto 10px auto; border-radius: 20px; font-family: system-ui, sans-serif; font-size: 14px; font-weight: bold; display: table; color: var(--aksen-oranye); border: 1px solid rgba(242, 101, 34, 0.2); }
 
-        /* LACI BAWAH (BOTTOM SHEET) PUSAT IBADAH DENGAN EFEK MEMBAL GOJEK */
-        #bottom-sheet-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); z-index: 2000; display: none; opacity: 0; transition: opacity 0.3s; }
+        /* LACI BAWAH (BOTTOM SHEET) - EFEK GOJEK YANG LEBIH SOPAN */
+        .bottom-sheet-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); z-index: 2000; display: none; opacity: 0; transition: opacity 0.3s; }
         
-        #bottom-sheet-ibadah { 
+        .bottom-sheet-panel { 
             position: fixed; bottom: -100%; left: 0; width: 100%; max-height: 90vh; background: var(--bg-abu); z-index: 2001; 
             border-top-left-radius: 25px; border-top-right-radius: 25px; 
-            /* Ini adalah resep rahasia efek membal (spring) */
+            /* RUMUS ANIMASI BARU: Lebih santai dan pengereman jauh lebih lembut */
             transition: bottom 0.65s cubic-bezier(0.25, 1.25, 0.3, 1), transform 0.3s ease-out; 
             display: flex; flex-direction: column; box-shadow: 0 -5px 20px rgba(0,0,0,0.2); 
             will-change: bottom, transform;
@@ -87,35 +89,31 @@
         .bs-drag-handle:active { cursor: grabbing; }
         .bs-content { flex: 1; overflow-y: auto; padding-bottom: 30px; overscroll-behavior-y: contain; }
 
+        /* KOMPONEN LACI IBADAH */
         .shalat-box { background: #fff; margin: 0 15px 15px 15px; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .shalat-row { display:flex; justify-content:space-between; align-items:center; padding:14px 10px; border-bottom:1px solid #f0f0f0; }
         .shalat-row:last-child { border-bottom: none; }
         
-        /* KOMPAS PREMIUM IMAGE-BASED */
         .kiblat-container { text-align: center; padding: 25px 0; }
         #teks-status-kiblat { font-size: 15px; color: #777; margin-bottom: 20px; font-weight: 500; height: 22px; transition: color 0.3s; }
-        
-        #kompas-wrapper { 
-            width: 260px; height: 260px; margin: 0 auto 20px auto; position: relative; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; transition: all 0.4s ease;
-        }
-        
+        #kompas-wrapper { width: 260px; height: 260px; margin: 0 auto 20px auto; position: relative; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.4s ease; }
         #kompas-bg { width: 100%; height: 100%; object-fit: contain; position: absolute; top: 0; left: 0; z-index: 1; }
         #jarum-wrapper { width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 5; display: flex; align-items: center; justify-content: center; }
         #jarum-kiblat-img { width: 90%; height: auto; object-fit: contain; filter: drop-shadow(0 8px 6px rgba(0,0,0,0.3)); transition: filter 0.3s ease; }
-        
-        /* EFEK KIBLAT TEPAT (ORANYE) */
-        #kompas-wrapper.aligned { 
-            box-shadow: 0 0 35px rgba(242, 101, 34, 0.4), inset 0 0 15px rgba(242, 101, 34, 0.2); 
-            background-color: rgba(242, 101, 34, 0.05);
-        }
-        #kompas-wrapper.aligned #jarum-kiblat-img { 
-            filter: drop-shadow(0 8px 15px rgba(242, 101, 34, 0.6)) brightness(1.15); 
-        }
+        #kompas-wrapper.aligned { box-shadow: 0 0 35px rgba(242, 101, 34, 0.4), inset 0 0 15px rgba(242, 101, 34, 0.2); background-color: rgba(242, 101, 34, 0.05); }
+        #kompas-wrapper.aligned #jarum-kiblat-img { filter: drop-shadow(0 8px 15px rgba(242, 101, 34, 0.6)) brightness(1.15); }
 
         .tasbih-container { text-align: center; padding: 10px 0 30px 0; }
 
-        /* NAVIGASI BAWAH (HANYA 3 MENU) */
+        /* KOMPONEN LACI QARI */
+        .qari-item { padding: 18px 20px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; color: #444; transition: background 0.2s; background: #fff; }
+        .qari-item:first-child { border-top-left-radius: 15px; border-top-right-radius: 15px; }
+        .qari-item:last-child { border-bottom: none; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; }
+        .qari-item.active { background: #fff0e6; color: var(--aksen-oranye); font-weight: bold; border-left: 5px solid var(--aksen-oranye); }
+        .qari-info strong { font-size: 15px; display: block; margin-bottom: 3px; }
+        .qari-info span { font-size: 12px; color: #777; font-weight: normal; }
+
+        /* NAVIGASI BAWAH */
         .bottom-nav { background-color: var(--aksen-oranye); display: flex; justify-content: space-around; padding: 10px 10px 15px 10px; position: fixed; bottom: 0; width: 100%; max-width: 480px; z-index: 999; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.15); }
         .nav-btn { background: none; border: none; color: rgba(255, 255, 255, 0.5); display: flex; flex-direction: column; align-items: center; font-size: 12px; font-weight: bold; gap: 4px; flex: 1; cursor: pointer; padding: 0 5px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .nav-btn svg { width: 26px; height: 26px; fill: rgba(255, 255, 255, 0.5); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -147,18 +145,19 @@
 
     <header>
         <div class="header-kiri">
-            <button class="btn-header-icon" id="btn-back" onclick="kembaliKeBeranda()">
-                <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-            </button>
             <button class="btn-header-icon" id="btn-burger" onclick="bukaSidebarManual()">
                 <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
             </button>
             <img src="logo-header.png" alt="Logo" class="logo-header" id="logo-header" onerror="this.style.display='none'">
             <div id="teks-judul-header">Judul</div>
         </div>
+        
         <div id="kontrol-baca">
-            <button onclick="ubahUkuran(1)">A+</button>
-            <button onclick="ubahUkuran(-1)">A-</button>
+            <button class="btn-kontrol" onclick="bukaSheetQari()" id="btn-pilih-qari">
+                <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-9 9v7c0 1.1.9 2 2 2h4v-8H5v-1c0-3.87 3.13-7 7-7s7 3.13 7 7v1h-4v8h4c1.1 0 2-.9 2-2v-7a9 9 0 0 0-9-9z"/></svg>
+            </button>
+            <button class="btn-kontrol" onclick="ubahUkuran(-1)">A-</button>
+            <button class="btn-kontrol" onclick="ubahUkuran(1)">A+</button>
         </div>
     </header>
 
@@ -174,12 +173,7 @@
         <div id="sidebar-list"></div>
     </div>
 
-    <div id="tour-center" style="position:fixed; top:40%; left:50%; width:140px; height:120px; transform:translate(-50%,-50%); z-index:-1; pointer-events:none;">
-        <svg style="width:100%; height:100%; opacity:0.15; fill:var(--aksen-oranye);" viewBox="0 0 24 24"><path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.04.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.38z"/></svg>
-    </div>
-
     <div id="main-container">
-
         <div id="skeleton-loading" class="skeleton-wrapper view-section">
             <div class="skeleton skel-banner"></div>
             <div class="skeleton skel-card"></div>
@@ -190,7 +184,7 @@
         <div id="view-beranda" class="view-section">
             <div class="swiper mySwiper"><div class="swiper-wrapper" id="banner-list"></div><div class="swiper-pagination"></div></div>
             
-            <div class="card-panel" id="kartu-shalat-trigger" onclick="bukaBottomSheet()">
+            <div class="card-panel" id="kartu-shalat-trigger" onclick="bukaSheetIbadah()">
                 <span id="tanggal-sekarang">-- --- ----</span>
                 <span id="shalat-nama-beranda">Memuat...</span>
                 <span id="shalat-waktu-beranda">--:--:--</span>
@@ -209,12 +203,11 @@
         <div id="view-baca" class="view-section">
             <div id="teks-arab"></div>
         </div>
-
     </div>
 
-    <div id="bottom-sheet-overlay" onclick="tutupBottomSheet()"></div>
-    <div id="bottom-sheet-ibadah">
-        <div class="bs-drag-handle"></div>
+    <div class="bottom-sheet-overlay" id="overlay-ibadah" onclick="tutupBottomSheet('ibadah')"></div>
+    <div class="bottom-sheet-panel" id="sheet-ibadah">
+        <div class="bs-drag-handle" data-target="ibadah"></div>
         <div class="bs-content">
             <div class="section-title" style="margin-top:0;">Jadwal Hari Ini</div>
             <div class="shalat-box" id="list-shalat-full" style="padding: 10px 20px;"></div>
@@ -239,6 +232,20 @@
                 <button onclick="tambahTasbih()" style="width:140px; height:140px; border-radius:50%; background:var(--aksen-oranye); color:#fff; border:none; font-size:24px; font-weight:bold; margin:20px 0; box-shadow: 0 10px 20px rgba(242,101,34,0.3); cursor:pointer;">Ketuk</button>
                 <br>
                 <button onclick="resetTasbih()" style="background:none; border:1px solid #ddd; padding:8px 25px; border-radius:20px; color:#666; font-weight:bold; cursor:pointer;">Reset Nol</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-sheet-overlay" id="overlay-qari" onclick="tutupBottomSheet('qari')"></div>
+    <div class="bottom-sheet-panel" id="sheet-qari" style="background: transparent; box-shadow: none;">
+        <div class="bs-content" style="padding: 0 15px 30px 15px;">
+            <div style="background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 25px rgba(0,0,0,0.15);">
+                <div style="padding: 15px 20px; background: var(--aksen-oranye); color: #fff; font-weight: bold; font-size: 16px; text-align: center;">Pilih Lantunan Syaikh</div>
+                <div id="list-qari">
+                    </div>
+            </div>
+            <div style="margin-top: 15px; background: #fff; border-radius: 15px; padding: 15px; text-align: center; color: #ff3b30; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.1);" onclick="tutupBottomSheet('qari')">
+                Batal
             </div>
         </div>
     </div>
@@ -268,8 +275,18 @@
         let aktifQuranId = null; let aktifWiridId = null;
         let audioPlayer = null; let currentAyatDiv = null; let isAudioPlaying = false;
 
+        // MESIN MEMORI QARI
+        const DAFTAR_QARI = [
+            { id: 'ar.alafasy', nama: 'Misyari Rasyid Al-Afasi', desc: 'Murattal Modern' },
+            { id: 'ar.abdurrahmaansudais', nama: 'Abdurrahman As-Sudais', desc: 'Imam Masjidil Haram' },
+            { id: 'ar.abdulbasit', nama: 'Abdul Basit Abdus Samad', desc: 'Tartil Klasik Legendaris' },
+            { id: 'ar.husary', nama: 'Mahmud Khalil Al-Husary', desc: 'Makhraj Presisi (Belajar)' }
+        ];
+        let qariAktif = localStorage.getItem('qariMaddatul') || 'ar.alafasy';
+
         window.onpopstate = function() {
-            if(document.getElementById('bottom-sheet-ibadah').style.bottom === '0px') { tutupBottomSheet(); return; }
+            if(document.getElementById('sheet-ibadah').style.bottom === '0px') { tutupBottomSheet('ibadah'); return; }
+            if(document.getElementById('sheet-qari').style.bottom === '0px') { tutupBottomSheet('qari'); return; }
             if(document.getElementById('sidebar-overlay').style.display === 'block') { tutupSidebar(); return; }
             if(document.getElementById('view-beranda').style.display !== 'block') { kembaliKeBeranda(); }
         };
@@ -306,7 +323,6 @@
                 await muatDaftarSurah();
 
                 document.getElementById('skeleton-loading').style.display = 'none';
-                
                 setTimeout(() => { mulaiTour(); }, 500);
 
             } catch (e) { 
@@ -315,6 +331,7 @@
             }
             
             muatShalat();
+            renderDaftarQari(); // Siapkan list Syaikh saat awal mula
         }
 
         async function muatDaftarSurah() {
@@ -325,38 +342,73 @@
             } catch(e) { console.error("Gagal Quran", e); }
         }
 
-        /* --- FUNGSI LACI BAWAH (BOTTOM SHEET) --- */
-        function bukaBottomSheet() {
+        /* --- FUNGSI LACI BAWAH (BOTTOM SHEET UMUM) --- */
+        function bukaSheetIbadah() {
             pState();
-            document.getElementById('bottom-sheet-overlay').style.display = 'block';
+            document.getElementById('overlay-ibadah').style.display = 'block';
             setTimeout(() => {
-                document.getElementById('bottom-sheet-overlay').style.opacity = '1';
-                document.getElementById('bottom-sheet-ibadah').style.bottom = '0';
+                document.getElementById('overlay-ibadah').style.opacity = '1';
+                document.getElementById('sheet-ibadah').style.bottom = '0';
             }, 10);
         }
 
-        function tutupBottomSheet() {
-            document.getElementById('bottom-sheet-ibadah').style.bottom = '-100%';
-            document.getElementById('bottom-sheet-ibadah').style.transform = 'translateY(0)'; // Reset drag
-            document.getElementById('bottom-sheet-overlay').style.opacity = '0';
-            setTimeout(() => { 
-                document.getElementById('bottom-sheet-overlay').style.display = 'none'; 
-            }, 400);
+        function bukaSheetQari() {
+            pState();
+            document.getElementById('overlay-qari').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('overlay-qari').style.opacity = '1';
+                document.getElementById('sheet-qari').style.bottom = '0';
+            }, 10);
         }
 
-        /* --- SENSOR SWIPE UNTUK LACI (DRAG TO CLOSE) --- */
-        const bsIbadah = document.getElementById('bottom-sheet-ibadah');
-        const bsContent = document.querySelector('.bs-content');
+        function tutupBottomSheet(idTarget) {
+            let sheet = document.getElementById(`sheet-${idTarget}`);
+            let overlay = document.getElementById(`overlay-${idTarget}`);
+            
+            sheet.style.bottom = '-100%';
+            sheet.style.transform = 'translateY(0)'; // Reset drag
+            overlay.style.opacity = '0';
+            setTimeout(() => { overlay.style.display = 'none'; }, 400);
+        }
+
+        /* --- RENDER DAFTAR & PILIH QARI --- */
+        function renderDaftarQari() {
+            const listContainer = document.getElementById('list-qari');
+            listContainer.innerHTML = '';
+            
+            DAFTAR_QARI.forEach(qari => {
+                let aktifClass = (qariAktif === qari.id) ? 'active' : '';
+                let html = `
+                    <div class="qari-item ${aktifClass}" onclick="pilihQari('${qari.id}')">
+                        <div class="qari-info">
+                            <strong>${qari.nama}</strong>
+                            <span>${qari.desc}</span>
+                        </div>
+                        ${aktifClass ? '<div style="color:var(--aksen-oranye); font-weight:bold; font-size:18px;">✓</div>' : ''}
+                    </div>
+                `;
+                listContainer.innerHTML += html;
+            });
+        }
+
+        function pilihQari(idQari) {
+            matikanAudio(); // Matikan audio jika sedang berbunyi
+            qariAktif = idQari;
+            localStorage.setItem('qariMaddatul', idQari); // Simpan di memori HP
+            renderDaftarQari(); // Update tanda centang
+            tutupBottomSheet('qari'); // Tutup laci
+        }
+
+        /* --- SENSOR SWIPE UNTUK LACI IBADAH (DRAG TO CLOSE) --- */
+        const bsIbadah = document.getElementById('sheet-ibadah');
+        const bsContent = bsIbadah.querySelector('.bs-content');
         let bsStartY = 0; let bsCurrentY = 0; let isDraggingBS = false;
 
         bsIbadah.addEventListener('touchstart', (e) => {
-            // Hanya izinkan drag kalau posisi scroll konten di paling atas, atau user menyentuh drag-handle
             if (bsContent.scrollTop > 0 && !e.target.classList.contains('bs-drag-handle')) return;
-            
             bsStartY = e.touches[0].clientY;
             bsCurrentY = bsStartY;
             isDraggingBS = true;
-            // Matikan transisi saat drag agar pergerakan sejajar persis dengan jari
             bsIbadah.style.transition = 'none';
         }, {passive: true});
 
@@ -364,10 +416,7 @@
             if (!isDraggingBS) return;
             bsCurrentY = e.touches[0].clientY;
             let deltaY = bsCurrentY - bsStartY;
-            
-            // Cegah laci ditarik kelewat batas atas
             if (deltaY < 0) deltaY = 0; 
-            
             bsIbadah.style.transform = `translateY(${deltaY}px)`;
         }, {passive: true});
 
@@ -375,17 +424,10 @@
             if (!isDraggingBS) return;
             isDraggingBS = false;
             let deltaY = bsCurrentY - bsStartY;
-            
-            // Kembalikan efek transisi membal yang halus
+            // Kembalikan efek kurva pengereman sopan
             bsIbadah.style.transition = 'bottom 0.65s cubic-bezier(0.25, 1.25, 0.3, 1), transform 0.3s ease-out';
-            
-            // Jika ditarik cukup jauh ke bawah (>120px), tutup laci
-            if (deltaY > 120) { 
-                tutupBottomSheet(); 
-            } else { 
-                // Jika tidak, kembalikan ke posisi semula secara halus (karet gelang)
-                bsIbadah.style.transform = 'translateY(0)'; 
-            }
+            if (deltaY > 120) { tutupBottomSheet('ibadah'); } 
+            else { bsIbadah.style.transform = 'translateY(0)'; }
         });
 
 
@@ -498,7 +540,7 @@
             }
         }
 
-        /* --- LOGIKA AUDIO CONTINUOUS --- */
+        /* --- LOGIKA AUDIO CONTINUOUS (TERHUBUNG KE QARI AKTIF) --- */
         function matikanAudio() {
             isAudioPlaying = false;
             if(audioPlayer) { audioPlayer.pause(); audioPlayer = null; }
@@ -519,7 +561,8 @@
             currentAyatDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
             
             isAudioPlaying = true;
-            audioPlayer = new Audio(`https://cdn.islamic.network/quran/audio/128/ar.alafasy/${globalNumber}.mp3`);
+            // API AUDIO SEKARANG MENGAMBIL VARIABEL qariAktif (Contoh: ar.husary)
+            audioPlayer = new Audio(`https://cdn.islamic.network/quran/audio/128/${qariAktif}/${globalNumber}.mp3`);
             audioPlayer.play();
             
             audioPlayer.onended = () => {
@@ -540,11 +583,11 @@
             matikanAudio();
             document.querySelectorAll('.view-section').forEach(el => el.style.display = 'none');
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('btn-back').style.display = 'none';
             document.getElementById('btn-burger').style.display = 'none';
             document.getElementById('logo-header').style.display = 'none';
             document.getElementById('teks-judul-header').style.display = 'none';
             document.getElementById('kontrol-baca').style.display = 'none';
+            document.getElementById('btn-pilih-qari').style.display = 'none';
             document.getElementById('main-container').scrollTop = 0;
         }
 
@@ -556,7 +599,6 @@
 
         function bukaHalaman(tipe) {
             pState(); sembunyikanSemuaView();
-            document.getElementById('btn-back').style.display = 'block';
             document.getElementById('teks-judul-header').style.display = 'block';
             
             if(tipe === 'agenda') {
@@ -568,9 +610,13 @@
 
         function bukaModeBaca(mode) {
             pState(); modeBaca = mode; sembunyikanSemuaView();
+            document.getElementById('kontrol-baca').style.display = 'flex';
+            document.getElementById('btn-burger').style.display = 'block';
+            document.getElementById('teks-judul-header').style.display = 'block';
             
             if(mode === 'quran') {
                 document.getElementById('nav-quran').classList.add('active');
+                document.getElementById('btn-pilih-qari').style.display = 'flex'; // Tampilkan tombol Qari
                 
                 if (sL.length === 0) {
                     alert("Sedang menyelaraskan data Al-Qur'an, mohon tunggu sebentar lalu coba lagi.");
@@ -586,6 +632,7 @@
                 }
             } else if(mode === 'wirid') {
                 document.getElementById('nav-isi').classList.add('active');
+                document.getElementById('btn-pilih-qari').style.display = 'none'; // Sembunyikan tombol Qari
                 if(aktifWiridId === null && dW.length > 0) bukaWirid(0);
                 else bukaWirid(aktifWiridId || 0);
             }
@@ -710,10 +757,6 @@
             matikanAudio();
             document.getElementById('view-beranda').style.display = 'none';
             document.getElementById('view-baca').style.display = 'block';
-            document.getElementById('kontrol-baca').style.display = 'flex';
-            document.getElementById('btn-back').style.display = 'block';
-            document.getElementById('btn-burger').style.display = 'block';
-            document.getElementById('teks-judul-header').style.display = 'block';
             document.getElementById('teks-judul-header').innerText = judul;
             document.getElementById('main-container').scrollTop = 0;
         }
