@@ -547,7 +547,7 @@
             if(currentAyatDiv) { currentAyatDiv.classList.remove('ayat-aktif'); currentAyatDiv = null; }
         }
 
-        function putarAudio(globalNumber, idDiv, isAutoNext = false) {
+        async function putarAudio(globalNumber, idDiv, isAutoNext = false) {
             let divTarget = document.getElementById(idDiv);
             if(!divTarget) { matikanAudio(); return; } 
 
@@ -561,22 +561,38 @@
             currentAyatDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
             
             isAudioPlaying = true;
-            // API AUDIO SEKARANG MENGAMBIL VARIABEL qariAktif (Contoh: ar.husary)
-            audioPlayer = new Audio(`https://cdn.islamic.network/quran/audio/128/${qariAktif}/${globalNumber}.mp3`);
-            audioPlayer.play();
-            
-            audioPlayer.onended = () => {
-                if(isAudioPlaying) {
-                    let nextNum = globalNumber + 1;
-                    let nextId = `ayat-${nextNum}`;
-                    if(document.getElementById(nextId)) {
-                        putarAudio(nextNum, nextId, true);
-                    } else {
+
+            try {
+                // MENGGUNAKAN API ENDPOINT RESMI UNTUK MENDAPATKAN URL AUDIO YANG PASTI VALID
+                const response = await fetch(`https://api.alquran.cloud/v1/ayah/${globalNumber}/${qariAktif}`);
+                const data = await response.json();
+
+                if (data.code === 200 && data.data.audio) {
+                    audioPlayer = new Audio(data.data.audio);
+                    audioPlayer.play();
+                    
+                    audioPlayer.onended = () => {
+                        if(isAudioPlaying) {
+                            let nextNum = globalNumber + 1;
+                            let nextId = `ayat-${nextNum}`;
+                            if(document.getElementById(nextId)) {
+                                putarAudio(nextNum, nextId, true);
+                            } else {
+                                matikanAudio(); 
+                            }
+                        }
+                    };
+                    audioPlayer.onerror = () => { 
+                        console.error("Gagal memutar audio:", data.data.audio);
                         matikanAudio(); 
-                    }
+                    };
+                } else {
+                    matikanAudio();
                 }
-            };
-            audioPlayer.onerror = () => { matikanAudio(); };
+            } catch (error) {
+                console.error("Gagal mengambil data audio:", error);
+                matikanAudio();
+            }
         }
 
         function sembunyikanSemuaView() {
