@@ -79,7 +79,6 @@
         .bottom-sheet-panel { 
             position: fixed; bottom: -100%; left: 0; width: 100%; max-height: 90vh; background: var(--bg-abu); z-index: 2001; 
             border-top-left-radius: 25px; border-top-right-radius: 25px; 
-            /* RUMUS ANIMASI BARU: Lebih santai dan pengereman jauh lebih lembut */
             transition: bottom 0.65s cubic-bezier(0.25, 1.25, 0.3, 1), transform 0.3s ease-out; 
             display: flex; flex-direction: column; box-shadow: 0 -5px 20px rgba(0,0,0,0.2); 
             will-change: bottom, transform;
@@ -274,13 +273,14 @@
         let modeBaca = ''; 
         let aktifQuranId = null; let aktifWiridId = null;
         let audioPlayer = null; let currentAyatDiv = null; let isAudioPlaying = false;
+        let shalatInterval = null;
 
         // MESIN MEMORI QARI
         const DAFTAR_QARI = [
             { id: 'ar.alafasy', nama: 'Misyari Rasyid Al-Afasi', desc: 'Murattal Modern' },
-															{ id: 'ar.mahermuaiqly', nama: 'Syaikh Maher Al-Muaiqly', desc: 'Imam Masjidil Haram' },
-															{ id: 'ar.minshawi', nama: 'Syaikh Muhammad Siddiq Al-Minshawi', desc: 'Bacaannya sangat syahdu, klasik' },
-															{ id: 'ar.hudhaify', nama: 'Syaikh Ali Al-Hudhaifi', desc: 'Imam Masjid Nabawi, bacaannya sangat tartil, pelan, tajwidnya sangat presisi' },
+            { id: 'ar.mahermuaiqly', nama: 'Syaikh Maher Al-Muaiqly', desc: 'Imam Masjidil Haram' },
+            { id: 'ar.minshawi', nama: 'Syaikh Muhammad Siddiq Al-Minshawi', desc: 'Bacaannya sangat syahdu, klasik' },
+            { id: 'ar.hudhaify', nama: 'Syaikh Ali Al-Hudhaifi', desc: 'Imam Masjid Nabawi, bacaannya sangat tartil, pelan, tajwidnya sangat presisi' },
             { id: 'ar.abdulbasitmurattal', nama: 'Abdul Basit Abdus Samad', desc: 'Tartil Klasik Legendaris' },
             { id: 'ar.husary', nama: 'Mahmud Khalil Al-Husary', desc: 'Makhraj Presisi (Belajar)' }
         ];
@@ -308,40 +308,153 @@
             'isya': `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`
         };
 
+        /* =========================================================
+           TAHAP 2: FUNGSI MUAT DATA (STRATEGI BRANKAS OFFLINE) 
+           ========================================================= */
         async function muatData() {
             document.getElementById('view-beranda').style.display = 'block';
-            document.getElementById('skeleton-loading').style.display = 'flex';
             
+            const dataBrankas = localStorage.getItem('maddatul_data_v1');
+            if (dataBrankas) {
+                try {
+                    const r = JSON.parse(dataBrankas);
+                    dW = r.wirid || []; dW.sort((a,b) => parseInt(a.ID) - parseInt(b.ID));
+                    dA = r.agenda || [];
+                    let bn = r.banners || [];
+                    document.getElementById('banner-list').innerHTML = bn.map(b => `<div class="swiper-slide"><img src="${b.Link_Gambar}"></div>`).join('');
+                    new Swiper(".mySwiper", { slidesPerView: 'auto', centeredSlides: true, spaceBetween: 12, loop: true, autoplay: { delay: 3000 }, pagination: { el: ".swiper-pagination", clickable: true } });
+                    rAgenda(); rBeranda();
+                } catch(e) {}
+            } else {
+                document.getElementById('skeleton-loading').style.display = 'flex';
+            }
+
             try {
-                const r = await (await fetch(API_URL)).json();
+                const res = await fetch(API_URL);
+                const r = await res.json();
+                
+                localStorage.setItem('maddatul_data_v1', JSON.stringify(r));
+                
                 dW = r.wirid || []; dW.sort((a,b) => parseInt(a.ID) - parseInt(b.ID));
                 dA = r.agenda || [];
-                
                 let bn = r.banners || [];
+                
                 document.getElementById('banner-list').innerHTML = bn.map(b => `<div class="swiper-slide"><img src="${b.Link_Gambar}"></div>`).join('');
+                if(document.querySelector('.mySwiper').swiper) document.querySelector('.mySwiper').swiper.destroy(true, true);
                 new Swiper(".mySwiper", { slidesPerView: 'auto', centeredSlides: true, spaceBetween: 12, loop: true, autoplay: { delay: 3000 }, pagination: { el: ".swiper-pagination", clickable: true } });
-
-                rAgenda(); rBeranda(); 
-                await muatDaftarSurah();
-
+                
+                rAgenda(); rBeranda();
                 document.getElementById('skeleton-loading').style.display = 'none';
-                setTimeout(() => { mulaiTour(); }, 500);
 
             } catch (e) { 
-                console.error("Gagal muat data:", e);
+                console.warn("Koneksi terputus. Menggunakan data Brankas Agenda.");
                 document.getElementById('skeleton-loading').style.display = 'none';
             }
             
+            muatDaftarSurah();
             muatShalat();
-            renderDaftarQari(); // Siapkan list Syaikh saat awal mula
+            renderDaftarQari(); 
+            setTimeout(() => { mulaiTour(); }, 500);
         }
 
         async function muatDaftarSurah() {
+            const surahBrankas = localStorage.getItem('maddatul_surah_v1');
+            if (surahBrankas) {
+                try { sL = JSON.parse(surahBrankas); } catch(e){}
+            }
+
             try {
                 const res = await fetch('https://equran.id/api/v2/surat');
                 const json = await res.json();
-                if(json.code === 200) sL = json.data;
-            } catch(e) { console.error("Gagal Quran", e); }
+                if(json.code === 200) {
+                    sL = json.data;
+                    localStorage.setItem('maddatul_surah_v1', JSON.stringify(sL)); 
+                }
+            } catch(e) { 
+                console.warn("Koneksi terputus. Menggunakan data Brankas Surah.");
+            }
+        }
+
+        async function muatShalat() {
+            const d = new Date();
+            const tglKunci = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+            const urlJadwal = `https://api.myquran.com/v2/sholat/jadwal/1638/${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`;
+
+            const shalatBrankas = localStorage.getItem('maddatul_shalat_v1');
+            if (shalatBrankas) {
+                try {
+                    const parsed = JSON.parse(shalatBrankas);
+                    if (parsed.tanggal === tglKunci) {
+                        dJ = parsed.jadwal;
+                        jalankanMesinJamShalat(); 
+                    }
+                } catch(e){}
+            }
+
+            try {
+                const res = await fetch(urlJadwal);
+                const r = await res.json();
+                if(r.status) {
+                    dJ = r.data.jadwal;
+                    let [tH, tM] = dJ['terbit'].split(':');
+                    let isyraqDate = new Date();
+                    isyraqDate.setHours(parseInt(tH), parseInt(tM) + 15, 0);
+                    dJ['isyraq'] = String(isyraqDate.getHours()).padStart(2, '0') + ':' + String(isyraqDate.getMinutes()).padStart(2, '0');
+
+                    localStorage.setItem('maddatul_shalat_v1', JSON.stringify({ tanggal: tglKunci, jadwal: dJ }));
+                    
+                    jalankanMesinJamShalat();
+                }
+            } catch (e) {
+                console.warn("Koneksi terputus. Menggunakan data Brankas Jadwal Shalat.");
+            }
+        }
+
+        function jalankanMesinJamShalat() {
+            if (!dJ) return; 
+            if (shalatInterval) clearInterval(shalatInterval); 
+
+            shalatInterval = setInterval(() => {
+                const sk = new Date();
+                const namaHari = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+                const namaBulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+                let tglString = `${sk.getDate()} ${namaBulan[sk.getMonth()]} ${sk.getFullYear()}`;
+                document.getElementById('tanggal-sekarang').innerText = `${namaHari[sk.getDay()]}, ${tglString}`;
+                
+                const df = ['subuh', 'isyraq', 'dhuha', 'dzuhur', 'ashar', 'maghrib', 'isya'];
+                let n = ""; let j = ""; let currentP = "";
+                for (let s of df) { let [h, m] = dJ[s].split(':'); let t = new Date(); t.setHours(h, m, 0); if (t > sk) { n = s; j = t; break; } }
+                if (!n) { let [h, m] = dJ['subuh'].split(':'); j = new Date(); j.setDate(j.getDate() + 1); j.setHours(h, m, 0); n = "subuh"; }
+                
+                const dfFull = ['imsak', 'subuh', 'isyraq', 'dhuha', 'dzuhur', 'ashar', 'maghrib', 'isya'];
+                for (let i = 0; i < dfFull.length; i++) {
+                    let [h, m] = dJ[dfFull[i]].split(':'); let t = new Date(); t.setHours(h, m, 0);
+                    if (t > sk) { currentP = i > 0 ? dfFull[i-1] : 'isya'; break; }
+                }
+                if(!currentP) currentP = 'isya';
+
+                let sl = Math.floor((j - sk) / 1000); let h = Math.floor(sl / 3600); let m = Math.floor((sl % 3600) / 60); let s = sl % 60;
+                document.getElementById('shalat-nama-beranda').innerText = n.toUpperCase() + " - " + dJ[n];
+                document.getElementById('shalat-waktu-beranda').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} lagi`;
+
+                let listHtml = `<div style="text-align:center; color:#555; padding-bottom:15px; margin-bottom:5px; font-weight:bold; font-size:16px;">${namaHari[sk.getDay()]}, ${tglString}</div>`;
+                dfFull.forEach(waktu => {
+                    if(waktu === 'imsak') return; 
+                    let isSekarang = (waktu === currentP);
+                    let bg = isSekarang ? 'var(--aksen-oranye)' : 'transparent';
+                    let warna = isSekarang ? '#fff' : '#444';
+                    let bulat = isSekarang ? '10px' : '0px';
+                    let nW = waktu === 'isyraq' ? 'SYURUQ' : waktu.toUpperCase(); 
+                    
+                    let ikon = svgShalat[waktu] || "";
+                    
+                    listHtml += `<div class="shalat-row" style="background:${bg}; color:${warna}; border-radius:${bulat};">
+                                    <div style="display:flex; align-items:center; gap:12px;">${ikon}<span style="font-weight:${isSekarang?'bold':'500'}; font-size:15px;">${nW}</span></div>
+                                    <strong style="font-size:16px;">${dJ[waktu]}</strong>
+                                 </div>`;
+                });
+                document.getElementById('list-shalat-full').innerHTML = listHtml;
+            }, 1000);
         }
 
         /* --- FUNGSI LACI BAWAH (BOTTOM SHEET UMUM) --- */
@@ -394,11 +507,11 @@
         }
 
         function pilihQari(idQari) {
-            matikanAudio(); // Matikan audio jika sedang berbunyi
+            matikanAudio(); 
             qariAktif = idQari;
-            localStorage.setItem('qariMaddatul', idQari); // Simpan di memori HP
-            renderDaftarQari(); // Update tanda centang
-            tutupBottomSheet('qari'); // Tutup laci
+            localStorage.setItem('qariMaddatul', idQari); 
+            renderDaftarQari(); 
+            tutupBottomSheet('qari'); 
         }
 
         /* --- SENSOR SWIPE UNTUK LACI IBADAH (DRAG TO CLOSE) --- */
@@ -426,12 +539,10 @@
             if (!isDraggingBS) return;
             isDraggingBS = false;
             let deltaY = bsCurrentY - bsStartY;
-            // Kembalikan efek kurva pengereman sopan
             bsIbadah.style.transition = 'bottom 0.65s cubic-bezier(0.25, 1.25, 0.3, 1), transform 0.3s ease-out';
             if (deltaY > 120) { tutupBottomSheet('ibadah'); } 
             else { bsIbadah.style.transform = 'translateY(0)'; }
         });
-
 
         /* --- SISTEM COACH MARKS / ONBOARDING --- */
         let currentTourStep = 0;
@@ -565,7 +676,6 @@
             isAudioPlaying = true;
 
             try {
-                // MENGGUNAKAN API ENDPOINT RESMI UNTUK MENDAPATKAN URL AUDIO YANG PASTI VALID
                 const response = await fetch(`https://api.alquran.cloud/v1/ayah/${globalNumber}/${qariAktif}`);
                 const data = await response.json();
 
@@ -634,7 +744,7 @@
             
             if(mode === 'quran') {
                 document.getElementById('nav-quran').classList.add('active');
-                document.getElementById('btn-pilih-qari').style.display = 'flex'; // Tampilkan tombol Qari
+                document.getElementById('btn-pilih-qari').style.display = 'flex'; 
                 
                 if (sL.length === 0) {
                     alert("Sedang menyelaraskan data Al-Qur'an, mohon tunggu sebentar lalu coba lagi.");
@@ -650,7 +760,7 @@
                 }
             } else if(mode === 'wirid') {
                 document.getElementById('nav-isi').classList.add('active');
-                document.getElementById('btn-pilih-qari').style.display = 'none'; // Sembunyikan tombol Qari
+                document.getElementById('btn-pilih-qari').style.display = 'none'; 
                 if(aktifWiridId === null && dW.length > 0) bukaWirid(0);
                 else bukaWirid(aktifWiridId || 0);
             }
@@ -812,61 +922,6 @@
             } else {
                 c.innerHTML = `<div class="agenda-item" style="text-align:center; color:#888;">Tidak ada agenda terdekat.</div>`;
             }
-        }
-
-        async function muatShalat() {
-            try {
-                const d = new Date(); const r = await (await fetch(`https://api.myquran.com/v2/sholat/jadwal/1638/${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`)).json();
-                if(r.status) {
-                    dJ = r.data.jadwal;
-                    let [tH, tM] = dJ['terbit'].split(':');
-                    let isyraqDate = new Date();
-                    isyraqDate.setHours(parseInt(tH), parseInt(tM) + 15, 0);
-                    dJ['isyraq'] = String(isyraqDate.getHours()).padStart(2, '0') + ':' + String(isyraqDate.getMinutes()).padStart(2, '0');
-
-                    setInterval(() => {
-                        const sk = new Date();
-                        const namaHari = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-                        const namaBulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-                        let tglString = `${sk.getDate()} ${namaBulan[sk.getMonth()]} ${sk.getFullYear()}`;
-                        document.getElementById('tanggal-sekarang').innerText = `${namaHari[sk.getDay()]}, ${tglString}`;
-                        
-                        const df = ['subuh', 'isyraq', 'dhuha', 'dzuhur', 'ashar', 'maghrib', 'isya'];
-                        let n = ""; let j = ""; let currentP = "";
-                        for (let s of df) { let [h, m] = dJ[s].split(':'); let t = new Date(); t.setHours(h, m, 0); if (t > sk) { n = s; j = t; break; } }
-                        if (!n) { let [h, m] = dJ['subuh'].split(':'); j = new Date(); j.setDate(j.getDate() + 1); j.setHours(h, m, 0); n = "subuh"; }
-                        
-                        const dfFull = ['imsak', 'subuh', 'isyraq', 'dhuha', 'dzuhur', 'ashar', 'maghrib', 'isya'];
-                        for (let i = 0; i < dfFull.length; i++) {
-                            let [h, m] = dJ[dfFull[i]].split(':'); let t = new Date(); t.setHours(h, m, 0);
-                            if (t > sk) { currentP = i > 0 ? dfFull[i-1] : 'isya'; break; }
-                        }
-                        if(!currentP) currentP = 'isya';
-
-                        let sl = Math.floor((j - sk) / 1000); let h = Math.floor(sl / 3600); let m = Math.floor((sl % 3600) / 60); let s = sl % 60;
-                        document.getElementById('shalat-nama-beranda').innerText = n.toUpperCase() + " - " + dJ[n];
-                        document.getElementById('shalat-waktu-beranda').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} lagi`;
-
-                        let listHtml = `<div style="text-align:center; color:#555; padding-bottom:15px; margin-bottom:5px; font-weight:bold; font-size:16px;">${namaHari[sk.getDay()]}, ${tglString}</div>`;
-                        dfFull.forEach(waktu => {
-                            if(waktu === 'imsak') return; 
-                            let isSekarang = (waktu === currentP);
-                            let bg = isSekarang ? 'var(--aksen-oranye)' : 'transparent';
-                            let warna = isSekarang ? '#fff' : '#444';
-                            let bulat = isSekarang ? '10px' : '0px';
-                            let nW = waktu === 'isyraq' ? 'SYURUQ' : waktu.toUpperCase(); 
-                            
-                            let ikon = svgShalat[waktu] || "";
-                            
-                            listHtml += `<div class="shalat-row" style="background:${bg}; color:${warna}; border-radius:${bulat};">
-                                            <div style="display:flex; align-items:center; gap:12px;">${ikon}<span style="font-weight:${isSekarang?'bold':'500'}; font-size:15px;">${nW}</span></div>
-                                            <strong style="font-size:16px;">${dJ[waktu]}</strong>
-                                         </div>`;
-                        });
-                        document.getElementById('list-shalat-full').innerHTML = listHtml;
-                    }, 1000);
-                }
-            } catch (e) { }
         }
 
         let tas = 0; 
