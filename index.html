@@ -73,42 +73,41 @@
         .shalat-row { display:flex; justify-content:space-between; align-items:center; padding:14px 10px; border-bottom:1px solid #f0f0f0; }
         .shalat-row:last-child { border-bottom: none; }
         
-        /* KOMPAS PREMIUM 3D CSS MURNI */
+        /* KOMPAS PREMIUM IMAGE-BASED */
         .kiblat-container { text-align: center; padding: 25px 0; }
         #teks-status-kiblat { font-size: 15px; color: #777; margin-bottom: 20px; font-weight: 500; height: 22px; transition: color 0.3s; }
         
         #kompas-wrapper { 
             width: 260px; height: 260px; margin: 0 auto 20px auto; position: relative; border-radius: 50%; 
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            box-shadow: 10px 10px 20px rgba(0,0,0,0.1), -10px -10px 20px rgba(255,255,255,0.8), inset 0 0 10px rgba(0,0,0,0.05);
-            border: 5px solid #fff; display: flex; align-items: center; justify-content: center; transition: all 0.4s ease;
+            display: flex; align-items: center; justify-content: center; transition: all 0.4s ease;
         }
         
-        .kompas-inner-ring {
-            width: 220px; height: 220px; border-radius: 50%;
-            background: radial-gradient(circle at 50% 50%, #fff 40%, #eef2f5 100%);
-            box-shadow: inset 4px 4px 10px rgba(0,0,0,0.08), inset -4px -4px 10px rgba(255,255,255,0.8);
-            position: relative; display: flex; align-items: center; justify-content: center;
-        }
-
-        .kompas-ticks {
-            position: absolute; top: 8px; left: 8px; right: 8px; bottom: 8px; border-radius: 50%;
-            background: repeating-conic-gradient(from 0deg, transparent 0deg, transparent 4deg, #94a3b8 4deg, #94a3b8 5deg);
-            -webkit-mask-image: radial-gradient(transparent 62%, black 65%); opacity: 0.6;
-        }
-
-        .kompas-inner-ring::after {
-            content: "N"; position: absolute; top: 12px;
-            font-weight: 900; color: var(--aksen-oranye); font-size: 22px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+        /* Piringan Dasar */
+        #kompas-bg { 
+            width: 100%; height: 100%; object-fit: contain; position: absolute; top: 0; left: 0; z-index: 1; 
         }
         
-        #jarum-wrapper { width: 100%; height: 100%; position: absolute; z-index: 5; }
-        .jarum-css { width: 50px; height: 190px; position: absolute; left: 50%; top: 15px; transform: translateX(-50%); filter: drop-shadow(0 8px 6px rgba(0,0,0,0.15)); }
+        /* Wadah Jarum (Berputar) */
+        #jarum-wrapper { 
+            width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 5; 
+            display: flex; align-items: center; justify-content: center; 
+        }
         
-        #kompas-wrapper.aligned { box-shadow: 0 0 30px rgba(39, 174, 96, 0.4), inset 0 0 15px rgba(39, 174, 96, 0.1); border-color: var(--aksen-hijau); }
-        #kompas-wrapper.aligned .panah-utama { fill: var(--aksen-hijau); filter: brightness(1.1); }
-        #kompas-wrapper.aligned .kompas-inner-ring::after { color: var(--aksen-hijau); }
+        /* Gambar Jarum Ka'bah */
+        #jarum-kiblat-img { 
+            width: 90%; /* Menyesuaikan agar tidak keluar garis piringan */
+            height: auto; object-fit: contain; 
+            filter: drop-shadow(0 8px 6px rgba(0,0,0,0.3)); transition: filter 0.3s ease; 
+        }
+        
+        /* Efek Saat Kiblat Tepat (Hijau Menyala) */
+        #kompas-wrapper.aligned { 
+            box-shadow: 0 0 35px rgba(39, 174, 96, 0.4), inset 0 0 15px rgba(39, 174, 96, 0.2); 
+            background-color: rgba(39, 174, 96, 0.05); /* Sedikit hint hijau di belakang */
+        }
+        #kompas-wrapper.aligned #jarum-kiblat-img { 
+            filter: drop-shadow(0 8px 15px rgba(39, 174, 96, 0.6)) brightness(1.15); 
+        }
 
         .tasbih-container { text-align: center; padding: 10px 0 30px 0; }
 
@@ -207,24 +206,14 @@
             <div class="shalat-box kiblat-container">
                 <div id="teks-status-kiblat">Pastikan GPS aktif & ketuk tombol di bawah.</div>
                 
+                <!-- INTEGRASI KOMPAS PREMIUM GAMBAR BAPAK -->
                 <div id="kompas-wrapper">
-                    <div class="kompas-inner-ring">
-                        <div class="kompas-ticks"></div>
-                        <div id="jarum-wrapper">
-                            <svg class="jarum-css" viewBox="0 0 100 300" xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                    <linearGradient id="gradOranye" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" style="stop-color:#F26522;stop-opacity:1" />
-                                        <stop offset="100%" style="stop-color:#b94b15;stop-opacity:1" />
-                                    </linearGradient>
-                                </defs>
-                                <path class="panah-utama" d="M50 0 L85 130 L50 250 L15 130 Z" fill="url(#gradOranye)" style="transition: fill 0.3s"/>
-                                <path class="panah-utama" d="M50 0 L85 130 L50 130 Z" fill="rgba(0,0,0,0.15)"/>
-                                <rect x="35" y="25" width="30" height="34" rx="3" fill="#111" stroke="#333" stroke-width="2"/>
-                                <rect x="35" y="35" width="30" height="4" fill="#f1c40f"/>
-                                <rect x="35" y="44" width="30" height="2" fill="#d4af37"/>
-                            </svg>
-                        </div>
+                    <!-- Piringan Statis -->
+                    <img src="kompas-bg.png" alt="Kompas Background" id="kompas-bg" onerror="this.style.display='none'">
+                    
+                    <!-- Jarum Berputar -->
+                    <div id="jarum-wrapper">
+                        <img src="jarum-kiblat.png" alt="Jarum Kiblat Ka'bah" id="jarum-kiblat-img" onerror="this.style.display='none'">
                     </div>
                 </div>
 
