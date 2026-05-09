@@ -102,7 +102,7 @@
         
         /* Efek Saat Kiblat Tepat (Hijau Menyala) */
         #kompas-wrapper.aligned { 
-            box-shadow: 0 0 35px rgba(39, 174, 96, 0.4), inset 0 0 15px rgba(39, 174, 96, 0.2); 
+            box-shadow: 0 0 35px rgba(242, 101, 34, 0.4), inset 0 0 15px rgba(242, 101, 34, 0.2); 
             background-color: rgba(39, 174, 96, 0.05); /* Sedikit hint hijau di belakang */
         }
         #kompas-wrapper.aligned #jarum-kiblat-img { 
@@ -795,7 +795,7 @@
                             if(!isKiblatLocked) {
                                 isKiblatLocked = true;
                                 document.getElementById('kompas-wrapper').classList.add('aligned');
-                                document.getElementById('teks-status-kiblat').innerHTML = "<strong style='color:var(--aksen-hijau); font-size:18px;'>✓ Arah Kiblat Tepat!</strong>";
+                                document.getElementById('teks-status-kiblat').innerHTML = "<strong style='color:var(--aksen-oranye); font-size:18px;'>✓ Arah Kiblat Tepat!</strong>";
                                 if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
                             }
                         } else {
