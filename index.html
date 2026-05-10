@@ -293,7 +293,6 @@
             'diba': { nama: "Ad-Diba'i", url: 'https://raw.githubusercontent.com/afaf-tech/sholawat-json/master/sholawat/diba/nu_online/fasl/', count: 29 },
             'burdah': { nama: 'Al-Burdah', url: 'https://raw.githubusercontent.com/afaf-tech/sholawat-json/master/sholawat/burdah/nu_online/fasl/', count: 10 }
         };
-        
         let aktifMaulidId = null; let aktifMaulidPasal = 1;
 
         const getUID = () => { let id = localStorage.getItem('visitorIdMaddatul'); if(!id) { id = 'user-' + Math.random().toString(36).substr(2, 9); localStorage.setItem('visitorIdMaddatul', id); } return id; };
@@ -324,6 +323,7 @@
             'imsak': `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`,
             'subuh': `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8a4 4 0 0 1 4 4H8a4 4 0 0 1 4-4z"></path><path d="M4 14h16"></path><path d="M12 2v2"></path><path d="M20 18h-2"></path><path d="M6 18H4"></path></svg>`,
             'terbit': `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`,
+            'isyraq': `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`,
             'dhuha': `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`,
             'dzuhur': `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="6.34" y2="6.34"></line><line x1="17.66" y1="17.66" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="6.34" y2="17.66"></line><line x1="17.66" y1="6.34" x2="19.07" y2="4.93"></line></svg>`,
             'ashar': `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line></svg>`,
@@ -675,7 +675,17 @@
                 }
 
                 const res = await fetch(urlJadwal); const r = await res.json();
-                if(r.status) { dJ = r.data.jadwal; localStorage.setItem('maddatul_shalat_v1', JSON.stringify({ tanggal: tglKunci, jadwal: dJ })); jalankanMesinJamShalat(); }
+                if(r.status) { 
+                    dJ = r.data.jadwal; 
+                    // Rumus Mesin Isyraq (Thulu' + 15 Menit)
+                    let [tH, tM] = dJ['terbit'].split(':');
+                    let isyraqDate = new Date(); 
+                    isyraqDate.setHours(parseInt(tH), parseInt(tM) + 15, 0);
+                    dJ['isyraq'] = String(isyraqDate.getHours()).padStart(2, '0') + ':' + String(isyraqDate.getMinutes()).padStart(2, '0');
+                    
+                    localStorage.setItem('maddatul_shalat_v1', JSON.stringify({ tanggal: tglKunci, jadwal: dJ })); 
+                    jalankanMesinJamShalat(); 
+                }
             } catch (e) { console.warn("Menggunakan Jadwal Brankas."); }
         }
 
@@ -689,14 +699,14 @@
                 let tglString = `${sk.getDate()} ${namaBulan[sk.getMonth()]} ${sk.getFullYear()}`;
                 document.getElementById('tanggal-sekarang').innerText = `${namaHari[sk.getDay()]}, ${tglString}`;
                 
-                // Dashboard Atas: Mencari waktu berikutnya
-                const df = ['subuh', 'terbit', 'dhuha', 'dzuhur', 'ashar', 'maghrib', 'isya'];
+                // Dashboard Atas: Mencari waktu berikutnya (Subuh, Thulu', Isyraq, dll)
+                const df = ['subuh', 'terbit', 'isyraq', 'dhuha', 'dzuhur', 'ashar', 'maghrib', 'isya'];
                 let n = ""; let j = ""; let currentP = "";
                 for (let s of df) { let [h, m] = dJ[s].split(':'); let t = new Date(); t.setHours(h, m, 0); if (t > sk) { n = s; j = t; break; } }
                 if (!n) { let [h, m] = dJ['subuh'].split(':'); j = new Date(); j.setDate(j.getDate() + 1); j.setHours(h, m, 0); n = "subuh"; }
                 
-                // List Laci Bawah: Menambahkan Imsak
-                const dfFull = ['imsak', 'subuh', 'terbit', 'dhuha', 'dzuhur', 'ashar', 'maghrib', 'isya'];
+                // List Laci Bawah: Lengkap dengan Imsak
+                const dfFull = ['imsak', 'subuh', 'terbit', 'isyraq', 'dhuha', 'dzuhur', 'ashar', 'maghrib', 'isya'];
                 for (let i = 0; i < dfFull.length; i++) {
                     let [h, m] = dJ[dfFull[i]].split(':'); let t = new Date(); t.setHours(h, m, 0);
                     if (t > sk) { currentP = i > 0 ? dfFull[i-1] : 'isya'; break; }
@@ -705,7 +715,7 @@
 
                 let sl = Math.floor((j - sk) / 1000); let h = Math.floor(sl / 3600); let m = Math.floor((sl % 3600) / 60); let s = sl % 60;
                 
-                // MENGUBAH NAMA TERBIT MENJADI THULU'
+                // Ganti label 'terbit' menjadi 'THULU'' di Dashboard Atas
                 let namaTampil = (n === 'terbit' ? "THULU'" : n.toUpperCase());
                 document.getElementById('shalat-nama-beranda').innerText = namaTampil + " - " + dJ[n];
                 document.getElementById('shalat-waktu-beranda').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} lagi`;
@@ -717,6 +727,8 @@
                     let bg = isSekarang ? 'var(--aksen-oranye)' : 'transparent';
                     let warna = isSekarang ? '#fff' : '#444';
                     let bulat = isSekarang ? '10px' : '0px';
+                    
+                    // Ganti label 'terbit' menjadi 'THULU'' di Laci Bawah
                     let nW = (waktu === 'terbit' ? "THULU'" : waktu.toUpperCase()); 
                     let ikon = svgShalat[waktu] || "";
                     
