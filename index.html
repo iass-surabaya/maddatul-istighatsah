@@ -1016,5 +1016,18 @@
 
         muatData();
     </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(registration => {
+                        console.log('Satpam PWA berhasil diaktifkan. Cakupan:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.error('Gagal mengaktifkan Satpam PWA:', error);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>
