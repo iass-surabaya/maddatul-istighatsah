@@ -293,6 +293,7 @@
             'diba': { nama: "Ad-Diba'i", url: 'https://raw.githubusercontent.com/afaf-tech/sholawat-json/master/sholawat/diba/nu_online/fasl/', count: 29 },
             'burdah': { nama: 'Al-Burdah', url: 'https://raw.githubusercontent.com/afaf-tech/sholawat-json/master/sholawat/burdah/nu_online/fasl/', count: 10 }
         };
+        
         let aktifMaulidId = null; let aktifMaulidPasal = 1;
 
         const getUID = () => { let id = localStorage.getItem('visitorIdMaddatul'); if(!id) { id = 'user-' + Math.random().toString(36).substr(2, 9); localStorage.setItem('visitorIdMaddatul', id); } return id; };
