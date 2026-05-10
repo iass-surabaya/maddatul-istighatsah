@@ -478,11 +478,19 @@
 
         async function bukaMaulid(idMaulid, pasalKe) {
             aktifMaulidId = idMaulid; aktifMaulidPasal = pasalKe; let katalog = MAULID_CATALOG[idMaulid];
-            pState(); sembunyikanSemuaView(); modeBaca = 'maulid'; document.getElementById('view-baca').style.display = 'block'; document.getElementById('kontrol-baca').style.display = 'flex'; document.getElementById('teks-judul-header').style.display = 'block'; document.getElementById('nav-maulid').classList.add('active');
-            document.getElementById('teks-judul-header').innerText = `${katalog.nama} (${pasalKe}/${katalog.count})`; document.getElementById('teks-arab').innerHTML = '<div style="text-align:center; padding-top:60px; font-family:sans-serif; font-size:14px; color:#666;">Menyedot Teks Maulid...</div>';
+            pState(); sembunyikanSemuaView(); modeBaca = 'maulid'; 
+            
+            document.getElementById('view-baca').style.display = 'block'; 
+            document.getElementById('kontrol-baca').style.display = 'flex'; 
+            document.getElementById('teks-judul-header').style.display = 'block'; 
+            document.getElementById('btn-burger').style.display = 'block'; // Tombol Laci Samping Maulid Aktif
+            document.getElementById('nav-maulid').classList.add('active');
+            
+            document.getElementById('teks-judul-header').innerText = `${katalog.nama} (${pasalKe}/${katalog.count})`; 
+            document.getElementById('teks-arab').innerHTML = '<div style="text-align:center; padding-top:60px; font-family:sans-serif; font-size:14px; color:#666;">Menyedot Teks Maulid...</div>';
             
             aktifkanLayar(); // Mengunci layar agar tidak mati saat baca Maulid
-            setTimeout(() => { mulaiTour('baca'); }, 800); // Memanggil tour khusus mode baca
+            setTimeout(() => { mulaiTour('baca'); }, 800); 
 
             let kunciBrankas = `mddtl_maulid_${idMaulid}_${pasalKe}`; let teksTersimpan = localStorage.getItem(kunciBrankas);
             if(teksTersimpan) { document.getElementById('teks-arab').innerHTML = `<div style="font-family:var(--font-arab); font-size:${font}px; line-height:2.2; text-align:justify; white-space:pre-wrap; direction:rtl;">${teksTersimpan}</div>`; document.getElementById('main-container').scrollTop = 0; return; }
@@ -499,7 +507,16 @@
             if(mode === 'quran') {
                 shQuran.style.display = 'flex'; document.getElementById('search-surah').value = ''; 
                 if (sL.length > 0) { sL.forEach(s => { let aktifClass = (aktifQuranId === `surah-${s.nomor}`) ? 'active' : ''; let namaAman = s.namaLatin.replace(/'/g, '`'); slist.innerHTML += `<div class="sb-item surah-item ${aktifClass}" onclick="bukaSurah(${s.nomor}, '${namaAman}'); tutupSidebar();" data-nama="${s.namaLatin.toLowerCase()}"><div><strong style="font-size:15px;">${s.nomor}. ${s.namaLatin}</strong><br><span style="font-size:12px; color:#666;">${s.arti} (${s.jumlahAyat} ayat)</span></div><div class="sb-item-arab">${s.nama}</div></div>`; }); } else { slist.innerHTML = `<div style="padding: 20px; text-align: center; color: #888;">Memuat data Surah...</div>`; }
-            } else if(mode === 'wirid') { shQuran.style.display = 'none'; dW.forEach((w, i) => { let aktifClass = (aktifWiridId === i) ? 'active' : ''; slist.innerHTML += `<div class="sb-item ${aktifClass}" onclick="bukaWirid(${i}); tutupSidebar();"><span style="font-size:16px; font-weight:bold;">${ubahKeAngkaArab(w.Judul)}</span></div>`; }); }
+            } else if(mode === 'wirid') { 
+                shQuran.style.display = 'none'; dW.forEach((w, i) => { let aktifClass = (aktifWiridId === i) ? 'active' : ''; slist.innerHTML += `<div class="sb-item ${aktifClass}" onclick="bukaWirid(${i}); tutupSidebar();"><span style="font-size:16px; font-weight:bold;">${ubahKeAngkaArab(w.Judul)}</span></div>`; }); 
+            } else if(mode === 'maulid') {
+                shQuran.style.display = 'none'; 
+                let katalog = MAULID_CATALOG[aktifMaulidId];
+                for(let i=1; i<=katalog.count; i++) {
+                    let aktifClass = (aktifMaulidPasal === i) ? 'active' : '';
+                    slist.innerHTML += `<div class="sb-item ${aktifClass}" onclick="bukaMaulid('${aktifMaulidId}', ${i}); tutupSidebar();"><span style="font-size:16px; font-weight:bold;">Pasal ${i}</span></div>`;
+                }
+            }
             document.getElementById('sidebar-overlay').style.display = 'block'; setTimeout(() => { document.getElementById('sidebar-overlay').style.opacity = '1'; document.getElementById('sidebar-menu').style.left = '0'; }, 10);
             setTimeout(() => { const act = document.querySelector('.sb-item.active'); if(act) act.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 350);
         }
@@ -528,7 +545,7 @@
             document.getElementById('main-container').scrollTop = 0; 
             
             aktifkanLayar(); // Mengunci layar agar tidak mati saat baca
-            setTimeout(() => { mulaiTour('baca'); }, 800); // Memanggil tour khusus mode baca
+            setTimeout(() => { mulaiTour('baca'); }, 800); 
         }
         
         function ubahUkuran(a) { font += (a*4); if(font < 20) font = 20; if(document.querySelector('.mushaf-container')) { document.querySelector('.mushaf-container').style.fontSize = font + 'px'; } else if (document.getElementById('teks-arab').firstChild) { document.getElementById('teks-arab').firstChild.style.fontSize = font + 'px'; } }
