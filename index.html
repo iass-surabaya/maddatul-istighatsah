@@ -465,26 +465,12 @@
         }
 
         function bukaTeksMaulid(kategori, index) {
-            pState(); sembunyikanSemuaView();
-            modeBaca = 'maulid';
-            aktifMaulidKategori = kategori; aktifMaulidIndex = index;
-            
-            const listBab = dM.filter(m => m.Kategori === kategori);
-            const dataBab = listBab[index];
-            
-            document.getElementById('view-baca').style.display = 'block';
-            document.getElementById('kontrol-baca').style.display = 'flex';
-            document.getElementById('btn-burger').style.display = 'block'; // Pasang Burger Menu
-            document.getElementById('teks-judul-header').style.display = 'block';
-            document.getElementById('nav-maulid').classList.add('active');
-            
-            // PERUBAHAN: Header kini menampilkan "Judul" Bab/Pasal, bukan Kategori
+            pState(); sembunyikanSemuaView(); modeBaca = 'maulid'; aktifMaulidKategori = kategori; aktifMaulidIndex = index;
+            const listBab = dM.filter(m => m.Kategori === kategori); const dataBab = listBab[index];
+            document.getElementById('view-baca').style.display = 'block'; document.getElementById('kontrol-baca').style.display = 'flex'; document.getElementById('btn-burger').style.display = 'block'; document.getElementById('teks-judul-header').style.display = 'block'; document.getElementById('nav-maulid').classList.add('active');
             document.getElementById('teks-judul-header').innerText = dataBab.Judul;
-            
-            // PERUBAHAN: Gelembung judul di tengah dihapus, langsung fokus ke teks Arab
-            document.getElementById('teks-arab').innerHTML = `
-                <div style="font-family:var(--font-arab); font-size:${font}px; line-height:2.2; text-align:justify; white-space:pre-wrap; direction:rtl;">${dataBab.Teks_Arab.replace(/\\n/g, '<br>')}</div>
-            `;
+            // PERUBAHAN: text-align:center, ditulis satu baris, dan ditambah .trim()
+            document.getElementById('teks-arab').innerHTML = `<div style="font-family:var(--font-arab); font-size:${font}px; line-height:2.2; text-align:center; white-space:pre-wrap; direction:rtl;">${dataBab.Teks_Arab.trim().replace(/\\n/g, '<br>')}</div>`;
             document.getElementById('main-container').scrollTop = 0;
         }
         
