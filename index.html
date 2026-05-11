@@ -478,16 +478,16 @@
             document.getElementById('teks-judul-header').style.display = 'block';
             document.getElementById('nav-maulid').classList.add('active');
             
-            // Nama Kitab Tanpa Kata "Kitab"
-            document.getElementById('teks-judul-header').innerText = kategori;
+            // PERUBAHAN: Header kini menampilkan "Judul" Bab/Pasal, bukan Kategori
+            document.getElementById('teks-judul-header').innerText = dataBab.Judul;
             
+            // PERUBAHAN: Gelembung judul di tengah dihapus, langsung fokus ke teks Arab
             document.getElementById('teks-arab').innerHTML = `
-                <div style="text-align:center; background:#fff0e6; padding:8px 20px; border-radius:20px; color:var(--aksen-oranye); font-weight:bold; font-size:14px; margin-bottom:25px; display:table; margin-left:auto; margin-right:auto; border:1px solid rgba(242, 101, 34, 0.2); direction:ltr;">${dataBab.Judul}</div>
                 <div style="font-family:var(--font-arab); font-size:${font}px; line-height:2.2; text-align:justify; white-space:pre-wrap; direction:rtl;">${dataBab.Teks_Arab.replace(/\\n/g, '<br>')}</div>
             `;
             document.getElementById('main-container').scrollTop = 0;
         }
-
+        
         function siapkanSidebar(mode) {
             const slist = document.getElementById('sidebar-list'); const shQuran = document.getElementById('sidebar-header-quran'); slist.innerHTML = '';
             if(mode === 'quran') {
