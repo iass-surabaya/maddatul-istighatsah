@@ -1,4 +1,4 @@
-const CACHE_NAME = 'maddatul-istighatsah-v22
+const CACHE_NAME = 'maddatul-istighatsah-v23
   '; // Versi dinaikkan agar HP otomatis update
 const urlsToCache = [
   './',
