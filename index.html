@@ -57,9 +57,9 @@
         .agenda-selesai { border-left: 5px solid #cccccc; opacity: 0.8; }
         .agenda-selesai strong { color: #888888; }
 
-        /* CSS KHUSUS SHORTCUT WIRID (CAROUSEL) */
+        /* CSS KHUSUS SHORTCUT WIRID (CAROUSEL) DENGAN BORDER ORANYE */
         .shortcut-container { display: flex; gap: 10px; overflow-x: auto; margin: 0 15px 20px 15px; padding-bottom: 10px; scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none; }
-        .shortcut-card { flex: 0 0 38%; background: #ffffff; padding: 12px 10px; border-radius: 10px; box-shadow: 0 3px 8px rgba(0,0,0,0.05); text-align: center; color: var(--aksen-oranye); font-weight: 800; font-size: 15px; cursor: pointer; transition: transform 0.2s; scroll-snap-align: start; border: 1px solid rgba(242,101,34,0.15); display: flex; align-items: center; justify-content: center; min-height: 50px; }
+        .shortcut-card { flex: 0 0 38%; background: #ffffff; padding: 12px 10px; border-radius: 10px; box-shadow: 0 3px 8px rgba(0,0,0,0.05); text-align: center; color: var(--aksen-oranye); font-weight: 800; font-size: 15px; cursor: pointer; transition: transform 0.2s; scroll-snap-align: start; border: 1.5px solid var(--aksen-oranye); display: flex; align-items: center; justify-content: center; min-height: 50px; }
         .shortcut-card:active { transform: scale(0.95); background: #fff0e6; }
 
         #view-baca { background: #fff; padding: 20px 20px 140px 20px; direction: rtl; } 
@@ -133,6 +133,30 @@
         .tour-controls { display: flex; justify-content: center; gap: 15px; align-items: center; }
         .btn-tour { background: none; border: none; color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; transition: opacity 0.2s; }
         .btn-tour-lanjut { background: #fff; color: var(--aksen-oranye); padding: 8px 20px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+
+        /* --- ANIMASI TUTORIAL SWIPE (TANGAN) --- */
+        #swipe-tutorial {
+            position: fixed; top: 50%; left: 0; width: 100%; transform: translateY(-50%);
+            z-index: 9999; display: none; pointer-events: none; text-align: center;
+        }
+        .ikon-tangan {
+            width: 60px; height: auto; opacity: 0.8;
+            animation: animasiSwipe 2s infinite ease-in-out;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
+        }
+        @keyframes animasiSwipe {
+            0% { transform: translateX(60px) rotate(15deg) scale(0.9); opacity: 0; }
+            20% { opacity: 1; transform: translateX(60px) rotate(15deg) scale(1); }
+            70% { opacity: 1; transform: translateX(-60px) rotate(-10deg) scale(1); }
+            100% { transform: translateX(-60px) rotate(-10deg) scale(0.9); opacity: 0; }
+        }
+        .teks-tutorial {
+            font-size: 14px; color: var(--aksen-oranye); background: rgba(255, 255, 255, 0.95);
+            padding: 6px 16px; border-radius: 20px; display: inline-block; margin-top: 15px;
+            font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            animation: fadeInOut 2s infinite;
+        }
+        @keyframes fadeInOut { 0%, 100% { opacity: 0; } 20%, 70% { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -285,6 +309,14 @@
         </div>
     </div>
 
+    <!-- OVERLAY TUTORIAL SWIPE -->
+    <div id="swipe-tutorial">
+        <svg class="ikon-tangan" viewBox="0 0 24 24" fill="var(--aksen-oranye)">
+            <path d="M9 11.24V7.5a2.5 2.5 0 0 1 5 0v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6a1.5 1.5 0 0 0-3 0v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.04.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.21 0-.69-.47-1.28-1.14-1.42z"/>
+        </svg>
+        <div class="teks-tutorial">Usap untuk pindah halaman</div>
+    </div>
+
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -357,7 +389,7 @@
                     let bn = r.banners || [];
                     document.getElementById('banner-list').innerHTML = bn.map(b => `<div class="swiper-slide"><img src="${b.Link_Gambar}"></div>`).join('');
                     new Swiper(".mySwiper", { slidesPerView: 'auto', centeredSlides: true, spaceBetween: 12, loop: true, autoplay: { delay: 3000 }, pagination: { el: ".swiper-pagination", clickable: true } });
-                    rAgenda(); rBeranda(); rLaciMaulid(); rShortcutWirid(); // Panggil render shortcut di sini
+                    rAgenda(); rBeranda(); rLaciMaulid(); rShortcutWirid(); 
                 } catch(e) {}
             } else { document.getElementById('skeleton-loading').style.display = 'flex'; }
 
@@ -375,7 +407,7 @@
                 if(document.querySelector('.mySwiper').swiper) document.querySelector('.mySwiper').swiper.destroy(true, true);
                 new Swiper(".mySwiper", { slidesPerView: 'auto', centeredSlides: true, spaceBetween: 12, loop: true, autoplay: { delay: 3000 }, pagination: { el: ".swiper-pagination", clickable: true } });
                 
-                rAgenda(); rBeranda(); rLaciMaulid(); rShortcutWirid(); // Panggil render shortcut di sini
+                rAgenda(); rBeranda(); rLaciMaulid(); rShortcutWirid(); 
                 document.getElementById('skeleton-loading').style.display = 'none';
             } catch (e) { 
                 console.warn("Koneksi terputus. Menggunakan data Brankas.");
@@ -435,14 +467,29 @@
         }
         function pilihQari(idQari) { matikanAudio(); qariAktif = idQari; localStorage.setItem('qariMaddatul', idQari); renderDaftarQari(); tutupBottomSheet('qari'); }
 
+        let swipeTutorialSelesai = false;
+        function tampilkanTutorialSwipe() {
+            if(swipeTutorialSelesai) return; 
+            let tut = document.getElementById('swipe-tutorial');
+            if(tut) tut.style.display = 'block';
+            setTimeout(() => { if(tut) tut.style.display = 'none'; swipeTutorialSelesai = true; }, 4000);
+        }
+
         let touchStartX = 0; let touchEndX = 0; let isSwiping = false; const areaMain = document.getElementById('main-container');
-        areaMain.addEventListener('touchstart', e => { if (document.getElementById('view-baca').style.display !== 'block') return; touchStartX = e.changedTouches[0].screenX; isSwiping = true; }, {passive: true});
+        areaMain.addEventListener('touchstart', e => { 
+            // Matikan tutorial jika disentuh
+            let tut = document.getElementById('swipe-tutorial');
+            if(tut && tut.style.display === 'block') { tut.style.display = 'none'; swipeTutorialSelesai = true; }
+            
+            if (document.getElementById('view-baca').style.display !== 'block') return; 
+            touchStartX = e.changedTouches[0].screenX; isSwiping = true; 
+        }, {passive: true});
         areaMain.addEventListener('touchend', e => { if(!isSwiping) return; touchEndX = e.changedTouches[0].screenX; isSwiping = false; handleSwipe(); }, {passive: true});
+        
         function handleSwipe() {
             let swipeDist = touchEndX - touchStartX;
             if (swipeDist > 100) { 
                 if(modeBaca === 'wirid') {
-                    // MESIN GESER WIRID YANG MENGHARGAI FILTER KATEGORI
                     let curList = dW.map((w, i) => ({w, i})).filter(o => aktifWiridKategori === 'Semua' || o.w.Kategori === aktifWiridKategori);
                     let curIdx = curList.findIndex(o => o.i === aktifWiridId);
                     if(curIdx > 0) bukaWirid(curList[curIdx - 1].i);
@@ -454,7 +501,6 @@
                 }
             } else if (swipeDist < -100) { 
                 if(modeBaca === 'wirid') {
-                    // MESIN GESER WIRID YANG MENGHARGAI FILTER KATEGORI
                     let curList = dW.map((w, i) => ({w, i})).filter(o => aktifWiridKategori === 'Semua' || o.w.Kategori === aktifWiridKategori);
                     let curIdx = curList.findIndex(o => o.i === aktifWiridId);
                     if(curIdx > -1 && curIdx < curList.length - 1) bukaWirid(curList[curIdx + 1].i);
@@ -481,7 +527,6 @@
 
         function kembaliKeBeranda() { sembunyikanSemuaView(); document.getElementById('view-beranda').style.display = 'block'; document.getElementById('logo-header').style.display = 'block'; }
         
-        // FUNGSI BARU: Akses Cepat Kategori Wirid
         function bukaKategoriWirid(kategori) {
             aktifWiridKategori = kategori;
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
@@ -496,17 +541,16 @@
                 document.getElementById('btn-burger').style.display = 'block'; 
                 document.getElementById('nav-isi').classList.add('active'); 
                 
-                // Jika ditekan dari Navbar bawah, reset filter kategori ke 'Semua'
                 if(!isShortcut) aktifWiridKategori = 'Semua';
                 
                 let targetIndex = aktifWiridId || 0;
-                // Jika sedang di-filter atau ditekan lewat shortcut, lompat ke bab pertama dari kategori tersebut
                 if(isShortcut || (aktifWiridKategori !== 'Semua' && dW[aktifWiridId]?.Kategori !== aktifWiridKategori)) {
                     targetIndex = dW.findIndex(w => w.Kategori === aktifWiridKategori);
                     if(targetIndex === -1) targetIndex = 0;
                 }
                 bukaWirid(targetIndex); 
             }
+            setTimeout(() => { tampilkanTutorialSwipe(); }, 500);
         }
 
         function rLaciMaulid() {
@@ -519,7 +563,6 @@
             `).join('');
         }
 
-        // FUNGSI BARU: Render Kotak Shortcut Dinamis
         function rShortcutWirid() {
             const c = document.getElementById('wirid-shortcuts');
             let kategoriUnik = [...new Set(dW.map(w => w.Kategori).filter(k => k))];
@@ -535,6 +578,7 @@
             document.getElementById('teks-judul-header').innerText = dataBab.Judul;
             document.getElementById('teks-arab').innerHTML = `<div class="teks-bacaan" style="font-family:var(--font-arab); font-size:${font}px; line-height:2.2; text-align:center; white-space:pre-wrap; direction:rtl;">${dataBab.Teks_Arab.replace(/\\n/g, '\n').trim().replace(/\n/g, '<br>')}</div>`;
             document.getElementById('main-container').scrollTop = 0;
+            setTimeout(() => { tampilkanTutorialSwipe(); }, 500);
         }
         
         function siapkanSidebar(mode) {
@@ -544,14 +588,10 @@
                 if (sL.length > 0) { sL.forEach(s => { let aktifClass = (aktifQuranId === `surah-${s.nomor}`) ? 'active' : ''; let namaAman = s.namaLatin.replace(/'/g, '`'); slist.innerHTML += `<div class="sb-item surah-item ${aktifClass}" onclick="bukaSurah(${s.nomor}, '${namaAman}'); tutupSidebar();" data-nama="${s.namaLatin.toLowerCase()}"><div><strong style="font-size:15px;">${s.nomor}. ${s.namaLatin}</strong><br><span style="font-size:12px; color:#666;">${s.arti} (${s.jumlahAyat} ayat)</span></div><div class="sb-item-arab">${s.nama}</div></div>`; }); } else { slist.innerHTML = `<div style="padding: 20px; text-align: center; color: #888;">Memuat data Surah...</div>`; }
             } else if(mode === 'wirid') { 
                 shQuran.style.display = 'none'; 
-                
-                // Tambahkan Tombol Reset Filter jika sedang di dalam mode Kategori Khusus
                 if(aktifWiridKategori !== 'Semua') {
                     slist.innerHTML += `<div style="padding: 14px 20px; background: #fff0e6; text-align: center; font-size: 14px; font-weight: bold; color: var(--aksen-oranye); cursor: pointer; border-bottom: 1px solid rgba(242, 101, 34, 0.2);" onclick="aktifWiridKategori='Semua'; siapkanSidebar('wirid');">Pusat Seluruh Wirid ➔</div>`;
                 }
-
                 dW.forEach((w, i) => { 
-                    // FILTER: Sembunyikan yang tidak sesuai kategori aktif
                     if (aktifWiridKategori !== 'Semua' && w.Kategori !== aktifWiridKategori) return;
                     let aktifClass = (aktifWiridId === i) ? 'active' : ''; 
                     slist.innerHTML += `<div class="sb-item ${aktifClass}" onclick="bukaWirid(${i}); tutupSidebar();"><span style="font-size:16px; font-weight:bold;">${ubahKeAngkaArab(w.Judul)}</span></div>`; 
