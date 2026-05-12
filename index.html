@@ -57,6 +57,12 @@
         .agenda-selesai { border-left: 5px solid #cccccc; opacity: 0.8; }
         .agenda-selesai strong { color: #888888; }
 
+        /* CSS KHUSUS SHORTCUT WIRID (CAROUSEL) */
+        .shortcut-container { display: flex; gap: 12px; overflow-x: auto; margin: 0 15px 20px 15px; padding-bottom: 10px; scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none; }
+        .shortcut-container::-webkit-scrollbar { display: none; }
+        .shortcut-card { flex: 0 0 45%; background: #ffffff; padding: 20px 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; color: var(--aksen-oranye); font-weight: 900; font-size: 20px; cursor: pointer; transition: transform 0.2s; scroll-snap-align: start; border: 1px solid rgba(242,101,34,0.1); display: flex; align-items: center; justify-content: center; min-height: 80px; }
+        .shortcut-card:active { transform: scale(0.95); background: #fff0e6; }
+
         #view-baca { background: #fff; padding: 20px 20px 140px 20px; direction: rtl; } 
         #teks-arab { font-family: var(--font-arab); font-size: 32px; line-height: 2.2; text-align: justify; white-space: pre-wrap; color: var(--teks-hitam); }
         .mushaf-container { font-family: 'Amiri Quran', serif; text-align: justify; text-align-last: center; line-height: 2.3; direction: rtl; color: var(--teks-hitam); padding: 5px 0; }
@@ -109,7 +115,6 @@
         .nav-btn .icon-on { display: none; }
         .nav-btn.active .icon-off { display: none; }
         .nav-btn.active .icon-on { display: block; transform: translateY(-4px) scale(1.15); filter: drop-shadow(0px 3px 5px rgba(0,0,0,0.3)); }
-        /* Memperbaiki tulisan agar ikut terang saat aktif */
         .nav-btn.active span { color: #FFFFFF; text-shadow: 0 0 10px rgba(255,255,255,0.4); }
 
         #sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); z-index: 1000; display: none; opacity: 0; transition: opacity 0.3s; }
@@ -183,6 +188,10 @@
 
             <div class="section-title">Agenda Terdekat</div>
             <div id="agenda-list-beranda"></div>
+
+            <!-- CONTAINER SHORTCUT WIRID DINAMIS -->
+            <div class="shortcut-container" id="wirid-shortcuts"></div>
+
         </div>
 
         <div id="view-baca" class="view-section">
@@ -241,14 +250,14 @@
         <div class="bs-content" style="padding: 0 15px 30px 15px;">
             <div style="background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 25px rgba(0,0,0,0.15);">
                 <div style="padding: 15px 20px; background: var(--aksen-oranye); color: #fff; font-weight: bold; font-size: 16px; text-align: center;">Pustaka Maulid</div>
-                <div id="list-maulid">
-                    </div>
+                <div id="list-maulid"></div>
             </div>
             <div style="margin-top: 15px; background: #fff; border-radius: 15px; padding: 15px; text-align: center; color: #ff3b30; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.1);" onclick="tutupBottomSheet('maulid')">Batal</div>
         </div>
     </div>
 
     <nav class="bottom-nav">
+        <!-- PERHATIAN: Navbar ini akan me-reset filter kategori kembali ke "Semua" -->
         <button class="nav-btn" id="nav-isi" onclick="bukaModeBaca('wirid')">
             <img class="icon-off" src="wirid-off.png" alt="Wirid">
             <img class="icon-on" src="wirid-on.png" alt="Wirid Aktif">
@@ -297,8 +306,9 @@
         let audioPlayer = null; let currentAyatDiv = null; let isAudioPlaying = false;
         let shalatInterval = null; 
 
-        // MESIN LOGIKA MAULID MANDIRI
+        // VARIABEL GLOBAL PENTING
         let aktifMaulidKategori = null; let aktifMaulidIndex = 0;
+        let aktifWiridKategori = 'Semua'; // Tracker Filter Kategori Wirid
 
         const getUID = () => { let id = localStorage.getItem('visitorIdMaddatul'); if(!id) { id = 'user-' + Math.random().toString(36).substr(2, 9); localStorage.setItem('visitorIdMaddatul', id); } return id; };
 
@@ -344,11 +354,11 @@
                     const r = JSON.parse(dataBrankas);
                     dW = r.wirid || []; dW.sort((a,b) => parseInt(a.ID) - parseInt(b.ID));
                     dA = r.agenda || [];
-                    dM = r.maulid || []; // Load Data Maulid dari Brankas
+                    dM = r.maulid || []; 
                     let bn = r.banners || [];
                     document.getElementById('banner-list').innerHTML = bn.map(b => `<div class="swiper-slide"><img src="${b.Link_Gambar}"></div>`).join('');
                     new Swiper(".mySwiper", { slidesPerView: 'auto', centeredSlides: true, spaceBetween: 12, loop: true, autoplay: { delay: 3000 }, pagination: { el: ".swiper-pagination", clickable: true } });
-                    rAgenda(); rBeranda(); rLaciMaulid();
+                    rAgenda(); rBeranda(); rLaciMaulid(); rShortcutWirid(); // Panggil render shortcut di sini
                 } catch(e) {}
             } else { document.getElementById('skeleton-loading').style.display = 'flex'; }
 
@@ -359,14 +369,14 @@
                 
                 dW = r.wirid || []; dW.sort((a,b) => parseInt(a.ID) - parseInt(b.ID));
                 dA = r.agenda || [];
-                dM = r.maulid || []; // Sinkronkan Data Maulid
+                dM = r.maulid || []; 
                 let bn = r.banners || [];
                 
                 document.getElementById('banner-list').innerHTML = bn.map(b => `<div class="swiper-slide"><img src="${b.Link_Gambar}"></div>`).join('');
                 if(document.querySelector('.mySwiper').swiper) document.querySelector('.mySwiper').swiper.destroy(true, true);
                 new Swiper(".mySwiper", { slidesPerView: 'auto', centeredSlides: true, spaceBetween: 12, loop: true, autoplay: { delay: 3000 }, pagination: { el: ".swiper-pagination", clickable: true } });
                 
-                rAgenda(); rBeranda(); rLaciMaulid();
+                rAgenda(); rBeranda(); rLaciMaulid(); rShortcutWirid(); // Panggil render shortcut di sini
                 document.getElementById('skeleton-loading').style.display = 'none';
             } catch (e) { 
                 console.warn("Koneksi terputus. Menggunakan data Brankas.");
@@ -432,14 +442,24 @@
         function handleSwipe() {
             let swipeDist = touchEndX - touchStartX;
             if (swipeDist > 100) { 
-                if(modeBaca === 'wirid' && aktifWiridId > 0) { bukaWirid(aktifWiridId - 1); } 
+                if(modeBaca === 'wirid') {
+                    // MESIN GESER WIRID YANG MENGHARGAI FILTER KATEGORI
+                    let curList = dW.map((w, i) => ({w, i})).filter(o => aktifWiridKategori === 'Semua' || o.w.Kategori === aktifWiridKategori);
+                    let curIdx = curList.findIndex(o => o.i === aktifWiridId);
+                    if(curIdx > 0) bukaWirid(curList[curIdx - 1].i);
+                } 
                 else if(modeBaca === 'quran' && aktifQuranId && !aktifQuranId.includes('juz')) { let num = parseInt(aktifQuranId.replace('surah-','')); if(num > 1) { let nm = sL.find(s=>s.nomor==num-1)?.namaLatin; bukaSurah(num-1, nm); } }
                 else if(modeBaca === 'maulid' && aktifMaulidIndex > 0) {
                     let list = dM.filter(m => m.Kategori === aktifMaulidKategori);
                     bukaTeksMaulid(aktifMaulidKategori, aktifMaulidIndex - 1);
                 }
             } else if (swipeDist < -100) { 
-                if(modeBaca === 'wirid' && aktifWiridId < dW.length - 1) { bukaWirid(aktifWiridId + 1); } 
+                if(modeBaca === 'wirid') {
+                    // MESIN GESER WIRID YANG MENGHARGAI FILTER KATEGORI
+                    let curList = dW.map((w, i) => ({w, i})).filter(o => aktifWiridKategori === 'Semua' || o.w.Kategori === aktifWiridKategori);
+                    let curIdx = curList.findIndex(o => o.i === aktifWiridId);
+                    if(curIdx > -1 && curIdx < curList.length - 1) bukaWirid(curList[curIdx + 1].i);
+                } 
                 else if(modeBaca === 'quran' && aktifQuranId && !aktifQuranId.includes('juz')) { let num = parseInt(aktifQuranId.replace('surah-','')); if(num < 114) { let nm = sL.find(s=>s.nomor==num+1)?.namaLatin; bukaSurah(num+1, nm); } }
                 else if(modeBaca === 'maulid') {
                     let list = dM.filter(m => m.Kategori === aktifMaulidKategori);
@@ -462,13 +482,34 @@
 
         function kembaliKeBeranda() { sembunyikanSemuaView(); document.getElementById('view-beranda').style.display = 'block'; document.getElementById('logo-header').style.display = 'block'; }
         
-        function bukaModeBaca(mode) {
-            pState(); modeBaca = mode; sembunyikanSemuaView(); document.getElementById('kontrol-baca').style.display = 'flex'; document.getElementById('teks-judul-header').style.display = 'block';
-            if(mode === 'quran') { document.getElementById('btn-burger').style.display = 'block'; document.getElementById('nav-quran').classList.add('active'); document.getElementById('btn-pilih-qari').style.display = 'flex'; if (sL.length === 0) { alert("Menyelaraskan data..."); kembaliKeBeranda(); return; } if(!aktifQuranId) bukaSurah(1, 'Al-Fatihah'); else { let num = parseInt(aktifQuranId.replace('surah-','').replace('juz-','')); let nm = sL.find(s=>s.nomor==num)?.namaLatin || "Al-Qur'an"; if(aktifQuranId.includes('juz')) bukaJuzDariSidebar(num); else bukaSurah(num, nm); } } 
-            else if(mode === 'wirid') { document.getElementById('btn-burger').style.display = 'block'; document.getElementById('nav-isi').classList.add('active'); if(aktifWiridId === null && dW.length > 0) bukaWirid(0); else bukaWirid(aktifWiridId || 0); }
+        // FUNGSI BARU: Akses Cepat Kategori Wirid
+        function bukaKategoriWirid(kategori) {
+            aktifWiridKategori = kategori;
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('nav-isi').classList.add('active');
+            bukaModeBaca('wirid', true);
         }
 
-        // --- RENDER LACI MAULID DARI DATA SHEETS ---
+        function bukaModeBaca(mode, isShortcut = false) {
+            pState(); modeBaca = mode; sembunyikanSemuaView(); document.getElementById('kontrol-baca').style.display = 'flex'; document.getElementById('teks-judul-header').style.display = 'block';
+            if(mode === 'quran') { document.getElementById('btn-burger').style.display = 'block'; document.getElementById('nav-quran').classList.add('active'); document.getElementById('btn-pilih-qari').style.display = 'flex'; if (sL.length === 0) { alert("Menyelaraskan data..."); kembaliKeBeranda(); return; } if(!aktifQuranId) bukaSurah(1, 'Al-Fatihah'); else { let num = parseInt(aktifQuranId.replace('surah-','').replace('juz-','')); let nm = sL.find(s=>s.nomor==num)?.namaLatin || "Al-Qur'an"; if(aktifQuranId.includes('juz')) bukaJuzDariSidebar(num); else bukaSurah(num, nm); } } 
+            else if(mode === 'wirid') { 
+                document.getElementById('btn-burger').style.display = 'block'; 
+                document.getElementById('nav-isi').classList.add('active'); 
+                
+                // Jika ditekan dari Navbar bawah, reset filter kategori ke 'Semua'
+                if(!isShortcut) aktifWiridKategori = 'Semua';
+                
+                let targetIndex = aktifWiridId || 0;
+                // Jika sedang di-filter atau ditekan lewat shortcut, lompat ke bab pertama dari kategori tersebut
+                if(isShortcut || (aktifWiridKategori !== 'Semua' && dW[aktifWiridId]?.Kategori !== aktifWiridKategori)) {
+                    targetIndex = dW.findIndex(w => w.Kategori === aktifWiridKategori);
+                    if(targetIndex === -1) targetIndex = 0;
+                }
+                bukaWirid(targetIndex); 
+            }
+        }
+
         function rLaciMaulid() {
             const listContainer = document.getElementById('list-maulid');
             const kategoriUnik = [...new Set(dM.map(m => m.Kategori))];
@@ -477,6 +518,15 @@
                     <div class="qari-info"><strong>${kat}</strong></div>
                 </div>
             `).join('');
+        }
+
+        // FUNGSI BARU: Render Kotak Shortcut Dinamis
+        function rShortcutWirid() {
+            const c = document.getElementById('wirid-shortcuts');
+            let kategoriUnik = [...new Set(dW.map(w => w.Kategori).filter(k => k))];
+            if(kategoriUnik.length === 0) { c.style.display = 'none'; return; }
+            c.style.display = 'flex';
+            c.innerHTML = kategoriUnik.map(kat => `<div class="shortcut-card" onclick="bukaKategoriWirid('${kat}')">${kat}</div>`).join('');
         }
 
         function bukaTeksMaulid(kategori, index) {
@@ -493,7 +543,21 @@
             if(mode === 'quran') {
                 shQuran.style.display = 'flex'; document.getElementById('search-surah').value = ''; 
                 if (sL.length > 0) { sL.forEach(s => { let aktifClass = (aktifQuranId === `surah-${s.nomor}`) ? 'active' : ''; let namaAman = s.namaLatin.replace(/'/g, '`'); slist.innerHTML += `<div class="sb-item surah-item ${aktifClass}" onclick="bukaSurah(${s.nomor}, '${namaAman}'); tutupSidebar();" data-nama="${s.namaLatin.toLowerCase()}"><div><strong style="font-size:15px;">${s.nomor}. ${s.namaLatin}</strong><br><span style="font-size:12px; color:#666;">${s.arti} (${s.jumlahAyat} ayat)</span></div><div class="sb-item-arab">${s.nama}</div></div>`; }); } else { slist.innerHTML = `<div style="padding: 20px; text-align: center; color: #888;">Memuat data Surah...</div>`; }
-            } else if(mode === 'wirid') { shQuran.style.display = 'none'; dW.forEach((w, i) => { let aktifClass = (aktifWiridId === i) ? 'active' : ''; slist.innerHTML += `<div class="sb-item ${aktifClass}" onclick="bukaWirid(${i}); tutupSidebar();"><span style="font-size:16px; font-weight:bold;">${ubahKeAngkaArab(w.Judul)}</span></div>`; }); }
+            } else if(mode === 'wirid') { 
+                shQuran.style.display = 'none'; 
+                
+                // Tambahkan Tombol Reset Filter jika sedang di dalam mode Kategori Khusus
+                if(aktifWiridKategori !== 'Semua') {
+                    slist.innerHTML += `<div style="padding: 14px 20px; background: #fff0e6; text-align: center; font-size: 14px; font-weight: bold; color: var(--aksen-oranye); cursor: pointer; border-bottom: 1px solid rgba(242, 101, 34, 0.2);" onclick="aktifWiridKategori='Semua'; siapkanSidebar('wirid');">Pusat Seluruh Wirid ➔</div>`;
+                }
+
+                dW.forEach((w, i) => { 
+                    // FILTER: Sembunyikan yang tidak sesuai kategori aktif
+                    if (aktifWiridKategori !== 'Semua' && w.Kategori !== aktifWiridKategori) return;
+                    let aktifClass = (aktifWiridId === i) ? 'active' : ''; 
+                    slist.innerHTML += `<div class="sb-item ${aktifClass}" onclick="bukaWirid(${i}); tutupSidebar();"><span style="font-size:16px; font-weight:bold;">${ubahKeAngkaArab(w.Judul)}</span></div>`; 
+                }); 
+            }
             else if(mode === 'maulid') {
                 shQuran.style.display = 'none';
                 const listBab = dM.filter(m => m.Kategori === aktifMaulidKategori);
