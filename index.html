@@ -467,7 +467,6 @@
         }
         function pilihQari(idQari) { matikanAudio(); qariAktif = idQari; localStorage.setItem('qariMaddatul', idQari); renderDaftarQari(); tutupBottomSheet('qari'); }
 
-        // PERUBAHAN: Menghapus batas swipeTutorialSelesai agar selalu muncul setiap masuk mode baca
         function tampilkanTutorialSwipe() {
             let tut = document.getElementById('swipe-tutorial');
             if(tut) tut.style.display = 'block';
@@ -476,7 +475,6 @@
 
         let touchStartX = 0; let touchEndX = 0; let isSwiping = false; const areaMain = document.getElementById('main-container');
         areaMain.addEventListener('touchstart', e => { 
-            // PERUBAHAN: Hanya menyembunyikan tutorial, tidak ada kunci yang dipasang
             let tut = document.getElementById('swipe-tutorial');
             if(tut && tut.style.display === 'block') { tut.style.display = 'none'; }
             
@@ -533,7 +531,10 @@
             bukaModeBaca('wirid', true);
         }
 
+        // PERUBAHAN SENSOR: Memeriksa apakah ini ganti menu atau klik tombol yang sama
         function bukaModeBaca(mode, isShortcut = false) {
+            let isMasukPertama = (modeBaca !== mode); // Cek apakah pindah dari menu lain
+
             pState(); modeBaca = mode; sembunyikanSemuaView(); document.getElementById('kontrol-baca').style.display = 'flex'; document.getElementById('teks-judul-header').style.display = 'block';
             if(mode === 'quran') { document.getElementById('btn-burger').style.display = 'block'; document.getElementById('nav-quran').classList.add('active'); document.getElementById('btn-pilih-qari').style.display = 'flex'; if (sL.length === 0) { alert("Menyelaraskan data..."); kembaliKeBeranda(); return; } if(!aktifQuranId) bukaSurah(1, 'Al-Fatihah'); else { let num = parseInt(aktifQuranId.replace('surah-','').replace('juz-','')); let nm = sL.find(s=>s.nomor==num)?.namaLatin || "Al-Qur'an"; if(aktifQuranId.includes('juz')) bukaJuzDariSidebar(num); else bukaSurah(num, nm); } } 
             else if(mode === 'wirid') { 
@@ -549,7 +550,11 @@
                 }
                 bukaWirid(targetIndex); 
             }
-            setTimeout(() => { tampilkanTutorialSwipe(); }, 500);
+            
+            // Tampilkan tutorial hanya jika benar-benar ganti menu
+            if (isMasukPertama) {
+                setTimeout(() => { tampilkanTutorialSwipe(); }, 500);
+            }
         }
 
         function rLaciMaulid() {
@@ -570,14 +575,21 @@
             c.innerHTML = kategoriUnik.map(kat => `<div class="shortcut-card" onclick="bukaKategoriWirid('${kat}')">${kat}</div>`).join('');
         }
 
+        // PERUBAHAN SENSOR: Memeriksa apakah masuk Maulid dari menu lain atau sekadar pindah halaman
         function bukaTeksMaulid(kategori, index) {
+            let isMasukPertama = (modeBaca !== 'maulid'); // Kunci pelacak
+
             pState(); sembunyikanSemuaView(); modeBaca = 'maulid'; aktifMaulidKategori = kategori; aktifMaulidIndex = index;
             const listBab = dM.filter(m => m.Kategori === kategori); const dataBab = listBab[index];
             document.getElementById('view-baca').style.display = 'block'; document.getElementById('kontrol-baca').style.display = 'flex'; document.getElementById('btn-burger').style.display = 'block'; document.getElementById('teks-judul-header').style.display = 'block'; document.getElementById('nav-maulid').classList.add('active');
             document.getElementById('teks-judul-header').innerText = dataBab.Judul;
             document.getElementById('teks-arab').innerHTML = `<div class="teks-bacaan" style="font-family:var(--font-arab); font-size:${font}px; line-height:2.2; text-align:center; white-space:pre-wrap; direction:rtl;">${dataBab.Teks_Arab.replace(/\\n/g, '\n').trim().replace(/\n/g, '<br>')}</div>`;
             document.getElementById('main-container').scrollTop = 0;
-            setTimeout(() => { tampilkanTutorialSwipe(); }, 500);
+            
+            // Tampilkan tutorial hanya jika baru masuk ke kitab Maulid
+            if (isMasukPertama) {
+                setTimeout(() => { tampilkanTutorialSwipe(); }, 500);
+            }
         }
         
         function siapkanSidebar(mode) {
