@@ -467,19 +467,18 @@
         }
         function pilihQari(idQari) { matikanAudio(); qariAktif = idQari; localStorage.setItem('qariMaddatul', idQari); renderDaftarQari(); tutupBottomSheet('qari'); }
 
-        let swipeTutorialSelesai = false;
+        // PERUBAHAN: Menghapus batas swipeTutorialSelesai agar selalu muncul setiap masuk mode baca
         function tampilkanTutorialSwipe() {
-            if(swipeTutorialSelesai) return; 
             let tut = document.getElementById('swipe-tutorial');
             if(tut) tut.style.display = 'block';
-            setTimeout(() => { if(tut) tut.style.display = 'none'; swipeTutorialSelesai = true; }, 4000);
+            setTimeout(() => { if(tut) tut.style.display = 'none'; }, 4000);
         }
 
         let touchStartX = 0; let touchEndX = 0; let isSwiping = false; const areaMain = document.getElementById('main-container');
         areaMain.addEventListener('touchstart', e => { 
-            // Matikan tutorial jika disentuh
+            // PERUBAHAN: Hanya menyembunyikan tutorial, tidak ada kunci yang dipasang
             let tut = document.getElementById('swipe-tutorial');
-            if(tut && tut.style.display === 'block') { tut.style.display = 'none'; swipeTutorialSelesai = true; }
+            if(tut && tut.style.display === 'block') { tut.style.display = 'none'; }
             
             if (document.getElementById('view-baca').style.display !== 'block') return; 
             touchStartX = e.changedTouches[0].screenX; isSwiping = true; 
