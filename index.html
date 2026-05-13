@@ -46,7 +46,7 @@
         .card-panel { background-color: #ffffff; margin: 0 15px 15px 15px; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); text-align: center; position: relative; overflow: hidden; z-index: 1; cursor: pointer; transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
         .card-panel:active { transform: scale(0.96); }
         .card-panel::after { content: ""; position: absolute; top: 0; right: -10px; bottom: 0; left: 0; background-image: url('ornamen.png'); background-size: auto 120%; background-position: right center; background-repeat: no-repeat; opacity: 0.05; z-index: -1; }
-        #tanggal-sekarang { font-size: 14px; color: #666; margin-bottom: 5px; display: block; font-weight: 600; }
+        #tanggal-sekarang { font-size: 13px; color: #666; margin-bottom: 5px; display: block; font-weight: 600; line-height: 1.4; }
         #shalat-nama-beranda { color: var(--aksen-oranye); font-size: 26px; font-weight: 900; display: block; margin-bottom: 5px; text-transform: uppercase; }
         #shalat-waktu-beranda { color: #333; font-size: 15px; font-weight: bold; background: #fff0e6; padding: 4px 15px; border-radius: 20px; display: inline-block; }
         .teks-petunjuk-kartu { font-size: 12px; color: var(--aksen-oranye); font-weight: bold; margin-top: 12px; display: block; opacity: 0.8; }
@@ -57,7 +57,6 @@
         .agenda-selesai { border-left: 5px solid #cccccc; opacity: 0.8; }
         .agenda-selesai strong { color: #888888; }
 
-        /* CSS KHUSUS SHORTCUT WIRID (CAROUSEL) DENGAN BORDER ORANYE */
         .shortcut-container { display: flex; gap: 10px; overflow-x: auto; margin: 0 15px 20px 15px; padding-bottom: 10px; scroll-snap-type: x mandatory; -ms-overflow-style: none; scrollbar-width: none; }
         .shortcut-card { flex: 0 0 38%; background: #ffffff; padding: 12px 10px; border-radius: 10px; box-shadow: 0 3px 8px rgba(0,0,0,0.05); text-align: center; color: var(--aksen-oranye); font-weight: 800; font-size: 15px; cursor: pointer; transition: transform 0.2s; scroll-snap-align: start; border: 1.5px solid var(--aksen-oranye); display: flex; align-items: center; justify-content: center; min-height: 50px; }
         .shortcut-card:active { transform: scale(0.95); background: #fff0e6; }
@@ -134,28 +133,10 @@
         .btn-tour { background: none; border: none; color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; transition: opacity 0.2s; }
         .btn-tour-lanjut { background: #fff; color: var(--aksen-oranye); padding: 8px 20px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
 
-        /* --- ANIMASI TUTORIAL SWIPE (TANGAN) --- */
-        #swipe-tutorial {
-            position: fixed; top: 50%; left: 0; width: 100%; transform: translateY(-50%);
-            z-index: 9999; display: none; pointer-events: none; text-align: center;
-        }
-        .ikon-tangan {
-            width: 60px; height: auto; opacity: 0.8;
-            animation: animasiSwipe 2s infinite ease-in-out;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
-        }
-        @keyframes animasiSwipe {
-            0% { transform: translateX(60px) rotate(15deg) scale(0.9); opacity: 0; }
-            20% { opacity: 1; transform: translateX(60px) rotate(15deg) scale(1); }
-            70% { opacity: 1; transform: translateX(-60px) rotate(-10deg) scale(1); }
-            100% { transform: translateX(-60px) rotate(-10deg) scale(0.9); opacity: 0; }
-        }
-        .teks-tutorial {
-            font-size: 14px; color: var(--aksen-oranye); background: rgba(255, 255, 255, 0.95);
-            padding: 6px 16px; border-radius: 20px; display: inline-block; margin-top: 15px;
-            font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            animation: fadeInOut 2s infinite;
-        }
+        #swipe-tutorial { position: fixed; top: 50%; left: 0; width: 100%; transform: translateY(-50%); z-index: 9999; display: none; pointer-events: none; text-align: center; }
+        .ikon-tangan { width: 60px; height: auto; opacity: 0.8; animation: animasiSwipe 2s infinite ease-in-out; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2)); }
+        @keyframes animasiSwipe { 0% { transform: translateX(60px) rotate(15deg) scale(0.9); opacity: 0; } 20% { opacity: 1; transform: translateX(60px) rotate(15deg) scale(1); } 70% { opacity: 1; transform: translateX(-60px) rotate(-10deg) scale(1); } 100% { transform: translateX(-60px) rotate(-10deg) scale(0.9); opacity: 0; } }
+        .teks-tutorial { font-size: 14px; color: var(--aksen-oranye); background: rgba(255, 255, 255, 0.95); padding: 6px 16px; border-radius: 20px; display: inline-block; margin-top: 15px; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.1); animation: fadeInOut 2s infinite; }
         @keyframes fadeInOut { 0%, 100% { opacity: 0; } 20%, 70% { opacity: 1; } }
     </style>
 </head>
@@ -203,7 +184,7 @@
             <div class="swiper mySwiper"><div class="swiper-wrapper" id="banner-list"></div><div class="swiper-pagination"></div></div>
             
             <div class="card-panel" id="kartu-shalat-trigger" onclick="bukaSheet('ibadah')">
-                <span id="tanggal-sekarang">-- --- ----</span>
+                <span id="tanggal-sekarang">-- --- ---- | -- --- ---- H</span>
                 <span id="shalat-nama-beranda">Memuat...</span>
                 <span id="shalat-waktu-beranda">--:--:--</span>
                 <span class="teks-petunjuk-kartu">Ketuk untuk Pusat Ibadah ➔</span>
@@ -212,9 +193,7 @@
             <div class="section-title">Agenda Terdekat</div>
             <div id="agenda-list-beranda"></div>
 
-            <!-- CONTAINER SHORTCUT WIRID DINAMIS -->
             <div class="shortcut-container" id="wirid-shortcuts"></div>
-
         </div>
 
         <div id="view-baca" class="view-section">
@@ -226,8 +205,16 @@
     <div class="bottom-sheet-panel" id="sheet-ibadah">
         <div class="bs-drag-handle"></div>
         <div class="bs-content">
-            <div class="section-title" style="margin-top:0;">Jadwal Hari Ini</div>
+            <!-- HEADER JADWAL HARI INI DENGAN TOMBOL GIR PENGATURAN -->
+            <div class="section-title" style="margin-top:0; display:flex; justify-content:space-between; align-items:center;">
+                <span>Jadwal Hari Ini</span>
+                <button onclick="bukaPengaturanHijriyah()" style="background:none; border:none; cursor:pointer; padding:5px; display:flex; align-items:center; justify-content:center; transition:opacity 0.2s;">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--aksen-oranye)"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg>
+                </button>
+            </div>
+            
             <div class="shalat-box" id="list-shalat-full" style="padding: 10px 20px;"></div>
+            
             <div class="section-title">Arah Kiblat</div>
             <div class="shalat-box kiblat-container">
                 <div id="teks-status-kiblat">Pastikan GPS aktif & ketuk tombol di bawah.</div>
@@ -246,6 +233,30 @@
                 <br><button onclick="resetTasbih()" style="background:none; border:1px solid #ddd; padding:8px 25px; border-radius:20px; color:#666; font-weight:bold; cursor:pointer;">Reset Nol</button>
             </div>
         </div>
+    </div>
+
+    <!-- POP-UP PENGATURAN HIJRIYAH TERINTEGRASI -->
+    <div class="bottom-sheet-overlay" id="overlay-hijriyah" onclick="tutupPengaturanHijriyah()"></div>
+    <div style="position:fixed; top:50%; left:50%; transform:translate(-50%, -50%) scale(0.9); background:#fff; z-index:2002; width:85%; max-width:340px; border-radius:20px; padding:25px 20px; text-align:center; display:none; opacity:0; transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 10px 30px rgba(0,0,0,0.25);" id="modal-hijriyah">
+        <h3 style="color:var(--aksen-oranye); font-size:18px; margin-bottom:15px;">Penyesuaian Hijriyah</h3>
+        
+        <div id="preview-hijriyah" style="font-size:18px; font-weight:bold; color:#333; margin-bottom:20px; padding:10px; background:#f9f9f9; border-radius:10px; border:1px solid #eee;">Memuat...</div>
+        
+        <div style="display:flex; justify-content:center; align-items:center; gap:15px; margin-bottom:20px;">
+            <button onclick="ubahOffsetHijriyah(-1)" style="width:45px; height:45px; border-radius:12px; border:none; background:var(--bg-abu); font-size:26px; color:var(--aksen-oranye); font-weight:bold; cursor:pointer; box-shadow:0 2px 5px rgba(0,0,0,0.05);">-</button>
+            <div style="width:80px;">
+                <strong id="teks-offset-hijriyah" style="font-size:16px; color:#444;">0 Hari</strong>
+            </div>
+            <button onclick="ubahOffsetHijriyah(1)" style="width:45px; height:45px; border-radius:12px; border:none; background:var(--bg-abu); font-size:24px; color:var(--aksen-oranye); font-weight:bold; cursor:pointer; box-shadow:0 2px 5px rgba(0,0,0,0.05);">+</button>
+        </div>
+        
+        <button onclick="resetOffsetHijriyah()" style="background:none; border:1px solid #ddd; padding:8px 25px; border-radius:20px; color:#666; font-weight:bold; font-size:13px; cursor:pointer; margin-bottom:25px;">Reset Otomatis</button>
+        
+        <div style="background:#fff0e6; padding:12px 15px; border-radius:12px; font-size:12px; color:var(--aksen-oranye); text-align:left; line-height:1.5; margin-bottom:20px;">
+            <strong>Catatan:</strong> Penentuan awal bulan Hijriyah agar tetap mengikuti ketentuan Pemerintah atau otoritas Tim Falakiyah setempat.
+        </div>
+        
+        <button onclick="tutupPengaturanHijriyah()" style="width:100%; padding:14px; background:var(--aksen-oranye); color:#fff; border:none; border-radius:12px; font-weight:bold; font-size:15px; cursor:pointer; box-shadow:0 4px 10px rgba(242,101,34,0.3);">Simpan Penyesuaian</button>
     </div>
 
     <div class="bottom-sheet-overlay" id="overlay-agenda" onclick="tutupBottomSheet('agenda')"></div>
@@ -280,7 +291,6 @@
     </div>
 
     <nav class="bottom-nav">
-        <!-- PERHATIAN: Navbar ini akan me-reset filter kategori kembali ke "Semua" -->
         <button class="nav-btn" id="nav-isi" onclick="bukaModeBaca('wirid')">
             <img class="icon-off" src="wirid-off.png" alt="Wirid">
             <img class="icon-on" src="wirid-on.png" alt="Wirid Aktif">
@@ -309,7 +319,6 @@
         </div>
     </div>
 
-    <!-- OVERLAY TUTORIAL SWIPE -->
     <div id="swipe-tutorial">
         <svg class="ikon-tangan" viewBox="0 0 24 24" fill="var(--aksen-oranye)">
             <path d="M9 11.24V7.5a2.5 2.5 0 0 1 5 0v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6a1.5 1.5 0 0 0-3 0v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.04.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.21 0-.69-.47-1.28-1.14-1.42z"/>
@@ -337,9 +346,11 @@
         let audioPlayer = null; let currentAyatDiv = null; let isAudioPlaying = false;
         let shalatInterval = null; 
 
-        // VARIABEL GLOBAL PENTING
         let aktifMaulidKategori = null; let aktifMaulidIndex = 0;
-        let aktifWiridKategori = 'Semua'; // Tracker Filter Kategori Wirid
+        let aktifWiridKategori = 'Semua'; 
+
+        // VARIABEL GLOBAL HIJRIYAH
+        let hijriOffset = parseInt(localStorage.getItem('maddatul_hijri_offset') || '0');
 
         const getUID = () => { let id = localStorage.getItem('visitorIdMaddatul'); if(!id) { id = 'user-' + Math.random().toString(36).substr(2, 9); localStorage.setItem('visitorIdMaddatul', id); } return id; };
 
@@ -356,6 +367,7 @@
         window.onpopstate = function() {
             const sheets = ['ibadah', 'qari', 'maulid', 'agenda'];
             for(let s of sheets) { if(document.getElementById(`sheet-${s}`).style.bottom === '0px') { tutupBottomSheet(s); return; } }
+            if(document.getElementById('modal-hijriyah').style.display === 'block') { tutupPengaturanHijriyah(); return; }
             if(document.getElementById('sidebar-overlay').style.display === 'block') { tutupSidebar(); return; }
             if(document.getElementById('view-beranda').style.display !== 'block') { kembaliKeBeranda(); }
         };
@@ -375,6 +387,50 @@
             'maghrib': `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14a6 6 0 0 0 6-6H6a6 6 0 0 0 6 6z"></path><path d="M4 16h16"></path><path d="M4 20h16"></path></svg>`,
             'isya': `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`
         };
+
+        // FUNGSI KONVERSI HIJRIYAH LOKAL
+        function formatHijriyahLokal(dateObj, offsetDays) {
+            let d = new Date(dateObj);
+            d.setDate(d.getDate() + offsetDays);
+            let str = '';
+            try {
+                str = new Intl.DateTimeFormat('id-ID-u-ca-islamic', {day:'numeric', month:'long', year:'numeric'}).format(d);
+                str = str.replace(/ AH| H/gi, '') + ' H';
+            } catch(e) { str = "Kalender Hijriyah"; }
+            return str;
+        }
+
+        // FUNGSI KONTROL POP-UP HIJRIYAH
+        function bukaPengaturanHijriyah() {
+            pState();
+            let m = document.getElementById('modal-hijriyah');
+            let o = document.getElementById('overlay-hijriyah');
+            o.style.display = 'block'; m.style.display = 'block';
+            setTimeout(() => { o.style.opacity = '1'; m.style.opacity = '1'; m.style.transform = 'translate(-50%, -50%) scale(1)'; }, 10);
+            renderPreviewHijriyah();
+        }
+
+        function tutupPengaturanHijriyah() {
+            let m = document.getElementById('modal-hijriyah');
+            let o = document.getElementById('overlay-hijriyah');
+            o.style.opacity = '0'; m.style.opacity = '0'; m.style.transform = 'translate(-50%, -50%) scale(0.9)';
+            setTimeout(() => { o.style.display = 'none'; m.style.display = 'none'; }, 300);
+            if(dJ) jalankanMesinJamShalat();
+        }
+
+        function renderPreviewHijriyah() {
+            let sk = new Date();
+            let hj = formatHijriyahLokal(sk, hijriOffset);
+            document.getElementById('preview-hijriyah').innerText = hj;
+            let teks = (hijriOffset > 0 ? '+' : '') + hijriOffset + ' Hari';
+            if(hijriOffset === 0) teks = '0 Hari';
+            document.getElementById('teks-offset-hijriyah').innerText = teks;
+            localStorage.setItem('maddatul_hijri_offset', hijriOffset.toString());
+            if(dJ) jalankanMesinJamShalat();
+        }
+
+        function ubahOffsetHijriyah(val) { hijriOffset += val; renderPreviewHijriyah(); }
+        function resetOffsetHijriyah() { hijriOffset = 0; renderPreviewHijriyah(); }
 
         async function muatData() {
             document.getElementById('view-beranda').style.display = 'block';
@@ -531,9 +587,8 @@
             bukaModeBaca('wirid', true);
         }
 
-        // PERUBAHAN SENSOR: Memeriksa apakah ini ganti menu atau klik tombol yang sama
         function bukaModeBaca(mode, isShortcut = false) {
-            let isMasukPertama = (modeBaca !== mode); // Cek apakah pindah dari menu lain
+            let isMasukPertama = (modeBaca !== mode); 
 
             pState(); modeBaca = mode; sembunyikanSemuaView(); document.getElementById('kontrol-baca').style.display = 'flex'; document.getElementById('teks-judul-header').style.display = 'block';
             if(mode === 'quran') { document.getElementById('btn-burger').style.display = 'block'; document.getElementById('nav-quran').classList.add('active'); document.getElementById('btn-pilih-qari').style.display = 'flex'; if (sL.length === 0) { alert("Menyelaraskan data..."); kembaliKeBeranda(); return; } if(!aktifQuranId) bukaSurah(1, 'Al-Fatihah'); else { let num = parseInt(aktifQuranId.replace('surah-','').replace('juz-','')); let nm = sL.find(s=>s.nomor==num)?.namaLatin || "Al-Qur'an"; if(aktifQuranId.includes('juz')) bukaJuzDariSidebar(num); else bukaSurah(num, nm); } } 
@@ -551,10 +606,7 @@
                 bukaWirid(targetIndex); 
             }
             
-            // Tampilkan tutorial hanya jika benar-benar ganti menu
-            if (isMasukPertama) {
-                setTimeout(() => { tampilkanTutorialSwipe(); }, 500);
-            }
+            if (isMasukPertama) { setTimeout(() => { tampilkanTutorialSwipe(); }, 500); }
         }
 
         function rLaciMaulid() {
@@ -575,9 +627,8 @@
             c.innerHTML = kategoriUnik.map(kat => `<div class="shortcut-card" onclick="bukaKategoriWirid('${kat}')">${kat}</div>`).join('');
         }
 
-        // PERUBAHAN SENSOR: Memeriksa apakah masuk Maulid dari menu lain atau sekadar pindah halaman
         function bukaTeksMaulid(kategori, index) {
-            let isMasukPertama = (modeBaca !== 'maulid'); // Kunci pelacak
+            let isMasukPertama = (modeBaca !== 'maulid'); 
 
             pState(); sembunyikanSemuaView(); modeBaca = 'maulid'; aktifMaulidKategori = kategori; aktifMaulidIndex = index;
             const listBab = dM.filter(m => m.Kategori === kategori); const dataBab = listBab[index];
@@ -586,10 +637,7 @@
             document.getElementById('teks-arab').innerHTML = `<div class="teks-bacaan" style="font-family:var(--font-arab); font-size:${font}px; line-height:2.2; text-align:center; white-space:pre-wrap; direction:rtl;">${dataBab.Teks_Arab.replace(/\\n/g, '\n').trim().replace(/\n/g, '<br>')}</div>`;
             document.getElementById('main-container').scrollTop = 0;
             
-            // Tampilkan tutorial hanya jika baru masuk ke kitab Maulid
-            if (isMasukPertama) {
-                setTimeout(() => { tampilkanTutorialSwipe(); }, 500);
-            }
+            if (isMasukPertama) { setTimeout(() => { tampilkanTutorialSwipe(); }, 500); }
         }
         
         function siapkanSidebar(mode) {
@@ -697,11 +745,18 @@
             } catch (e) { console.warn("Pakai Jadwal Brankas."); }
         }
 
+        // PERUBAHAN TANGGAL GANDA (MASEHI & HIJRIYAH)
         function jalankanMesinJamShalat() {
             if (!dJ) return; if (shalatInterval) clearInterval(shalatInterval); 
             shalatInterval = setInterval(() => {
                 const sk = new Date(); const namaHari = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu']; const namaBulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-                let tglString = `${sk.getDate()} ${namaBulan[sk.getMonth()]} ${sk.getFullYear()}`; document.getElementById('tanggal-sekarang').innerText = `${namaHari[sk.getDay()]}, ${tglString}`;
+                
+                let tglStringMasehi = `${sk.getDate()} ${namaBulan[sk.getMonth()]} ${sk.getFullYear()}`; 
+                let strHijriyah = formatHijriyahLokal(sk, hijriOffset);
+                let combinedDate = `${namaHari[sk.getDay()]}, ${tglStringMasehi} | ${strHijriyah}`;
+                
+                document.getElementById('tanggal-sekarang').innerText = combinedDate;
+                
                 const df = ['subuh', 'terbit', 'isyraq', 'dhuha', 'dzuhur', 'ashar', 'maghrib', 'isya']; let n = ""; let j = ""; let currentP = "";
                 for (let s of df) { let [h, m] = dJ[s].split(':'); let t = new Date(); t.setHours(h, m, 0); if (t > sk) { n = s; j = t; break; } }
                 if (!n) { let [h, m] = dJ['subuh'].split(':'); j = new Date(); j.setDate(j.getDate() + 1); j.setHours(h, m, 0); n = "subuh"; }
@@ -711,7 +766,8 @@
                 let sl = Math.floor((j - sk) / 1000); let h = Math.floor(sl / 3600); let m = Math.floor((sl % 3600) / 60); let s = sl % 60;
                 let namaTampil = (n === 'terbit' ? "THULU'" : n.toUpperCase());
                 document.getElementById('shalat-nama-beranda').innerText = namaTampil + " - " + dJ[n]; document.getElementById('shalat-waktu-beranda').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} lagi`;
-                let listHtml = `<div style="text-align:center; color:#555; padding-bottom:15px; margin-bottom:5px; font-weight:bold; font-size:16px;">${namaHari[sk.getDay()]}, ${tglString}</div>`;
+                
+                let listHtml = `<div style="text-align:center; color:#555; padding-bottom:15px; margin-bottom:5px; font-weight:bold; font-size:15px; border-bottom:1px solid #f0f0f0;">${combinedDate}</div>`;
                 dfFull.forEach(waktu => {
                     if(waktu === 'imsak') return; 
                     let isSekarang = (waktu === currentP); let bg = isSekarang ? 'var(--aksen-oranye)' : 'transparent'; let warna = isSekarang ? '#fff' : '#444'; let bulat = isSekarang ? '10px' : '0px'; let nW = (waktu === 'terbit' ? "THULU'" : waktu.toUpperCase()); let ikon = svgShalat[waktu] || "";
