@@ -205,7 +205,6 @@
     <div class="bottom-sheet-panel" id="sheet-ibadah">
         <div class="bs-drag-handle"></div>
         <div class="bs-content">
-            <!-- HEADER JADWAL HARI INI DENGAN TOMBOL GIR PENGATURAN -->
             <div class="section-title" style="margin-top:0; display:flex; justify-content:space-between; align-items:center;">
                 <span>Jadwal Hari Ini</span>
                 <button onclick="bukaPengaturanHijriyah()" style="background:none; border:none; cursor:pointer; padding:5px; display:flex; align-items:center; justify-content:center; transition:opacity 0.2s;">
@@ -235,7 +234,7 @@
         </div>
     </div>
 
-    <!-- POP-UP PENGATURAN HIJRIYAH TERINTEGRASI -->
+    <!-- POP-UP PENGATURAN HIJRIYAH -->
     <div class="bottom-sheet-overlay" id="overlay-hijriyah" onclick="tutupPengaturanHijriyah()"></div>
     <div style="position:fixed; top:50%; left:50%; transform:translate(-50%, -50%) scale(0.9); background:#fff; z-index:2002; width:85%; max-width:340px; border-radius:20px; padding:25px 20px; text-align:center; display:none; opacity:0; transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 10px 30px rgba(0,0,0,0.25);" id="modal-hijriyah">
         <h3 style="color:var(--aksen-oranye); font-size:18px; margin-bottom:15px;">Penyesuaian Hijriyah</h3>
@@ -349,7 +348,6 @@
         let aktifMaulidKategori = null; let aktifMaulidIndex = 0;
         let aktifWiridKategori = 'Semua'; 
 
-        // VARIABEL GLOBAL HIJRIYAH
         let hijriOffset = parseInt(localStorage.getItem('maddatul_hijri_offset') || '0');
 
         const getUID = () => { let id = localStorage.getItem('visitorIdMaddatul'); if(!id) { id = 'user-' + Math.random().toString(36).substr(2, 9); localStorage.setItem('visitorIdMaddatul', id); } return id; };
@@ -388,19 +386,30 @@
             'isya': `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`
         };
 
-        // FUNGSI KONVERSI HIJRIYAH LOKAL
+        // --- SOLUSI BUG MESIN PENANGGALAN HIJRIYAH ---
         function formatHijriyahLokal(dateObj, offsetDays) {
             let d = new Date(dateObj);
             d.setDate(d.getDate() + offsetDays);
-            let str = '';
             try {
-                str = new Intl.DateTimeFormat('id-ID-u-ca-islamic', {day:'numeric', month:'long', year:'numeric'}).format(d);
-                str = str.replace(/ AH| H/gi, '') + ' H';
-            } catch(e) { str = "Kalender Hijriyah"; }
-            return str;
+                // Memaksa sistem HP hanya memberikan "Angka" (bukan terjemahan yang ngawur)
+                let formatter = new Intl.DateTimeFormat('en-US-u-ca-islamic', { day: 'numeric', month: 'numeric', year: 'numeric' });
+                let arr = formatter.formatToParts(d);
+                
+                let dH = arr.find(p => p.type === 'day').value;
+                let mH = arr.find(p => p.type === 'month').value;
+                
+                // Menghapus tulisan "AH" atau "SM" bawaan sistem jika ada
+                let yH = arr.find(p => p.type === 'year').value.replace(/[^0-9]/g, '');
+                
+                // Kamus nama bulan yang paten dan tidak bisa dirusak sistem HP
+                const namaBulan = ['', 'Muharram', 'Safar', 'Rabiul Awal', 'Rabiul Akhir', 'Jumadil Awal', 'Jumadil Akhir', 'Rajab', 'Sya\\'ban', 'Ramadhan', 'Syawal', 'Dzulqa\\'dah', 'Dzulhijjah'];
+                
+                return `${dH} ${namaBulan[parseInt(mH)]} ${yH} H`;
+            } catch(e) { 
+                return "Kalender Hijriyah"; 
+            }
         }
 
-        // FUNGSI KONTROL POP-UP HIJRIYAH
         function bukaPengaturanHijriyah() {
             pState();
             let m = document.getElementById('modal-hijriyah');
@@ -745,7 +754,6 @@
             } catch (e) { console.warn("Pakai Jadwal Brankas."); }
         }
 
-        // PERUBAHAN TANGGAL GANDA (MASEHI & HIJRIYAH)
         function jalankanMesinJamShalat() {
             if (!dJ) return; if (shalatInterval) clearInterval(shalatInterval); 
             shalatInterval = setInterval(() => {
