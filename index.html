@@ -391,18 +391,15 @@
             let d = new Date(dateObj);
             d.setDate(d.getDate() + offsetDays);
             try {
-                // Memaksa sistem HP hanya memberikan "Angka" (bukan terjemahan yang ngawur)
                 let formatter = new Intl.DateTimeFormat('en-US-u-ca-islamic', { day: 'numeric', month: 'numeric', year: 'numeric' });
                 let arr = formatter.formatToParts(d);
                 
                 let dH = arr.find(p => p.type === 'day').value;
                 let mH = arr.find(p => p.type === 'month').value;
                 
-                // Menghapus tulisan "AH" atau "SM" bawaan sistem jika ada
                 let yH = arr.find(p => p.type === 'year').value.replace(/[^0-9]/g, '');
                 
-                // Kamus nama bulan yang paten dan tidak bisa dirusak sistem HP
-                const namaBulan = ['', 'Muharram', 'Safar', 'Rabiul Awal', 'Rabiul Akhir', 'Jumadil Awal', 'Jumadil Akhir', 'Rajab', 'Sya\\'ban', 'Ramadhan', 'Syawal', 'Dzulqa\\'dah', 'Dzulhijjah'];
+                const namaBulan = ['', 'Muharram', 'Safar', 'Rabiul Awal', 'Rabiul Akhir', 'Jumadil Awal', 'Jumadil Akhir', 'Rajab', "Sya'ban", 'Ramadhan', 'Syawal', "Dzulqa'dah", 'Dzulhijjah'];
                 
                 return `${dH} ${namaBulan[parseInt(mH)]} ${yH} H`;
             } catch(e) { 
