@@ -553,7 +553,15 @@
                     let curIdx = curList.findIndex(o => o.i === aktifWiridId);
                     if(curIdx > 0) bukaWirid(curList[curIdx - 1].i);
                 } 
-                else if(modeBaca === 'quran' && aktifQuranId && !aktifQuranId.includes('juz')) { let num = parseInt(aktifQuranId.replace('surah-','')); if(num > 1) { let nm = sL.find(s=>s.nomor==num-1)?.namaLatin; bukaSurah(num-1, nm); } }
+                else if(modeBaca === 'quran' && aktifQuranId) { 
+                    if(aktifQuranId.includes('juz')) {
+                        let num = parseInt(aktifQuranId.replace('juz-','')); 
+                        if(num > 1) bukaJuzDariSidebar(num - 1);
+                    } else {
+                        let num = parseInt(aktifQuranId.replace('surah-','')); 
+                        if(num > 1) { let nm = sL.find(s=>s.nomor==num-1)?.namaLatin; bukaSurah(num-1, nm); } 
+                    }
+                }
                 else if(modeBaca === 'maulid' && aktifMaulidIndex > 0) {
                     let list = dM.filter(m => m.Kategori === aktifMaulidKategori);
                     bukaTeksMaulid(aktifMaulidKategori, aktifMaulidIndex - 1);
@@ -564,7 +572,15 @@
                     let curIdx = curList.findIndex(o => o.i === aktifWiridId);
                     if(curIdx > -1 && curIdx < curList.length - 1) bukaWirid(curList[curIdx + 1].i);
                 } 
-                else if(modeBaca === 'quran' && aktifQuranId && !aktifQuranId.includes('juz')) { let num = parseInt(aktifQuranId.replace('surah-','')); if(num < 114) { let nm = sL.find(s=>s.nomor==num+1)?.namaLatin; bukaSurah(num+1, nm); } }
+                else if(modeBaca === 'quran' && aktifQuranId) { 
+                    if(aktifQuranId.includes('juz')) {
+                        let num = parseInt(aktifQuranId.replace('juz-','')); 
+                        if(num < 30) bukaJuzDariSidebar(num + 1);
+                    } else {
+                        let num = parseInt(aktifQuranId.replace('surah-','')); 
+                        if(num < 114) { let nm = sL.find(s=>s.nomor==num+1)?.namaLatin; bukaSurah(num+1, nm); } 
+                    }
+                }
                 else if(modeBaca === 'maulid') {
                     let list = dM.filter(m => m.Kategori === aktifMaulidKategori);
                     if(aktifMaulidIndex < list.length - 1) bukaTeksMaulid(aktifMaulidKategori, aktifMaulidIndex + 1);
@@ -653,13 +669,20 @@
                 if (sL.length > 0) { sL.forEach(s => { let aktifClass = (aktifQuranId === `surah-${s.nomor}`) ? 'active' : ''; let namaAman = s.namaLatin.replace(/'/g, '`'); slist.innerHTML += `<div class="sb-item surah-item ${aktifClass}" onclick="bukaSurah(${s.nomor}, '${namaAman}'); tutupSidebar();" data-nama="${s.namaLatin.toLowerCase()}"><div><strong style="font-size:15px;">${s.nomor}. ${s.namaLatin}</strong><br><span style="font-size:12px; color:#666;">${s.arti} (${s.jumlahAyat} ayat)</span></div><div class="sb-item-arab">${s.nama}</div></div>`; }); } else { slist.innerHTML = `<div style="padding: 20px; text-align: center; color: #888;">Memuat data Surah...</div>`; }
             } else if(mode === 'wirid') { 
                 shQuran.style.display = 'none'; 
+                let uniqueCategories = [...new Set(dW.map(w => w.Kategori).filter(k => k))];
+                
                 if(aktifWiridKategori !== 'Semua') {
                     slist.innerHTML += `<div style="padding: 14px 20px; background: #fff0e6; text-align: center; font-size: 14px; font-weight: bold; color: var(--aksen-oranye); cursor: pointer; border-bottom: 1px solid rgba(242, 101, 34, 0.2);" onclick="aktifWiridKategori='Semua'; siapkanSidebar('wirid');">Pusat Seluruh Wirid ➔</div>`;
                 }
                 dW.forEach((w, i) => { 
                     if (aktifWiridKategori !== 'Semua' && w.Kategori !== aktifWiridKategori) return;
+                    
+                    let catIdx = uniqueCategories.indexOf(w.Kategori);
+                    let customColor = (catIdx % 2 !== 0) ? '#c84b16' : '#222222'; 
                     let aktifClass = (aktifWiridId === i) ? 'active' : ''; 
-                    slist.innerHTML += `<div class="sb-item ${aktifClass}" onclick="bukaWirid(${i}); tutupSidebar();"><span style="font-size:16px; font-weight:bold;">${ubahKeAngkaArab(w.Judul)}</span></div>`; 
+                    let styleColor = (aktifClass === '') ? `color: ${customColor};` : '';
+                    
+                    slist.innerHTML += `<div class="sb-item ${aktifClass}" style="${styleColor}" onclick="bukaWirid(${i}); tutupSidebar();"><span style="font-size:16px; font-weight:bold;">${ubahKeAngkaArab(w.Judul)}</span></div>`; 
                 }); 
             }
             else if(mode === 'maulid') {
